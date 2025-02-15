@@ -1,7 +1,7 @@
 # ArtOa
  AI project for ArtOa
 
-### Start with:
+##### Start with:
 1. git clone <repo>
 2. cd <repo>
 3. pip install virtualenv
