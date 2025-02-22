@@ -6,6 +6,12 @@ from PIL import Image
 
 
 async def fetch_image(url):
+    """
+    Fetch an image from a given URL asynchronously.
+
+    :param url: The URL of the image.
+    :return: PIL Image object if successful.
+    """
     async with aiohttp.ClientSession() as session:
         async with session.get(url) as response:
             if response.status == 200:
@@ -14,12 +20,25 @@ async def fetch_image(url):
 
 
 async def generate_and_fetch(generator):
+    """
+    Generate an image using the generator class and fetch the resulting image.
+
+    :param generator: An instance of the Generate class.
+    :return: PIL Image object.
+    """
     custom_image = await generator.generate_image()
     image = await fetch_image(custom_image)
     return image
 
 
 def get_best_size(width: int, height: int) -> str:
+    """
+    Determine the best image size based on aspect ratio.
+
+    :param width: Original width of the image.
+    :param height: Original height of the image.
+    :return: Best matching size as a string.
+    """
     sizes = [(1024, 1024), (1792, 1024), (1024, 1792)]
     box_ratio = width / height
     best_size = min(sizes, key=lambda size: abs(box_ratio - size[0] / size[1]))
@@ -28,7 +47,13 @@ def get_best_size(width: int, height: int) -> str:
 
 
 def combine_masks(image, masks):
-    # Combine masks into a single mask
+    """
+    Merge multiple masks into a single refined mask.
+
+    :param image: The original image.
+    :param masks: A list of masks to combine.
+    :return: The combined mask.
+    """
     combined_mask = np.zeros_like(masks[0], dtype=np.uint8)
     kernel = cv2.getStructuringElement(cv2.MORPH_CROSS, (5, 5))
     for mask in masks:
@@ -42,6 +67,13 @@ def combine_masks(image, masks):
 
 
 def crop_object_with_mask(image, mask):
+    """
+    Crop an object from an image using a given mask.
+
+    :param image: The input image.
+    :param mask: The mask defining the object to be cropped.
+    :return: Cropped object image.
+    """
     try:
         image = image.convert("RGBA")
         mask = Image.fromarray(mask).convert("L")
@@ -60,7 +92,12 @@ def crop_object_with_mask(image, mask):
 
 def return_cropped_object(image, cropped_objects, mask):
     """
-    Convert the original image to black and white before pasting the cropped object back.
+    Paste a cropped object back onto the original image.
+
+    :param image: The base image.
+    :param cropped_objects: The cropped object.
+    :param mask: The mask defining the object's position.
+    :return: Modified image with the object pasted back.
     """
     try:
         image = image.convert("RGBA")
@@ -80,7 +117,13 @@ def return_cropped_object(image, cropped_objects, mask):
 
 
 def get_box_coordinates(wall, box):
-    # Get base image dimensions
+    """
+    Convert percentage-based bounding box coordinates into pixel values.
+
+    :param wall: The base image.
+    :param box: The bounding box in percentage values.
+    :return: Pixel-based bounding box coordinates.
+    """
     base_width, base_height = wall.size
 
     # Convert box coordinates from percentages to pixel values
@@ -97,7 +140,11 @@ def get_box_coordinates(wall, box):
 
 
 def place_art_in_box(wall, art, box_width, box_height, x_min, y_min):
-    # Resize art while maintaining aspect ratio
+    """
+    Place an art image inside a defined bounding box on a wall image.
+
+    :return: The modified wall image with the art placed inside the box.
+    """
     art_aspect_ratio = art.width / art.height
     box_aspect_ratio = box_width / box_height
 
