@@ -6,7 +6,6 @@ load_dotenv()
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 if not OPENAI_API_KEY:
     raise ValueError("OPENAI_API_KEY is not set!")
-print(f"API Key: {OPENAI_API_KEY[:5]}********")
 client = AsyncOpenAI(api_key=OPENAI_API_KEY)
 
 
@@ -26,6 +25,7 @@ class Generate:
             quality=self.quality,
             n=self.n
         )
+        print(response.data[0].url)
         return response.data[0].url
 
     async def generate_image_with_revised_prompt(self):

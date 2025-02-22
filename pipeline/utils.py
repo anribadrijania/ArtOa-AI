@@ -1,7 +1,6 @@
 import cv2
 import numpy as np
 import aiohttp
-import asyncio
 from io import BytesIO
 from PIL import Image
 
@@ -16,7 +15,8 @@ async def fetch_image(url):
 
 async def generate_and_fetch(generator):
     custom_image = await generator.generate_image()
-    await fetch_image(custom_image)
+    image = await fetch_image(custom_image)
+    return image
 
 
 def get_best_size(width: int, height: int) -> str:
