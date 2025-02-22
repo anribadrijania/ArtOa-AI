@@ -96,9 +96,7 @@ def get_box_coordinates(wall, box):
     return box_width, box_height, x_min, y_min
 
 
-def place_art_in_box(wall, art, box):
-    box_width, box_height, x_min, y_min = get_box_coordinates(wall, box)
-
+def place_art_in_box(wall, art, box_width, box_height, x_min, y_min):
     # Resize art while maintaining aspect ratio
     art_aspect_ratio = art.width / art.height
     box_aspect_ratio = box_width / box_height
@@ -112,7 +110,7 @@ def place_art_in_box(wall, art, box):
         new_height = box_height
         new_width = int(box_height * art_aspect_ratio)
 
-    resized_art = art.resize((new_width, new_height), Image.Resampling.LANCZOS)
+    resized_art = art.resize((new_width, new_height))
 
     # Create a blank canvas the size of the box with a transparent background
     canvas = Image.new("RGBA", (box_width, box_height), (255, 255, 255, 0))
