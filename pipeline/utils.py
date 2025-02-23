@@ -26,8 +26,9 @@ async def generate_and_fetch(generator):
     :param generator: An instance of the Generate class.
     :return: PIL Image object.
     """
-    custom_image = await generator.generate_image()
+    prompt, custom_image = await generator.generate_image_with_revised_prompt()
     image = await fetch_image(custom_image)
+    print("prompt: ", prompt)
     return image
 
 

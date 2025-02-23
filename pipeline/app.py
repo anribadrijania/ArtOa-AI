@@ -79,6 +79,15 @@ async def generate_images(generator, n):
     return await asyncio.gather(*tasks)
 
 
+def prompt_engineering(prompt, tags):
+    role = "The next provided prompt is a order written by a client who wants to paint art on their wall, " \
+           "only consider the art which must be painted and not the details about wall or anything else. " \
+           "Fill the entire artwork and do not create blank areas. "
+    styles = "Also use the following styles: " + ", ".join(tags)
+    engineered_prompt = role + styles + ". The order text is: " + prompt
+    return engineered_prompt
+
+
 @app.post("/generate-on-wall/")
 async def main(image_url: str = "",
                prompt: str = "",
@@ -117,14 +126,14 @@ async def main(image_url: str = "",
         size = utils.get_best_size(box_width, box_height)
 
         # Define generation model and parameters
-        gen_model, quality = "dall-e-2", "standard"
-        prompt = prompt + ", " + ", ".join(tags)  # Append tags to the prompt
+        gen_model, quality = "dall-e-3", "standard"
+        prompt = prompt_engineering(prompt, tags)
 
         log_info(f"Image generation parameters set: model={gen_model}, prompt={prompt}, size={size}, quality={quality}, n={n}")
 
         # Initialize segmentation and image generation classes
         segmentor = segmentation.Segment(model)
-        generator = generation.Generate(gen_model, prompt, "256x256", quality, n)
+        generator = generation.Generate(gen_model, prompt, size, quality, 1)
 
         # Run segmentation and image generation asynchronously
         (masks, combined_masks, cropped_objects), generated_images = await asyncio.gather(
