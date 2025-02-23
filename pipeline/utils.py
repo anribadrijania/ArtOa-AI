@@ -14,8 +14,9 @@ async def fetch_image(url):
 
 
 async def generate_and_fetch(generator):
-    custom_image = await generator.generate_image()
+    custom_image, prompt = await generator.generate_image_with_revised_prompt()
     image = await fetch_image(custom_image)
+    print("prompt: " + prompt)
     return image
 
 

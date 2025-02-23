@@ -74,6 +74,14 @@ async def generate_images(generator, n):
     return await asyncio.gather(*tasks)
 
 
+def prompt_engineering(prompt, tags):
+    role = "The next provided prompt is a order written by a client who wants to paint art on their wall, " \
+           "only consider the art which must be painted and not the details about wall or anything else. "
+    styles = "Also use the following styles: " + ", ".join(tags)
+    engineered_prompt = role + styles + ". The order text is: " + prompt
+    return engineered_prompt
+
+
 # Define the main endpoint for generating art on a wall image
 @app.post("/generate-on-wall/")
 async def main(image_url: str = "",
@@ -96,7 +104,7 @@ async def main(image_url: str = "",
 
         size = utils.get_best_size(box_width, box_height)
         gen_model, quality = "dall-e-2", "standard"
-        prompt = prompt + ", " + ", ".join(tags)
+        prompt = prompt_engineering(prompt, tags)
         log_info(f"Generator parameters were set successfully: gen_model={gen_model}, prompt={prompt}, size={size}, quality={quality}, n={n}")
 
         segmentor = segmentation.Segment(model)
