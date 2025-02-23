@@ -33,7 +33,7 @@ STATIC_DIR = Path("static/images")
 STATIC_DIR.mkdir(parents=True, exist_ok=True)  # Create directory if it doesn't exist
 
 # Mount static files directory for serving generated images
-app.mount("/static", StaticFiles(directory="static"), name="static")
+app.mount("/static", StaticFiles(directory="static/images"), name="static")
 
 
 async def segment_image(segmentor, wall):
@@ -163,11 +163,15 @@ async def main(image_url: str = "",
 
         log_info("Art placement on the wall completed.")
 
+        image_urls = []
         # Save final images to the static directory with unique filenames
         for i, img in enumerate(final_images):
             filename = f"{STATIC_DIR}/output_{uuid.uuid4().hex[:8]}.png"
             img.save(filename)
             print(f"Saved: {filename}")
+            image_urls.append(f"/static/{filename}")
+
+        return {"images": image_urls}
 
     except HTTPException as e:
         log_error(f"HTTP server error: {str(e)}")

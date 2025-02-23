@@ -1,0 +1,4 @@
+DEBUG: Receiving request... | Timestamp: [2025-02-23 18:01:07,489]
+ERROR: HTTP server error: 400: Empty image URL in the request. | Timestamp: [2025-02-23 18:01:07,489]
+DEBUG: Receiving request... | Timestamp: [2025-02-23 18:05:13,581]
+ERROR: HTTP server error: 400: Empty image URL in the request. | Timestamp: [2025-02-23 18:05:13,582]
