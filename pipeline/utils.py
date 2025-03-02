@@ -3,6 +3,7 @@ import numpy as np
 import aiohttp
 from io import BytesIO
 from PIL import Image
+from torchvision import transforms
 
 
 async def fetch_image(url):
@@ -175,3 +176,16 @@ def place_art_in_box(wall, art, box_width, box_height, x_min, y_min):
     base_image.paste(canvas, (x_min, y_min), canvas)
 
     return base_image
+
+
+def preprocess_image(image, device):
+    image_size = (1024, 1024)
+    transform = transforms.Compose([
+        transforms.Resize(image_size),
+        transforms.ToTensor(),
+        transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
+    ])
+    if device == "cuda":
+        return transform(image).unsqueeze(0).to("cuda").half()
+    else:
+        return transform(image).unsqueeze(0).cpu()

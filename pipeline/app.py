@@ -10,19 +10,34 @@ from fastapi import FastAPI, HTTPException
 from fastapi.staticfiles import StaticFiles
 from pathlib import Path
 from ultralytics import YOLO
+from transformers import AutoModelForImageSegmentation
 from typing import List
 from logger import log_debug, log_error, log_info, log_warning
+import torch
 import generation
 import segmentation
 import utils
 import asyncio
 import uuid
+import time
 
 # Create FastAPI app instance
 app = FastAPI()
 
-# Load the YOLO segmentation model
-model = YOLO("segmentation-v1.pt")
+# Define the device
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
+# # Load the YOLO segmentation model
+# model = YOLO("segmentation-v1.pt")
+
+# Load the segmentation model
+model = AutoModelForImageSegmentation.from_pretrained("./pretrained")
+model.load_state_dict(torch.load("segmentation_v2.pth"))
+torch.set_float32_matmul_precision("highest")
+if device == "cuda":
+    model.to("cuda").eval().half()
+else:
+    model.eval()
 
 # Define the static directory to store images
 STATIC_DIR = Path("static")
@@ -114,6 +129,8 @@ async def main(image_url: str = "",
     :param n: Number of image variations to generate.
     :return: List of processed images with art placed on the wall.
     """
+    start = time.time()
+
     try:
         # Validate input parameters and log request details
         request_logger(image_url, prompt, tags, box, n)
@@ -182,6 +199,10 @@ async def main(image_url: str = "",
             image_urls.append(f"http://localhost:8000/{filename}")
 
         log_info("Images saved successfully. Response sent to the client.")
+
+        end = time.time()
+        print(f"Inference time: {end - start:.3f} seconds")
+
         return {"images": image_urls}
 
     except HTTPException as e:
