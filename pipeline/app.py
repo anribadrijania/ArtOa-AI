@@ -6,20 +6,16 @@ The API key for the OpenAI API is loaded from the environment variables.
 """
 
 # Import required libraries
-from fastapi import FastAPI, HTTPException, UploadFile
+from fastapi import FastAPI, HTTPException
 from fastapi.staticfiles import StaticFiles
 from pathlib import Path
 from ultralytics import YOLO
 from typing import List
 from logger import log_debug, log_error, log_info, log_warning
-import requests
-import logging
 import generation
 import segmentation
 import utils
 import asyncio
-import os
-import io
 import uuid
 
 # Create FastAPI app instance
@@ -29,11 +25,11 @@ app = FastAPI()
 model = YOLO("segmentation-v1.pt")
 
 # Define the static directory to store images
-STATIC_DIR = Path("static/images")
+STATIC_DIR = Path("static")
 STATIC_DIR.mkdir(parents=True, exist_ok=True)  # Create directory if it doesn't exist
 
 # Mount static files directory for serving generated images
-app.mount("/static", StaticFiles(directory="static/images"), name="static")
+app.mount("/static", StaticFiles(directory="static"), name="static")
 
 
 async def segment_image(segmentor, wall):
@@ -80,10 +76,24 @@ async def generate_images(generator, n):
 
 
 def prompt_engineering(prompt, tags):
+    """
+    Generates an engineered prompt for a wall art request.
+
+    Parameters:
+    prompt (str): The original order text from the client.
+    tags (list): A list of artistic styles to be included.
+
+    Returns:
+    str: The formatted prompt incorporating the client's request and styles.
+    """
     role = "The next provided prompt is a order written by a client who wants to paint art on their wall, " \
            "only consider the art which must be painted and not the details about wall or anything else. " \
-           "Fill the entire artwork and do not create blank areas. "
-    styles = "Also use the following styles: " + ", ".join(tags)
+           "very very important: Fill the entire artwork and do not create blank areas. "
+    if tags:
+        styles = "Also use the following styles: " + ", ".join(tags)
+    else:
+        styles = ""
+
     engineered_prompt = role + styles + ". The order text is: " + prompt
     return engineered_prompt
 
@@ -169,8 +179,9 @@ async def main(image_url: str = "",
             filename = f"{STATIC_DIR}/output_{uuid.uuid4().hex[:8]}.png"
             img.save(filename)
             print(f"Saved: {filename}")
-            image_urls.append(f"/static/{filename}")
+            image_urls.append(f"http://localhost:8000/{filename}")
 
+        log_info("Images saved successfully. Response sent to the client.")
         return {"images": image_urls}
 
     except HTTPException as e:

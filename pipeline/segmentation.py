@@ -17,7 +17,7 @@ class Segment:
         :param image: The input image to segment.
         :return: A NumPy array of segmentation masks if available, otherwise None.
         """
-        result = self.model(image)[0]
+        result = self.model(image, conf=0.1)[0]
         masks = result.masks.data.cpu().numpy() if result.masks else None
         return masks
 
