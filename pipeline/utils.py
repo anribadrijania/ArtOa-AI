@@ -189,3 +189,24 @@ def preprocess_image(image, device):
         return transform(image).unsqueeze(0).to("cuda").half()
     else:
         return transform(image).unsqueeze(0).cpu()
+
+
+from PIL import Image
+
+
+def return_cropped_objects(image, cropped_objects):
+    """
+    Overlay a transparent image of cropped objects onto the background image.
+
+    :param image: The base image (background).
+    :param cropped_objects: The transparent image containing cropped objects.
+    :return: Modified image with objects pasted back.
+    """
+    try:
+        result_image = image.copy()
+        result_image.paste(cropped_objects, (0, 0), cropped_objects)
+
+        return result_image
+    except Exception as e:
+        print(f"Error: {e}")
+        return None

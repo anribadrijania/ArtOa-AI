@@ -23,12 +23,9 @@ def segment_image(segmentor, wall):
     masks = segmentor.predict_mask_rcnn(wall, 0.01)  # Perform segmentation
 
     if masks is None or len(masks) == 0:
-        return None, None
+        return None
 
-    # Crop objects from the image using the combined mask
-    cropped_objects = utils.crop_object_with_mask(wall, masks)
-
-    return masks, cropped_objects
+    return masks
 
 
 url = "https://www.muralunique.com/wp-content/uploads/2023/06/1856-50r_stone-texture-wall-charcoal-color.jpg"

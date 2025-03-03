@@ -15,7 +15,7 @@ from logger import log_debug, log_error, log_info, log_warning
 from torchvision.models.detection import maskrcnn_resnet50_fpn_v2
 import torch
 import generation
-import segmentation
+import RCNN
 import utils
 import asyncio
 import uuid
@@ -28,6 +28,7 @@ app = FastAPI()
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print(device)
 
+remover_model = None
 if device == "cuda":
     remover_model = AutoModelForImageSegmentation.from_pretrained("./pretrained", trust_remote_code=True)
     remover_model.load_state_dict(torch.load("remover_v1.pth"))
@@ -56,22 +57,14 @@ async def segment_image(segmentor, wall):
     :return: Tuple (masks, combined_masks, cropped_objects), or (None, None, None) if no objects are detected.
     """
     log_debug("Segmenting the wall image...")
-    masks = segmentor.predict(wall)  # Perform segmentation
+    masks = segmentor.predict_mask_rcnn(wall, 0.01)  # Perform segmentation
 
     if masks is None or len(masks) == 0:
         log_warning("No objects found during segmentation!")
-        return None, None, None
+        return None
 
     log_info("Segmentation completed successfully.")
-
-    # Combine all detected masks into a single mask
-    combined_masks = utils.combine_masks(wall, masks)
-
-    # Crop objects from the image using the combined mask
-    cropped_objects = utils.crop_object_with_mask(wall, combined_masks)
-
-    log_info("Masked objects cropped successfully.")
-    return masks, combined_masks, cropped_objects
+    return masks
 
 
 async def generate_images(generator, n):
@@ -159,11 +152,11 @@ async def main(image_url: str = "",
         log_info(f"Image generation parameters set: model={gen_model}, prompt={prompt}, size={size}, quality={quality}, n={n}")
 
         # Initialize segmentation and image generation classes
-        segmentor = segmentation.Segment(rcnn_model)
+        segmentor = RCNN.SegmentRCNN(rcnn_model, device)
         generator = generation.Generate(gen_model, prompt, size, quality, 1)
 
         # Run segmentation and image generation asynchronously
-        (masks, combined_masks, cropped_objects), generated_images = await asyncio.gather(
+        masks, generated_images = await asyncio.gather(
             segment_image(segmentor, wall),
             generate_images(generator, n)
         )
@@ -184,7 +177,7 @@ async def main(image_url: str = "",
         # If segmentation is successful, overlay generated art while preserving detected objects
         for art in generated_images:
             wall_art = utils.place_art_in_box(wall, art, box_width, box_height, x_min, y_min)
-            final_image = utils.return_cropped_object(wall_art, cropped_objects, combined_masks)
+            final_image = utils.return_cropped_objects(wall_art, masks)
             log_info("Cropped objects returned successfully.")
             final_images.append(final_image)
 
