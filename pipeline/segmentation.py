@@ -21,3 +21,15 @@ class Segment:
         masks = result.masks.data.cpu().numpy() if result.masks else None
         return masks
 
+    def predict_background(self, image):
+        """
+        Perform background segmentation on the given image.
+
+        :param image: The input image to segment.
+        :return: A NumPy array of background masks if available, otherwise None.
+        """
+        result = self.model(image, conf=0.1)[0]
+        masks = result.masks.data.cpu().numpy() if result.masks else None
+        return masks
+
+

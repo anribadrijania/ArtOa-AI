@@ -9,7 +9,6 @@ The API key for the OpenAI API is loaded from the environment variables.
 from fastapi import FastAPI, HTTPException
 from fastapi.staticfiles import StaticFiles
 from pathlib import Path
-from ultralytics import YOLO
 from transformers import AutoModelForImageSegmentation
 from typing import List
 from logger import log_debug, log_error, log_info, log_warning
@@ -25,8 +24,20 @@ import time
 # Create FastAPI app instance
 app = FastAPI()
 
-# Load the YOLO segmentation model
-model = YOLO("segmentation-v1.pt")
+# Define the device
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+print(device)
+
+if device == "cuda":
+    remover_model = AutoModelForImageSegmentation.from_pretrained("./pretrained", trust_remote_code=True)
+    remover_model.load_state_dict(torch.load("remover_v1.pth"))
+    torch.set_float32_matmul_precision("highest")
+    remover_model.to("cuda").eval().half()
+
+rcnn_model = maskrcnn_resnet50_fpn_v2()
+rcnn_model.load_state_dict(torch.load("./maskrcnn_v2.pth", map_location=device))
+rcnn_model.to(device)
+rcnn_model.eval()
 
 # Define the static directory to store images
 STATIC_DIR = Path("static")
@@ -148,7 +159,7 @@ async def main(image_url: str = "",
         log_info(f"Image generation parameters set: model={gen_model}, prompt={prompt}, size={size}, quality={quality}, n={n}")
 
         # Initialize segmentation and image generation classes
-        segmentor = segmentation.Segment(model)
+        segmentor = segmentation.Segment(rcnn_model)
         generator = generation.Generate(gen_model, prompt, size, quality, 1)
 
         # Run segmentation and image generation asynchronously
