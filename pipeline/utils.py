@@ -191,10 +191,7 @@ def preprocess_image(image, device):
         return transform(image).unsqueeze(0).cpu()
 
 
-from PIL import Image
-
-
-def return_cropped_objects(image, cropped_objects):
+def return_cropped_objects(image, masks):
     """
     Overlay a transparent image of cropped objects onto the background image.
 
@@ -203,10 +200,20 @@ def return_cropped_objects(image, cropped_objects):
     :return: Modified image with objects pasted back.
     """
     try:
-        result_image = image.copy()
-        result_image.paste(cropped_objects, (0, 0), cropped_objects)
+        cropped_objects = Image.fromarray(masks)
+        image = image.convert("RGBA")
+        cropped_objects = cropped_objects.convert("RGBA")
 
+        result_image = Image.alpha_composite(image, cropped_objects)
         return result_image
     except Exception as e:
         print(f"Error: {e}")
         return None
+
+
+def transformer_for_rcnn(image, device):
+    image_np = np.array(image)
+    transform = transforms.Compose([transforms.ToTensor()])
+    input_tensors = transform(image).unsqueeze(0).to(device)
+
+    return image_np, input_tensors

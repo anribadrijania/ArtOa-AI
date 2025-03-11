@@ -16,6 +16,7 @@ from torchvision.models.detection import maskrcnn_resnet50_fpn_v2
 import torch
 import generation
 import RCNN
+import segmentation_V2
 import utils
 import asyncio
 import uuid
@@ -26,7 +27,7 @@ app = FastAPI()
 
 # Define the device
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-print(device)
+log_debug(f"App is running on {device}...")
 
 remover_model = None
 if device == "cuda":
@@ -34,11 +35,13 @@ if device == "cuda":
     remover_model.load_state_dict(torch.load("remover_v1.pth"))
     torch.set_float32_matmul_precision("highest")
     remover_model.to("cuda").eval().half()
+    log_info(f"Remover model loaded successfully.")
 
 rcnn_model = maskrcnn_resnet50_fpn_v2()
 rcnn_model.load_state_dict(torch.load("./maskrcnn_v2.pth", map_location=device))
 rcnn_model.to(device)
 rcnn_model.eval()
+log_info(f"MaskRCNN model loaded successfully.")
 
 # Define the static directory to store images
 STATIC_DIR = Path("static")
@@ -57,7 +60,7 @@ async def segment_image(segmentor, wall):
     :return: Tuple (masks, combined_masks, cropped_objects), or (None, None, None) if no objects are detected.
     """
     log_debug("Segmenting the wall image...")
-    masks = segmentor.predict_mask_rcnn(wall, 0.01)  # Perform segmentation
+    masks = segmentor.predict_masks(wall)  # Perform segmentation
 
     if masks is None or len(masks) == 0:
         log_warning("No objects found during segmentation!")
@@ -152,12 +155,12 @@ async def main(image_url: str = "",
         log_info(f"Image generation parameters set: model={gen_model}, prompt={prompt}, size={size}, quality={quality}, n={n}")
 
         # Initialize segmentation and image generation classes
-        segmentor = RCNN.SegmentRCNN(rcnn_model, device)
+        rcnn_segmentor = segmentation_V2.MaskRCNN(rcnn_model, device)
         generator = generation.Generate(gen_model, prompt, size, quality, 1)
 
         # Run segmentation and image generation asynchronously
         masks, generated_images = await asyncio.gather(
-            segment_image(segmentor, wall),
+            segment_image(rcnn_segmentor, wall),
             generate_images(generator, n)
         )
 
@@ -191,10 +194,8 @@ async def main(image_url: str = "",
             print(f"Saved: {filename}")
             image_urls.append(f"http://localhost:8000/{filename}")
 
-        log_info("Images saved successfully. Response sent to the client.")
-
         end = time.time()
-        print(f"Inference time: {end - start:.3f} seconds")
+        log_info(f"Request finished in {end - start:.3f} seconds. Response sent to the client.")
 
         return {"images": image_urls}
 
