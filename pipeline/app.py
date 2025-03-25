@@ -13,10 +13,11 @@ from transformers import AutoModelForImageSegmentation
 from typing import List
 from logger import log_debug, log_error, log_info, log_warning
 from torchvision.models.detection import maskrcnn_resnet50_fpn_v2
+from PIL import Image
+import numpy as np
 import torch
 import generation
-import RCNN
-import segmentation_V2
+import segmentation
 import utils
 import asyncio
 import uuid
@@ -35,13 +36,13 @@ if device == "cuda":
     remover_model.load_state_dict(torch.load("remover_v1.pth"))
     torch.set_float32_matmul_precision("highest")
     remover_model.to("cuda").eval().half()
-    log_info(f"Remover model loaded successfully.")
+    log_info(f"START: Remover model loaded successfully.")
 
 rcnn_model = maskrcnn_resnet50_fpn_v2()
 rcnn_model.load_state_dict(torch.load("./maskrcnn_v2.pth", map_location=device))
 rcnn_model.to(device)
 rcnn_model.eval()
-log_info(f"MaskRCNN model loaded successfully.")
+log_info(f"START: MaskRCNN model loaded successfully.")
 
 # Define the static directory to store images
 STATIC_DIR = Path("static")
@@ -99,7 +100,7 @@ def prompt_engineering(prompt, tags):
     """
     role = "The next provided prompt is a order written by a client who wants to paint art on their wall, " \
            "only consider the art which must be painted and not the details about wall or anything else. " \
-           "very very important: Fill the entire artwork and do not create blank areas. "
+           "very very important: Fill the entire artwork and do not create blank areas or borders around the art. "
     if tags:
         styles = "Also use the following styles: " + ", ".join(tags)
     else:
@@ -155,7 +156,7 @@ async def main(image_url: str = "",
         log_info(f"Image generation parameters set: model={gen_model}, prompt={prompt}, size={size}, quality={quality}, n={n}")
 
         # Initialize segmentation and image generation classes
-        rcnn_segmentor = segmentation_V2.MaskRCNN(rcnn_model, device)
+        rcnn_segmentor = segmentation.MaskRCNN(rcnn_model, device)
         generator = generation.Generate(gen_model, prompt, size, quality, 1)
 
         # Run segmentation and image generation asynchronously
@@ -172,14 +173,26 @@ async def main(image_url: str = "",
         if masks is None:
             # If no segmentation masks are found, place art directly onto the wall
             for art in generated_images:
-                wall_art = utils.place_art_in_box(wall, art, box_width, box_height, x_min, y_min)
-                final_images.append(wall_art)
+                # Apply lighting and texture blending
+                wall_art_np = utils.apply_lighting_and_texture(wall, art, box)  # box is already in percentage
+                wall_art_pil = Image.fromarray(wall_art_np)
+                final_images.append(wall_art_pil)
+
             log_info("Art placed directly on the wall.")
             return final_images
 
         # If segmentation is successful, overlay generated art while preserving detected objects
         for art in generated_images:
-            wall_art = utils.place_art_in_box(wall, art, box_width, box_height, x_min, y_min)
+            # Convert wall and art (PIL) to np arrays
+            background_np = np.array(wall)
+            art_np = np.array(art)
+
+            # Compute box_percent from (x_min, y_min, x_max, y_max)
+            h, w_img = background_np.shape[:2]
+            box_percent = [x_min / w_img, y_min / h, (x_min + box_width) / w_img, (y_min + box_height) / h]
+
+            # Apply lighting and texture blending
+            wall_art = utils.apply_lighting_and_texture(background_np, art_np, box_percent)
             final_image = utils.return_cropped_objects(wall_art, masks)
             log_info("Cropped objects returned successfully.")
             final_images.append(final_image)

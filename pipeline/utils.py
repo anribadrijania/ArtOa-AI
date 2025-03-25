@@ -217,3 +217,76 @@ def transformer_for_rcnn(image, device):
     input_tensors = transform(image).unsqueeze(0).to(device)
 
     return image_np, input_tensors
+
+
+def apply_lighting_and_texture(background: np.ndarray, artwork: np.ndarray, box_percent: list) -> Image.Image:
+    """
+    Applies lighting and wall texture to the artwork, places it on the background, and returns the final image.
+
+    Args:
+        background (np.ndarray): Background image as a numpy array (H x W x 3).
+        artwork (np.ndarray): Artwork image as a numpy array (H_art x W_art x 3).
+        box_percent (list): List of 4 floats [x_min, y_min, x_max, y_max] representing box in percentage of background size.
+
+    Returns:
+        Image.Image: Final image with artwork placed realistically on the wall.
+    """
+    h, w, _ = background.shape
+    x_min_px = int(box_percent[0] * w)
+    y_min_px = int(box_percent[1] * h)
+    x_max_px = int(box_percent[2] * w)
+    y_max_px = int(box_percent[3] * h)
+
+    # Extract region and compute lighting
+    box_region = background[y_min_px:y_max_px, x_min_px:x_max_px]
+    gray_box = cv2.cvtColor(box_region, cv2.COLOR_RGB2GRAY)
+    illumination_map = cv2.GaussianBlur(gray_box, (51, 51), 0)
+    illumination_normalized = illumination_map / 255.0
+
+    gamma = 1.0
+    illumination_corrected = illumination_normalized ** gamma
+    light_scale = 0.0 + 2.0 * illumination_corrected
+
+    box_height = y_max_px - y_min_px
+    box_width = x_max_px - x_min_px
+
+    # Resize artwork to fit the box
+    artwork_resized = cv2.resize(artwork, (box_width, box_height))
+    artwork_float = artwork_resized.astype(np.float32) / 255.0
+
+    # Apply lighting
+    artwork_lit = artwork_float * light_scale[..., np.newaxis]
+    artwork_lit = np.clip(artwork_lit, 0, 1)
+
+    # Apply texture
+    texture_scaled = cv2.resize(box_region, (box_width, box_height))
+    texture_float = texture_scaled.astype(np.float32) / 255.0
+    texture_overlay = texture_float * 0.2 + artwork_lit * 1.0
+    texture_overlay = np.clip(texture_overlay, 0, 1)
+
+    # Alpha channel and fade
+    alpha_channel = np.ones_like(texture_overlay[..., 0], dtype=np.float32)
+    fade_width = int(0.02 * box_height)
+    mask = np.ones((box_height, box_width), dtype=np.float32)
+
+    x_fade = np.linspace(0, 1, fade_width)
+    mask[:, :fade_width] = x_fade
+    mask[:, -fade_width:] = x_fade[::-1]
+
+    y_fade = np.linspace(0, 1, fade_width)
+    mask[:fade_width, :] = y_fade[:, np.newaxis]
+    mask[-fade_width:, :] = y_fade[::-1, np.newaxis]
+
+    mask = np.clip(mask, 0.2, 1.0)
+    alpha_channel *= mask
+
+    # Place artwork with alpha blending
+    result_image = background.astype(np.float32) / 255.0
+    result_image[y_min_px:y_max_px, x_min_px:x_max_px, :3] = (
+        result_image[y_min_px:y_max_px, x_min_px:x_max_px, :3] * (1 - alpha_channel[..., np.newaxis]) +
+        texture_overlay * alpha_channel[..., np.newaxis]
+    )
+
+    # Convert to uint8
+    result_image_uint8 = (result_image * 255).astype(np.uint8)
+    return Image.fromarray(result_image_uint8)

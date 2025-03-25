@@ -1,35 +1,33 @@
-class Segment:
-    """
-    A class for performing image segmentation using a provided model.
-    """
-    def __init__(self, model):
-        """
-        Initialize the Segment class with a segmentation model.
+import utils
+import torch
+import numpy as np
+import cv2
 
-        :param model: The pre-trained segmentation model to use for prediction.
-        """
+
+class MaskRCNN:
+    def __init__(self, model, device):
         self.model = model
+        self.device = device
 
-    def predict(self, image):
-        """
-        Perform segmentation on the given image.
+    def predict_masks(self, image):
+        image_np, input_tensors = utils.transformer_for_rcnn(image, self.device)
+        with torch.no_grad():
+            outputs = self.model(input_tensors)
 
-        :param image: The input image to segment.
-        :return: A NumPy array of segmentation masks if available, otherwise None.
-        """
-        result = self.model(image, conf=0.1)[0]
-        masks = result.masks.data.cpu().numpy() if result.masks else None
-        return masks
+        scores = outputs[0]['scores'].cpu().numpy()
+        masks = outputs[0]['masks'].squeeze().cpu().numpy()
+        labels = outputs[0]['labels'].cpu().numpy()
 
-    def predict_background(self, image):
-        """
-        Perform background segmentation on the given image.
+        score_threshold = 0.01
 
-        :param image: The input image to segment.
-        :return: A NumPy array of background masks if available, otherwise None.
-        """
-        result = self.model(image, conf=0.1)[0]
-        masks = result.masks.data.cpu().numpy() if result.masks else None
-        return masks
+        object_mask = np.zeros(image_np.shape[:2], dtype=np.uint8)
+        for i in range(len(scores)):
+            if scores[i] < score_threshold:
+                continue  # Skip low-confidence detections
 
+            obj_mask = (masks[i] > 0.5).astype(np.uint8) * 255
 
+            object_mask = cv2.bitwise_or(object_mask, obj_mask)
+
+        rgba_image = np.dstack((image_np, object_mask))
+        return rgba_image
