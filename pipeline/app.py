@@ -27,16 +27,9 @@ import time
 app = FastAPI()
 
 # Define the device
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+# device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+device = "cpu"
 log_debug(f"App is running on {device}...")
-
-remover_model = None
-if device == "cuda":
-    remover_model = AutoModelForImageSegmentation.from_pretrained("./pretrained", trust_remote_code=True)
-    remover_model.load_state_dict(torch.load("remover_v1.pth"))
-    torch.set_float32_matmul_precision("highest")
-    remover_model.to("cuda").eval().half()
-    log_info(f"START: Remover model loaded successfully.")
 
 rcnn_model = maskrcnn_resnet50_fpn_v2()
 rcnn_model.load_state_dict(torch.load("./maskrcnn_v2.pth", map_location=device))
@@ -50,64 +43,6 @@ STATIC_DIR.mkdir(parents=True, exist_ok=True)  # Create directory if it doesn't 
 
 # Mount static files directory for serving generated images
 app.mount("/static", StaticFiles(directory="static"), name="static")
-
-
-async def segment_image(segmentor, wall):
-    """
-    Perform image segmentation on the given wall image.
-
-    :param segmentor: An instance of the Segment class.
-    :param wall: The input wall image.
-    :return: Tuple (masks, combined_masks, cropped_objects), or (None, None, None) if no objects are detected.
-    """
-    log_debug("Segmenting the wall image...")
-    masks = segmentor.predict_masks(wall)  # Perform segmentation
-
-    if masks is None or len(masks) == 0:
-        log_warning("No objects found during segmentation!")
-        return None
-
-    log_info("Segmentation completed successfully.")
-    return masks
-
-
-async def generate_images(generator, n):
-    """
-    Generate multiple images asynchronously.
-
-    :param generator: An instance of the Generate class.
-    :param n: Number of images to generate.
-    :return: A list of generated images.
-    """
-    log_debug("Requesting OpenAI to generate art images...")
-
-    # Use asyncio.gather to run multiple generation requests in parallel
-    tasks = [utils.generate_and_fetch(generator) for _ in range(n)]
-
-    return await asyncio.gather(*tasks)
-
-
-def prompt_engineering(prompt, tags):
-    """
-    Generates an engineered prompt for a wall art request.
-
-    Parameters:
-    prompt (str): The original order text from the client.
-    tags (list): A list of artistic styles to be included.
-
-    Returns:
-    str: The formatted prompt incorporating the client's request and styles.
-    """
-    role = "The next provided prompt is a order written by a client who wants to paint art on their wall, " \
-           "only consider the art which must be painted and not the details about wall or anything else. " \
-           "very very important: Fill the entire artwork and do not create blank areas or borders around the art. "
-    if tags:
-        styles = "Also use the following styles: " + ", ".join(tags)
-    else:
-        styles = ""
-
-    engineered_prompt = role + styles + ". The order text is: " + prompt
-    return engineered_prompt
 
 
 @app.post("/generate-on-wall/")
@@ -249,3 +184,61 @@ def request_logger(image_url, prompt, tags, box, n):
         raise HTTPException(status_code=400, detail="Invalid box coordinates. Check order of values.")
 
     log_info(f"Request validated successfully: image_url={image_url}, prompt={prompt}, tags={tags}, box={box}, n={n}")
+
+
+async def segment_image(segmentor, wall):
+    """
+    Perform image segmentation on the given wall image.
+
+    :param segmentor: An instance of the Segment class.
+    :param wall: The input wall image.
+    :return: Tuple (masks, combined_masks, cropped_objects), or (None, None, None) if no objects are detected.
+    """
+    log_debug("Segmenting the wall image...")
+    masks = segmentor.predict_masks(wall)  # Perform segmentation
+
+    if masks is None or len(masks) == 0:
+        log_warning("No objects found during segmentation!")
+        return None
+
+    log_info("Segmentation completed successfully.")
+    return masks
+
+
+async def generate_images(generator, n):
+    """
+    Generate multiple images asynchronously.
+
+    :param generator: An instance of the Generate class.
+    :param n: Number of images to generate.
+    :return: A list of generated images.
+    """
+    log_debug("Requesting OpenAI to generate art images...")
+
+    # Use asyncio.gather to run multiple generation requests in parallel
+    tasks = [utils.generate_and_fetch(generator) for _ in range(n)]
+
+    return await asyncio.gather(*tasks)
+
+
+def prompt_engineering(prompt, tags):
+    """
+    Generates an engineered prompt for a wall art request.
+
+    Parameters:
+    prompt (str): The original order text from the client.
+    tags (list): A list of artistic styles to be included.
+
+    Returns:
+    str: The formatted prompt incorporating the client's request and styles.
+    """
+    role = "The next provided prompt is a order written by a client who wants to paint art on their wall, " \
+           "only consider the art which must be painted and not the details about wall or anything else. " \
+           "very very important: Fill the entire artwork and do not create blank areas or borders around the art. "
+    if tags:
+        styles = "Also use the following styles: " + ", ".join(tags)
+    else:
+        styles = ""
+
+    engineered_prompt = role + styles + ". The order text is: " + prompt
+    return engineered_prompt

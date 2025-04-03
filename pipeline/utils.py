@@ -243,9 +243,13 @@ def apply_lighting_and_texture(background: np.ndarray, artwork: np.ndarray, box_
     illumination_map = cv2.GaussianBlur(gray_box, (51, 51), 0)
     illumination_normalized = illumination_map / 255.0
 
-    gamma = 1.0
+    # Compute average brightness of the selected wall region
+    avg_brightness = np.mean(illumination_normalized)
+
+    # Adaptive gamma: reduce effect on brighter backgrounds
+    gamma = 1.1 * (1 + avg_brightness)  # Closer to 1 for dark walls, lower for bright walls
     illumination_corrected = illumination_normalized ** gamma
-    light_scale = 0.0 + 2.0 * illumination_corrected
+    light_scale = 0.0 + 1.2 * illumination_corrected
 
     box_height = y_max_px - y_min_px
     box_width = x_max_px - x_min_px
@@ -261,7 +265,7 @@ def apply_lighting_and_texture(background: np.ndarray, artwork: np.ndarray, box_
     # Apply texture
     texture_scaled = cv2.resize(box_region, (box_width, box_height))
     texture_float = texture_scaled.astype(np.float32) / 255.0
-    texture_overlay = texture_float * 0.2 + artwork_lit * 1.0
+    texture_overlay = texture_float * 0.1 + artwork_lit * 0.9
     texture_overlay = np.clip(texture_overlay, 0, 1)
 
     # Alpha channel and fade
@@ -277,7 +281,7 @@ def apply_lighting_and_texture(background: np.ndarray, artwork: np.ndarray, box_
     mask[:fade_width, :] = y_fade[:, np.newaxis]
     mask[-fade_width:, :] = y_fade[::-1, np.newaxis]
 
-    mask = np.clip(mask, 0.2, 1.0)
+    mask = np.clip(mask, 0.0, 1.0)
     alpha_channel *= mask
 
     # Place artwork with alpha blending
