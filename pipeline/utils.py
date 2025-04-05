@@ -220,77 +220,69 @@ def transformer_for_rcnn(image, device):
 
 
 def apply_lighting_and_texture(background: np.ndarray, artwork: np.ndarray, box_percent: list) -> Image.Image:
-    """
-    Applies lighting and wall texture to the artwork, places it on the background, and returns the final image.
-
-    Args:
-        background (np.ndarray): Background image as a numpy array (H x W x 3).
-        artwork (np.ndarray): Artwork image as a numpy array (H_art x W_art x 3).
-        box_percent (list): List of 4 floats [x_min, y_min, x_max, y_max] representing box in percentage of background size.
-
-    Returns:
-        Image.Image: Final image with artwork placed realistically on the wall.
-    """
     h, w, _ = background.shape
     x_min_px = int(box_percent[0] * w)
     y_min_px = int(box_percent[1] * h)
     x_max_px = int(box_percent[2] * w)
     y_max_px = int(box_percent[3] * h)
 
-    # Extract region and compute lighting
     box_region = background[y_min_px:y_max_px, x_min_px:x_max_px]
-    gray_box = cv2.cvtColor(box_region, cv2.COLOR_RGB2GRAY)
-    illumination_map = cv2.GaussianBlur(gray_box, (51, 51), 0)
-    illumination_normalized = illumination_map / 255.0
+    box_region_float = box_region.astype(np.float32) / 255.0
+    illum_color = cv2.GaussianBlur(box_region_float, (51, 51), 0)  # blurred RGB lighting
 
-    # Compute average brightness of the selected wall region
-    avg_brightness = np.mean(illumination_normalized)
+    # Compute grayscale version (intensity)
+    illum_gray = cv2.cvtColor(illum_color, cv2.COLOR_RGB2GRAY)[..., np.newaxis]
 
-    # Adaptive gamma: reduce effect on brighter backgrounds
-    gamma = 1.1 * (1 + avg_brightness)  # Closer to 1 for dark walls, lower for bright walls
-    illumination_corrected = illumination_normalized ** gamma
-    light_scale = 0.0 + 1.2 * illumination_corrected
+    # Compute color strength: how far color is from grayscale
+    color_strength = np.linalg.norm(illum_color - illum_gray, axis=2, keepdims=True)  # (H, W, 1)
+
+    # Normalize strength between 0 (gray) and 1 (highly colored)
+    max_strength = 0.75  # tweak: higher = less sensitive to color
+    blend_factor = np.clip(color_strength / max_strength, 0, 1)
+
+    # Final illumination map: blend between grayscale and colored
+    illum_blend = illum_gray * (1 - blend_factor) + illum_color * blend_factor
+
+    # Optional: clamp to avoid extreme lighting
+    illum_blend = np.clip(illum_blend, 0.05, 1.5)
 
     box_height = y_max_px - y_min_px
     box_width = x_max_px - x_min_px
 
-    # Resize artwork to fit the box
     artwork_resized = cv2.resize(artwork, (box_width, box_height))
     artwork_float = artwork_resized.astype(np.float32) / 255.0
 
-    # Apply lighting
-    artwork_lit = artwork_float * light_scale[..., np.newaxis]
+    # Apply blended lighting
+    artwork_lit = artwork_float * illum_blend
     artwork_lit = np.clip(artwork_lit, 0, 1)
 
-    # Apply texture
+    # Apply subtle wall texture
     texture_scaled = cv2.resize(box_region, (box_width, box_height))
     texture_float = texture_scaled.astype(np.float32) / 255.0
-    texture_overlay = texture_float * 0.1 + artwork_lit * 0.9
+    texture_overlay = texture_float * 0.05 + artwork_lit * 0.95
     texture_overlay = np.clip(texture_overlay, 0, 1)
 
-    # Alpha channel and fade
+    # Edge fade mask
     alpha_channel = np.ones_like(texture_overlay[..., 0], dtype=np.float32)
-    fade_width = int(0.02 * box_height)
+    fade_width = int(0.01 * box_height)
     mask = np.ones((box_height, box_width), dtype=np.float32)
 
     x_fade = np.linspace(0, 1, fade_width)
     mask[:, :fade_width] = x_fade
     mask[:, -fade_width:] = x_fade[::-1]
-
     y_fade = np.linspace(0, 1, fade_width)
     mask[:fade_width, :] = y_fade[:, np.newaxis]
     mask[-fade_width:, :] = y_fade[::-1, np.newaxis]
+    alpha_channel *= np.clip(mask, 0.0, 1.0)
 
-    mask = np.clip(mask, 0.0, 1.0)
-    alpha_channel *= mask
-
-    # Place artwork with alpha blending
+    # Blend final result into background
     result_image = background.astype(np.float32) / 255.0
     result_image[y_min_px:y_max_px, x_min_px:x_max_px, :3] = (
         result_image[y_min_px:y_max_px, x_min_px:x_max_px, :3] * (1 - alpha_channel[..., np.newaxis]) +
         texture_overlay * alpha_channel[..., np.newaxis]
     )
 
-    # Convert to uint8
-    result_image_uint8 = (result_image * 255).astype(np.uint8)
+    result_image_uint8 = (np.clip(result_image, 0, 1) * 255).astype(np.uint8)
     return Image.fromarray(result_image_uint8)
+
+

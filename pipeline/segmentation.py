@@ -18,7 +18,7 @@ class MaskRCNN:
         masks = outputs[0]['masks'].squeeze().cpu().numpy()
         labels = outputs[0]['labels'].cpu().numpy()
 
-        score_threshold = 0.01
+        score_threshold = 0.02
 
         object_mask = np.zeros(image_np.shape[:2], dtype=np.uint8)
         for i in range(len(scores)):
@@ -26,7 +26,7 @@ class MaskRCNN:
                 continue  # Skip low-confidence detections
 
             obj_mask = (masks[i] > 0.5).astype(np.uint8) * 255
-
+            obj_mask = cv2.resize(obj_mask, (object_mask.shape[1], object_mask.shape[0]))
             object_mask = cv2.bitwise_or(object_mask, obj_mask)
 
         rgba_image = np.dstack((image_np, object_mask))

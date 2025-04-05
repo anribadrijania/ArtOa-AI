@@ -22,6 +22,7 @@ import utils
 import asyncio
 import uuid
 import time
+import traceback
 
 # Create FastAPI app instance
 app = FastAPI()
@@ -94,11 +95,14 @@ async def main(image_url: str = "",
         rcnn_segmentor = segmentation.MaskRCNN(rcnn_model, device)
         generator = generation.Generate(gen_model, prompt, size, quality, 1)
 
+        url = "https://cdn.britannica.com/78/43678-050-F4DC8D93/Starry-Night-canvas-Vincent-van-Gogh-New-1889.jpg"
         # Run segmentation and image generation asynchronously
         masks, generated_images = await asyncio.gather(
             segment_image(rcnn_segmentor, wall),
-            generate_images(generator, n)
+            # generate_images(generator, n)
+            utils.fetch_image(url)
         )
+        generated_images = [generated_images]
 
         log_info("Wall segmentation and art generation completed.")
 
@@ -152,7 +156,8 @@ async def main(image_url: str = "",
         raise e  # Rethrow HTTP exception
 
     except Exception as e:
-        log_error(f"Internal server error: {str(e)}")
+        tb = traceback.format_exc()
+        log_error(f"Internal server error:\n{tb}")
         raise HTTPException(status_code=500, detail=f"Internal server error: {str(e)}")
 
 
