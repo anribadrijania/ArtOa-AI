@@ -1,6 +1,7 @@
 import cv2
 import numpy as np
 import aiohttp
+import hashlib
 from io import BytesIO
 from PIL import Image
 from torchvision import transforms
@@ -237,7 +238,7 @@ def apply_lighting_and_texture(background: np.ndarray, artwork: np.ndarray, box_
     color_strength = np.linalg.norm(illum_color - illum_gray, axis=2, keepdims=True)  # (H, W, 1)
 
     # Normalize strength between 0 (gray) and 1 (highly colored)
-    max_strength = 0.75  # tweak: higher = less sensitive to color
+    max_strength = 1.0  # tweak: higher = less sensitive to color
     blend_factor = np.clip(color_strength / max_strength, 0, 1)
 
     # Final illumination map: blend between grayscale and colored
@@ -286,3 +287,11 @@ def apply_lighting_and_texture(background: np.ndarray, artwork: np.ndarray, box_
     return Image.fromarray(result_image_uint8)
 
 
+def hash_api_key(api_key):
+    """
+    Hash the API key using SHA-256.
+
+    :param api_key: The API key to hash.
+    :return: The hashed API key.
+    """
+    return hashlib.sha256(api_key.encode()).hexdigest()

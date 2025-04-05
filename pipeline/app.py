@@ -14,6 +14,9 @@ from typing import List
 from logger import log_debug, log_error, log_info, log_warning
 from torchvision.models.detection import maskrcnn_resnet50_fpn_v2
 from PIL import Image
+from openai import AsyncOpenAI
+from dotenv import load_dotenv
+import os
 import numpy as np
 import torch
 import generation
@@ -38,6 +41,20 @@ rcnn_model.to(device)
 rcnn_model.eval()
 log_info(f"START: MaskRCNN model loaded successfully.")
 
+# Loading the environment variables
+load_dotenv()
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+HASHED_API_KEY = os.getenv("HASHED_API_KEY")
+
+# Ensuring the API keys is set
+if not OPENAI_API_KEY:
+    raise ValueError("OPENAI_API_KEY is not set!")
+if not HASHED_API_KEY:
+    raise ValueError("API_KEY is not set!")
+
+# Initialization of OpenAI client for asynchronous image generation
+client = AsyncOpenAI(api_key=OPENAI_API_KEY)
+
 # Define the static directory to store images
 STATIC_DIR = Path("static")
 STATIC_DIR.mkdir(parents=True, exist_ok=True)  # Create directory if it doesn't exist
@@ -46,11 +63,13 @@ STATIC_DIR.mkdir(parents=True, exist_ok=True)  # Create directory if it doesn't 
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
 
+# temporary api_key for testing: acbcfa7707aa61454cd86de0aa023bcef8f4c99e7a0daf234070b68ecc7c5aba
 @app.post("/generate-on-wall/")
 async def main(image_url: str = "",
                prompt: str = "",
                tags: List[str] = None,
                box: List[float] = None,
+               api_key: str = "",
                n: int = 4):
     """
     API endpoint to generate and place AI-generated art on a wall image.
@@ -59,6 +78,7 @@ async def main(image_url: str = "",
     :param prompt: Text prompt for art generation.
     :param tags: Additional tags to refine image generation.
     :param box: Coordinates defining the area where art should be placed.
+    :param api_key: API key for authentication.
     :param n: Number of image variations to generate.
     :return: List of processed images with art placed on the wall.
     """
@@ -66,7 +86,7 @@ async def main(image_url: str = "",
 
     try:
         # Validate input parameters and log request details
-        request_logger(image_url, prompt, tags, box, n)
+        request_logger(api_key, image_url, prompt, tags, box, n)
 
         log_debug("Processing input data...")
 
@@ -93,7 +113,7 @@ async def main(image_url: str = "",
 
         # Initialize segmentation and image generation classes
         rcnn_segmentor = segmentation.MaskRCNN(rcnn_model, device)
-        generator = generation.Generate(gen_model, prompt, size, quality, 1)
+        generator = generation.Generate(client, gen_model, prompt, size, quality, 1)
 
         url = "https://cdn.britannica.com/78/43678-050-F4DC8D93/Starry-Night-canvas-Vincent-van-Gogh-New-1889.jpg"
         # Run segmentation and image generation asynchronously
@@ -161,7 +181,7 @@ async def main(image_url: str = "",
         raise HTTPException(status_code=500, detail=f"Internal server error: {str(e)}")
 
 
-def request_logger(image_url, prompt, tags, box, n):
+def request_logger(api_key, image_url, prompt, tags, box, n):
     """
     Validate and log incoming requests.
 
@@ -169,6 +189,11 @@ def request_logger(image_url, prompt, tags, box, n):
     """
     log_debug("Receiving request...")
 
+    if not api_key:
+        raise HTTPException(status_code=401, detail="API key is required.")
+    hashed_key = utils.hash_api_key(api_key)
+    if hashed_key != HASHED_API_KEY:
+        raise HTTPException(status_code=401, detail="Invalid API key.")
     if not image_url:
         raise HTTPException(status_code=400, detail="Empty image URL in the request.")
     if not prompt:

@@ -1,24 +1,8 @@
-from openai import AsyncOpenAI
-from dotenv import load_dotenv
-import os
-
-# Loading the environment variables
-load_dotenv()
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
-
-# Ensuring the API key is set
-if not OPENAI_API_KEY:
-    raise ValueError("OPENAI_API_KEY is not set!")
-
-# Initialization of OpenAI client for asynchronous image generation
-client = AsyncOpenAI(api_key=OPENAI_API_KEY)
-
-
 class Generate:
     """
     A class to handle image generation using OpenAI's API.
     """
-    def __init__(self, model, prompt, size, quality, n):
+    def __init__(self, client, model, prompt, size, quality, n):
         """
         Initializing the Generate class with required parameters.
 
@@ -28,6 +12,7 @@ class Generate:
         :param quality: The quality of the generated image. ("standard", "hd")
         :param n: The number of images to generate.
         """
+        self.client = client
         self.model = model
         self.prompt = prompt
         self.size = size
@@ -40,7 +25,7 @@ class Generate:
 
         :return: URL of the generated image.
         """
-        response = await client.images.generate(
+        response = await self.client.images.generate(
             model=self.model,
             prompt=self.prompt,
             size=self.size,
@@ -56,7 +41,7 @@ class Generate:
 
         :return: Tuple containing the revised prompt and the image URL.
         """
-        response = await client.images.generate(
+        response = await self.client.images.generate(
             model=self.model,
             prompt=self.prompt,
             size=self.size,
