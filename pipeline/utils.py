@@ -5,6 +5,7 @@ import hashlib
 from io import BytesIO
 from PIL import Image
 from torchvision import transforms
+import base64
 
 
 async def fetch_image(url):
@@ -245,7 +246,7 @@ def apply_lighting_and_texture(background: np.ndarray, artwork: np.ndarray, box_
     illum_blend = illum_gray * (1 - blend_factor) + illum_color * blend_factor
 
     # Optional: clamp to avoid extreme lighting
-    illum_blend = np.clip(illum_blend, 0.05, 1.5)
+    illum_blend = np.clip(illum_blend, 0.05, 2.0)
 
     box_height = y_max_px - y_min_px
     box_width = x_max_px - x_min_px
@@ -295,3 +296,17 @@ def hash_api_key(api_key):
     :return: The hashed API key.
     """
     return hashlib.sha256(api_key.encode()).hexdigest()
+
+
+def pil_to_binary(img):
+    """
+    Convert a PIL image to binary format.
+
+    :param img: The input PIL image.
+    :return: Binary representation of the image.
+    """
+    with BytesIO() as buffer:
+        img.save(buffer, format="PNG")
+        img_bytes = buffer.getvalue()
+        b64 = base64.b64encode(img_bytes).decode('utf-8')
+        return b64

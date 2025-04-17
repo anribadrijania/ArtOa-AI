@@ -4,10 +4,12 @@ The pipeline is responsible for generating art images and placing them on a wall
 The pipeline uses the YOLO model for segmentation and the OpenAI DALL-E model for image generation.
 The API key for the OpenAI API is loaded from the environment variables.
 """
+import base64
 
 # Import required libraries
 from fastapi import FastAPI, HTTPException
 from fastapi.staticfiles import StaticFiles
+from fastapi.responses import JSONResponse
 from pathlib import Path
 from transformers import AutoModelForImageSegmentation
 from typing import List
@@ -166,9 +168,17 @@ async def main(image_url: str = "",
             print(f"Saved: {filename}")
             image_urls.append(f"http://localhost:8000/{filename}")
 
+        images = []
+        # ready images to be returned
+        for i, img in enumerate(final_images):
+            images.append(utils.pil_to_binary(img))
+
+        from io import BytesIO
         end = time.time()
         log_info(f"Request finished in {end - start:.3f} seconds. Response sent to the client.")
-
+        # my_image = Image.open(BytesIO(base64.b64decode(images[0])))
+        # my_image.show()
+        # return JSONResponse(content={"images": images})
         return {"images": image_urls}
 
     except HTTPException as e:
@@ -262,7 +272,7 @@ def prompt_engineering(prompt, tags):
     Returns:
     str: The formatted prompt incorporating the client's request and styles.
     """
-    role = "The next provided prompt is a order written by a client who wants to paint art on their wall, " \
+    role = "The next provided prompt is an order written by a client who wants to paint art on their wall, " \
            "only consider the art which must be painted and not the details about wall or anything else. " \
            "very very important: Fill the entire artwork and do not create blank areas or borders around the art. "
     if tags:

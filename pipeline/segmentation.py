@@ -18,7 +18,7 @@ class MaskRCNN:
         masks = outputs[0]['masks'].squeeze().cpu().numpy()
         labels = outputs[0]['labels'].cpu().numpy()
 
-        score_threshold = 0.02
+        score_threshold = 0.5
 
         object_mask = np.zeros(image_np.shape[:2], dtype=np.uint8)
         for i in range(len(scores)):

@@ -2724,3 +2724,834 @@ DEBUG: App is running on cpu... | Timestamp: [2025-04-06 02:58:24,794]
 INFO: START: MaskRCNN model loaded successfully. | Timestamp: [2025-04-06 02:58:25,335]
 DEBUG: App is running on cpu... | Timestamp: [2025-04-06 02:59:09,126]
 INFO: START: MaskRCNN model loaded successfully. | Timestamp: [2025-04-06 02:59:09,676]
+DEBUG: App is running on cpu... | Timestamp: [2025-04-06 03:02:22,072]
+INFO: START: MaskRCNN model loaded successfully. | Timestamp: [2025-04-06 03:02:22,615]
+DEBUG: Receiving request... | Timestamp: [2025-04-06 03:04:16,474]
+INFO: Request validated successfully: image_url=https://us.images.westend61.de/0001180025pw/young-woman-making-shadows-on-a-white-wall-with-a-shadow-of-a-tree-JRFF03092.jpg, prompt=cat, tags=['string'], box=[0.2, 0.2, 0.8, 0.8], n=1 | Timestamp: [2025-04-06 03:04:16,474]
+DEBUG: Processing input data... | Timestamp: [2025-04-06 03:04:16,474]
+ERROR: Invalid image URL or image could not be fetched. | Timestamp: [2025-04-06 03:04:17,133]
+ERROR: HTTP server error: 400: Invalid image URL or image could not be fetched. | Timestamp: [2025-04-06 03:04:17,133]
+DEBUG: Receiving request... | Timestamp: [2025-04-06 03:04:53,922]
+INFO: Request validated successfully: image_url=https://us.images.westend61.de/0001447140pw/dancing-young-woman-casting-shade-on-black-wall-at-sunset-TCEF00992.jpg, prompt=cat, tags=['string'], box=[0.2, 0.2, 0.8, 0.8], n=1 | Timestamp: [2025-04-06 03:04:53,922]
+DEBUG: Processing input data... | Timestamp: [2025-04-06 03:04:53,922]
+ERROR: Invalid image URL or image could not be fetched. | Timestamp: [2025-04-06 03:04:54,473]
+ERROR: HTTP server error: 400: Invalid image URL or image could not be fetched. | Timestamp: [2025-04-06 03:04:54,474]
+DEBUG: Receiving request... | Timestamp: [2025-04-06 03:09:48,761]
+INFO: Request validated successfully: image_url=https://us.images.westend61.de/0001180025pw/young-woman-making-shadows-on-a-white-wall-with-a-shadow-of-a-tree-JRFF03092.jpg, prompt=cat, tags=['string'], box=[0.2, 0.2, 0.8, 0.8], n=1 | Timestamp: [2025-04-06 03:09:48,761]
+DEBUG: Processing input data... | Timestamp: [2025-04-06 03:09:48,761]
+ERROR: Invalid image URL or image could not be fetched. | Timestamp: [2025-04-06 03:09:49,319]
+ERROR: HTTP server error: 400: Invalid image URL or image could not be fetched. | Timestamp: [2025-04-06 03:09:49,319]
+DEBUG: Receiving request... | Timestamp: [2025-04-06 03:10:52,662]
+INFO: Request validated successfully: image_url=https://dfjx2uxqg3cgi.cloudfront.net/img/photo/233355/233355_00_2x.jpg?20210426222304, prompt=cat, tags=['string'], box=[0.2, 0.2, 0.8, 0.8], n=1 | Timestamp: [2025-04-06 03:10:52,662]
+DEBUG: Processing input data... | Timestamp: [2025-04-06 03:10:52,662]
+INFO: Wall image fetched successfully. | Timestamp: [2025-04-06 03:10:53,092]
+INFO: Defined box coordinates successfully. | Timestamp: [2025-04-06 03:10:53,092]
+INFO: Image generation parameters set: model=dall-e-3, prompt=The next provided prompt is a order written by a client who wants to paint art on their wall, only consider the art which must be painted and not the details about wall or anything else. very very important: Fill the entire artwork and do not create blank areas or borders around the art. Also use the following styles: string. The order text is: cat, size=1024x1792, quality=standard, n=1 | Timestamp: [2025-04-06 03:10:53,092]
+DEBUG: Segmenting the wall image... | Timestamp: [2025-04-06 03:10:53,093]
+INFO: Segmentation completed successfully. | Timestamp: [2025-04-06 03:10:55,009]
+INFO: Wall segmentation and art generation completed. | Timestamp: [2025-04-06 03:10:55,400]
+DEBUG: Placing generated art on the wall... | Timestamp: [2025-04-06 03:10:55,400]
+INFO: Cropped objects returned successfully. | Timestamp: [2025-04-06 03:10:55,617]
+INFO: Art placement on the wall completed. | Timestamp: [2025-04-06 03:10:55,617]
+INFO: Request finished in 3.182 seconds. Response sent to the client. | Timestamp: [2025-04-06 03:10:55,844]
+DEBUG: App is running on cpu... | Timestamp: [2025-04-06 03:11:43,146]
+INFO: START: MaskRCNN model loaded successfully. | Timestamp: [2025-04-06 03:11:43,700]
+DEBUG: Receiving request... | Timestamp: [2025-04-06 03:11:43,742]
+INFO: Request validated successfully: image_url=https://dfjx2uxqg3cgi.cloudfront.net/img/photo/233355/233355_00_2x.jpg?20210426222304, prompt=cat, tags=['string'], box=[0.2, 0.2, 0.8, 0.8], n=1 | Timestamp: [2025-04-06 03:11:43,742]
+DEBUG: Processing input data... | Timestamp: [2025-04-06 03:11:43,742]
+INFO: Wall image fetched successfully. | Timestamp: [2025-04-06 03:11:44,139]
+INFO: Defined box coordinates successfully. | Timestamp: [2025-04-06 03:11:44,139]
+INFO: Image generation parameters set: model=dall-e-3, prompt=The next provided prompt is a order written by a client who wants to paint art on their wall, only consider the art which must be painted and not the details about wall or anything else. very very important: Fill the entire artwork and do not create blank areas or borders around the art. Also use the following styles: string. The order text is: cat, size=1024x1792, quality=standard, n=1 | Timestamp: [2025-04-06 03:11:44,139]
+DEBUG: Segmenting the wall image... | Timestamp: [2025-04-06 03:11:44,139]
+INFO: Segmentation completed successfully. | Timestamp: [2025-04-06 03:11:46,020]
+INFO: Wall segmentation and art generation completed. | Timestamp: [2025-04-06 03:11:46,341]
+DEBUG: Placing generated art on the wall... | Timestamp: [2025-04-06 03:11:46,341]
+INFO: Cropped objects returned successfully. | Timestamp: [2025-04-06 03:11:46,545]
+INFO: Art placement on the wall completed. | Timestamp: [2025-04-06 03:11:46,545]
+INFO: Request finished in 3.025 seconds. Response sent to the client. | Timestamp: [2025-04-06 03:11:46,767]
+DEBUG: App is running on cpu... | Timestamp: [2025-04-06 03:12:08,164]
+INFO: START: MaskRCNN model loaded successfully. | Timestamp: [2025-04-06 03:12:08,720]
+DEBUG: Receiving request... | Timestamp: [2025-04-06 03:12:08,762]
+INFO: Request validated successfully: image_url=https://dfjx2uxqg3cgi.cloudfront.net/img/photo/233355/233355_00_2x.jpg?20210426222304, prompt=cat, tags=['string'], box=[0.2, 0.2, 0.8, 0.8], n=1 | Timestamp: [2025-04-06 03:12:08,762]
+DEBUG: Processing input data... | Timestamp: [2025-04-06 03:12:08,762]
+INFO: Wall image fetched successfully. | Timestamp: [2025-04-06 03:12:09,045]
+INFO: Defined box coordinates successfully. | Timestamp: [2025-04-06 03:12:09,045]
+INFO: Image generation parameters set: model=dall-e-3, prompt=The next provided prompt is a order written by a client who wants to paint art on their wall, only consider the art which must be painted and not the details about wall or anything else. very very important: Fill the entire artwork and do not create blank areas or borders around the art. Also use the following styles: string. The order text is: cat, size=1024x1792, quality=standard, n=1 | Timestamp: [2025-04-06 03:12:09,045]
+DEBUG: Segmenting the wall image... | Timestamp: [2025-04-06 03:12:09,045]
+INFO: Segmentation completed successfully. | Timestamp: [2025-04-06 03:12:10,946]
+INFO: Wall segmentation and art generation completed. | Timestamp: [2025-04-06 03:12:11,304]
+DEBUG: Placing generated art on the wall... | Timestamp: [2025-04-06 03:12:11,304]
+INFO: Cropped objects returned successfully. | Timestamp: [2025-04-06 03:12:11,503]
+INFO: Art placement on the wall completed. | Timestamp: [2025-04-06 03:12:11,503]
+INFO: Request finished in 2.984 seconds. Response sent to the client. | Timestamp: [2025-04-06 03:12:11,745]
+DEBUG: App is running on cpu... | Timestamp: [2025-04-06 03:12:48,246]
+INFO: START: MaskRCNN model loaded successfully. | Timestamp: [2025-04-06 03:12:48,831]
+DEBUG: Receiving request... | Timestamp: [2025-04-06 03:12:48,874]
+INFO: Request validated successfully: image_url=https://dfjx2uxqg3cgi.cloudfront.net/img/photo/233355/233355_00_2x.jpg?20210426222304, prompt=cat, tags=['string'], box=[0.2, 0.2, 0.8, 0.8], n=1 | Timestamp: [2025-04-06 03:12:48,874]
+DEBUG: Processing input data... | Timestamp: [2025-04-06 03:12:48,874]
+INFO: Wall image fetched successfully. | Timestamp: [2025-04-06 03:12:49,229]
+INFO: Defined box coordinates successfully. | Timestamp: [2025-04-06 03:12:49,229]
+INFO: Image generation parameters set: model=dall-e-3, prompt=The next provided prompt is a order written by a client who wants to paint art on their wall, only consider the art which must be painted and not the details about wall or anything else. very very important: Fill the entire artwork and do not create blank areas or borders around the art. Also use the following styles: string. The order text is: cat, size=1024x1792, quality=standard, n=1 | Timestamp: [2025-04-06 03:12:49,229]
+DEBUG: Segmenting the wall image... | Timestamp: [2025-04-06 03:12:49,229]
+INFO: Segmentation completed successfully. | Timestamp: [2025-04-06 03:12:51,081]
+INFO: Wall segmentation and art generation completed. | Timestamp: [2025-04-06 03:12:51,399]
+DEBUG: Placing generated art on the wall... | Timestamp: [2025-04-06 03:12:51,400]
+INFO: Cropped objects returned successfully. | Timestamp: [2025-04-06 03:12:51,590]
+INFO: Art placement on the wall completed. | Timestamp: [2025-04-06 03:12:51,590]
+INFO: Request finished in 2.953 seconds. Response sent to the client. | Timestamp: [2025-04-06 03:12:51,827]
+DEBUG: Receiving request... | Timestamp: [2025-04-06 03:13:15,623]
+INFO: Request validated successfully: image_url=https://images.photowall.com/interiors/60421/landscape/wallpaper/room88.jpg?w=2000&q=80, prompt=cat, tags=['string'], box=[0.2, 0.2, 0.8, 0.8], n=1 | Timestamp: [2025-04-06 03:13:15,623]
+DEBUG: Processing input data... | Timestamp: [2025-04-06 03:13:15,623]
+INFO: Wall image fetched successfully. | Timestamp: [2025-04-06 03:13:15,985]
+INFO: Defined box coordinates successfully. | Timestamp: [2025-04-06 03:13:15,986]
+INFO: Image generation parameters set: model=dall-e-3, prompt=The next provided prompt is a order written by a client who wants to paint art on their wall, only consider the art which must be painted and not the details about wall or anything else. very very important: Fill the entire artwork and do not create blank areas or borders around the art. Also use the following styles: string. The order text is: cat, size=1792x1024, quality=standard, n=1 | Timestamp: [2025-04-06 03:13:15,986]
+DEBUG: Segmenting the wall image... | Timestamp: [2025-04-06 03:13:15,986]
+INFO: Segmentation completed successfully. | Timestamp: [2025-04-06 03:13:18,016]
+INFO: Wall segmentation and art generation completed. | Timestamp: [2025-04-06 03:13:18,409]
+DEBUG: Placing generated art on the wall... | Timestamp: [2025-04-06 03:13:18,409]
+INFO: Cropped objects returned successfully. | Timestamp: [2025-04-06 03:13:18,618]
+INFO: Art placement on the wall completed. | Timestamp: [2025-04-06 03:13:18,618]
+INFO: Request finished in 3.249 seconds. Response sent to the client. | Timestamp: [2025-04-06 03:13:18,872]
+DEBUG: Receiving request... | Timestamp: [2025-04-06 03:13:53,296]
+INFO: Request validated successfully: image_url=https://img.freepik.com/free-photo/empty-room-gray-wall-room-with-wooden-floor_53876-128781.jpg?w=360, prompt=cat, tags=['string'], box=[0.2, 0.2, 0.8, 0.8], n=1 | Timestamp: [2025-04-06 03:13:53,296]
+DEBUG: Processing input data... | Timestamp: [2025-04-06 03:13:53,296]
+INFO: Wall image fetched successfully. | Timestamp: [2025-04-06 03:13:53,499]
+INFO: Defined box coordinates successfully. | Timestamp: [2025-04-06 03:13:53,499]
+INFO: Image generation parameters set: model=dall-e-3, prompt=The next provided prompt is a order written by a client who wants to paint art on their wall, only consider the art which must be painted and not the details about wall or anything else. very very important: Fill the entire artwork and do not create blank areas or borders around the art. Also use the following styles: string. The order text is: cat, size=1792x1024, quality=standard, n=1 | Timestamp: [2025-04-06 03:13:53,500]
+DEBUG: Segmenting the wall image... | Timestamp: [2025-04-06 03:13:53,500]
+INFO: Segmentation completed successfully. | Timestamp: [2025-04-06 03:13:55,272]
+INFO: Wall segmentation and art generation completed. | Timestamp: [2025-04-06 03:13:55,589]
+DEBUG: Placing generated art on the wall... | Timestamp: [2025-04-06 03:13:55,589]
+INFO: Cropped objects returned successfully. | Timestamp: [2025-04-06 03:13:55,633]
+INFO: Art placement on the wall completed. | Timestamp: [2025-04-06 03:13:55,633]
+INFO: Request finished in 2.351 seconds. Response sent to the client. | Timestamp: [2025-04-06 03:13:55,647]
+DEBUG: Receiving request... | Timestamp: [2025-04-06 03:14:29,177]
+INFO: Request validated successfully: image_url=https://t4.ftcdn.net/jpg/03/13/74/89/360_F_313748908_X6ldOlzKqlfkZVMWUSlY37pua4bBJjOg.jpg, prompt=cat, tags=['string'], box=[0.2, 0.2, 0.8, 0.8], n=1 | Timestamp: [2025-04-06 03:14:29,177]
+DEBUG: Processing input data... | Timestamp: [2025-04-06 03:14:29,177]
+INFO: Wall image fetched successfully. | Timestamp: [2025-04-06 03:14:29,321]
+INFO: Defined box coordinates successfully. | Timestamp: [2025-04-06 03:14:29,321]
+INFO: Image generation parameters set: model=dall-e-3, prompt=The next provided prompt is a order written by a client who wants to paint art on their wall, only consider the art which must be painted and not the details about wall or anything else. very very important: Fill the entire artwork and do not create blank areas or borders around the art. Also use the following styles: string. The order text is: cat, size=1792x1024, quality=standard, n=1 | Timestamp: [2025-04-06 03:14:29,321]
+DEBUG: Segmenting the wall image... | Timestamp: [2025-04-06 03:14:29,321]
+INFO: Segmentation completed successfully. | Timestamp: [2025-04-06 03:14:31,099]
+INFO: Wall segmentation and art generation completed. | Timestamp: [2025-04-06 03:14:31,526]
+DEBUG: Placing generated art on the wall... | Timestamp: [2025-04-06 03:14:31,526]
+INFO: Cropped objects returned successfully. | Timestamp: [2025-04-06 03:14:31,553]
+INFO: Art placement on the wall completed. | Timestamp: [2025-04-06 03:14:31,553]
+INFO: Request finished in 2.397 seconds. Response sent to the client. | Timestamp: [2025-04-06 03:14:31,574]
+DEBUG: Receiving request... | Timestamp: [2025-04-06 03:22:19,794]
+INFO: Request validated successfully: image_url=https://www.eurowalls.com.au/cdn/shop/products/Stone-Wall-in-Grey_47262_1_540x.jpg?v=1654142995, prompt=cat, tags=['string'], box=[0.2, 0.2, 0.8, 0.8], n=1 | Timestamp: [2025-04-06 03:22:19,794]
+DEBUG: Processing input data... | Timestamp: [2025-04-06 03:22:19,794]
+INFO: Wall image fetched successfully. | Timestamp: [2025-04-06 03:22:20,497]
+INFO: Defined box coordinates successfully. | Timestamp: [2025-04-06 03:22:20,497]
+INFO: Image generation parameters set: model=dall-e-3, prompt=The next provided prompt is a order written by a client who wants to paint art on their wall, only consider the art which must be painted and not the details about wall or anything else. very very important: Fill the entire artwork and do not create blank areas or borders around the art. Also use the following styles: string. The order text is: cat, size=1024x1024, quality=standard, n=1 | Timestamp: [2025-04-06 03:22:20,497]
+DEBUG: Segmenting the wall image... | Timestamp: [2025-04-06 03:22:20,497]
+INFO: Segmentation completed successfully. | Timestamp: [2025-04-06 03:22:22,058]
+INFO: Wall segmentation and art generation completed. | Timestamp: [2025-04-06 03:22:22,386]
+DEBUG: Placing generated art on the wall... | Timestamp: [2025-04-06 03:22:22,386]
+INFO: Cropped objects returned successfully. | Timestamp: [2025-04-06 03:22:22,421]
+INFO: Art placement on the wall completed. | Timestamp: [2025-04-06 03:22:22,421]
+INFO: Request finished in 2.663 seconds. Response sent to the client. | Timestamp: [2025-04-06 03:22:22,457]
+DEBUG: App is running on cpu... | Timestamp: [2025-04-06 19:32:02,546]
+INFO: START: MaskRCNN model loaded successfully. | Timestamp: [2025-04-06 19:32:05,641]
+DEBUG: Receiving request... | Timestamp: [2025-04-06 19:32:54,799]
+INFO: Request validated successfully: image_url=https://img.freepik.com/premium-photo/brick-wall-background-neon-light-3d-illustration_161844-389.jpg, prompt=cat, tags=['string'], box=[0.0, 0.0, 1.0, 1.0], n=1 | Timestamp: [2025-04-06 19:32:54,800]
+DEBUG: Processing input data... | Timestamp: [2025-04-06 19:32:54,800]
+INFO: Wall image fetched successfully. | Timestamp: [2025-04-06 19:32:55,338]
+INFO: Defined box coordinates successfully. | Timestamp: [2025-04-06 19:32:55,338]
+INFO: Image generation parameters set: model=dall-e-3, prompt=The next provided prompt is a order written by a client who wants to paint art on their wall, only consider the art which must be painted and not the details about wall or anything else. very very important: Fill the entire artwork and do not create blank areas or borders around the art. Also use the following styles: string. The order text is: cat, size=1792x1024, quality=standard, n=1 | Timestamp: [2025-04-06 19:32:55,338]
+DEBUG: Segmenting the wall image... | Timestamp: [2025-04-06 19:32:55,338]
+INFO: Segmentation completed successfully. | Timestamp: [2025-04-06 19:32:59,461]
+INFO: Wall segmentation and art generation completed. | Timestamp: [2025-04-06 19:32:59,785]
+DEBUG: Placing generated art on the wall... | Timestamp: [2025-04-06 19:32:59,785]
+INFO: Cropped objects returned successfully. | Timestamp: [2025-04-06 19:32:59,905]
+INFO: Art placement on the wall completed. | Timestamp: [2025-04-06 19:32:59,905]
+INFO: Request finished in 5.151 seconds. Response sent to the client. | Timestamp: [2025-04-06 19:32:59,950]
+DEBUG: App is running on cpu... | Timestamp: [2025-04-06 19:33:43,033]
+INFO: START: MaskRCNN model loaded successfully. | Timestamp: [2025-04-06 19:33:43,590]
+DEBUG: Receiving request... | Timestamp: [2025-04-06 19:33:43,632]
+INFO: Request validated successfully: image_url=https://img.freepik.com/premium-photo/brick-wall-background-neon-light-3d-illustration_161844-389.jpg, prompt=cat, tags=['string'], box=[0.0, 0.0, 1.0, 1.0], n=1 | Timestamp: [2025-04-06 19:33:43,633]
+DEBUG: Processing input data... | Timestamp: [2025-04-06 19:33:43,633]
+INFO: Wall image fetched successfully. | Timestamp: [2025-04-06 19:33:43,923]
+INFO: Defined box coordinates successfully. | Timestamp: [2025-04-06 19:33:43,923]
+INFO: Image generation parameters set: model=dall-e-3, prompt=The next provided prompt is a order written by a client who wants to paint art on their wall, only consider the art which must be painted and not the details about wall or anything else. very very important: Fill the entire artwork and do not create blank areas or borders around the art. Also use the following styles: string. The order text is: cat, size=1792x1024, quality=standard, n=1 | Timestamp: [2025-04-06 19:33:43,924]
+DEBUG: Segmenting the wall image... | Timestamp: [2025-04-06 19:33:43,924]
+INFO: Segmentation completed successfully. | Timestamp: [2025-04-06 19:33:45,725]
+INFO: Wall segmentation and art generation completed. | Timestamp: [2025-04-06 19:33:46,036]
+DEBUG: Placing generated art on the wall... | Timestamp: [2025-04-06 19:33:46,036]
+INFO: Cropped objects returned successfully. | Timestamp: [2025-04-06 19:33:46,089]
+INFO: Art placement on the wall completed. | Timestamp: [2025-04-06 19:33:46,089]
+INFO: Request finished in 2.487 seconds. Response sent to the client. | Timestamp: [2025-04-06 19:33:46,119]
+DEBUG: Receiving request... | Timestamp: [2025-04-06 19:34:27,094]
+INFO: Request validated successfully: image_url=https://static.vecteezy.com/system/resources/thumbnails/040/940/059/small_2x/ai-generated-empty-room-with-blue-wall-and-white-floor-3d-rendering-photo.jpg, prompt=cat, tags=['string'], box=[0.0, 0.0, 1.0, 1.0], n=1 | Timestamp: [2025-04-06 19:34:27,094]
+DEBUG: Processing input data... | Timestamp: [2025-04-06 19:34:27,095]
+ERROR: Invalid image URL or image could not be fetched. | Timestamp: [2025-04-06 19:34:27,119]
+ERROR: HTTP server error: 400: Invalid image URL or image could not be fetched. | Timestamp: [2025-04-06 19:34:27,120]
+DEBUG: Receiving request... | Timestamp: [2025-04-06 19:34:39,324]
+INFO: Request validated successfully: image_url=https://img.freepik.com/premium-photo/blue-room-interior-3d-rendering_43614-22.jpg, prompt=cat, tags=['string'], box=[0.0, 0.0, 1.0, 1.0], n=1 | Timestamp: [2025-04-06 19:34:39,325]
+DEBUG: Processing input data... | Timestamp: [2025-04-06 19:34:39,325]
+INFO: Wall image fetched successfully. | Timestamp: [2025-04-06 19:34:39,559]
+INFO: Defined box coordinates successfully. | Timestamp: [2025-04-06 19:34:39,559]
+INFO: Image generation parameters set: model=dall-e-3, prompt=The next provided prompt is a order written by a client who wants to paint art on their wall, only consider the art which must be painted and not the details about wall or anything else. very very important: Fill the entire artwork and do not create blank areas or borders around the art. Also use the following styles: string. The order text is: cat, size=1792x1024, quality=standard, n=1 | Timestamp: [2025-04-06 19:34:39,559]
+DEBUG: Segmenting the wall image... | Timestamp: [2025-04-06 19:34:39,559]
+INFO: Segmentation completed successfully. | Timestamp: [2025-04-06 19:34:41,471]
+INFO: Wall segmentation and art generation completed. | Timestamp: [2025-04-06 19:34:41,786]
+DEBUG: Placing generated art on the wall... | Timestamp: [2025-04-06 19:34:41,786]
+INFO: Cropped objects returned successfully. | Timestamp: [2025-04-06 19:34:41,838]
+INFO: Art placement on the wall completed. | Timestamp: [2025-04-06 19:34:41,839]
+INFO: Request finished in 2.542 seconds. Response sent to the client. | Timestamp: [2025-04-06 19:34:41,865]
+DEBUG: Receiving request... | Timestamp: [2025-04-06 19:35:26,797]
+INFO: Request validated successfully: image_url=https://img.freepik.com/premium-photo/blue-room-beautiful-room-empty-room-modern-bright-interior-3d-rendering_43151-1136.jpg?w=360, prompt=cat, tags=['string'], box=[0.0, 0.0, 1.0, 1.0], n=1 | Timestamp: [2025-04-06 19:35:26,797]
+DEBUG: Processing input data... | Timestamp: [2025-04-06 19:35:26,797]
+INFO: Wall image fetched successfully. | Timestamp: [2025-04-06 19:35:27,227]
+INFO: Defined box coordinates successfully. | Timestamp: [2025-04-06 19:35:27,227]
+INFO: Image generation parameters set: model=dall-e-3, prompt=The next provided prompt is a order written by a client who wants to paint art on their wall, only consider the art which must be painted and not the details about wall or anything else. very very important: Fill the entire artwork and do not create blank areas or borders around the art. Also use the following styles: string. The order text is: cat, size=1792x1024, quality=standard, n=1 | Timestamp: [2025-04-06 19:35:27,227]
+DEBUG: Segmenting the wall image... | Timestamp: [2025-04-06 19:35:27,227]
+INFO: Segmentation completed successfully. | Timestamp: [2025-04-06 19:35:29,795]
+INFO: Wall segmentation and art generation completed. | Timestamp: [2025-04-06 19:35:30,110]
+DEBUG: Placing generated art on the wall... | Timestamp: [2025-04-06 19:35:30,110]
+INFO: Cropped objects returned successfully. | Timestamp: [2025-04-06 19:35:30,136]
+INFO: Art placement on the wall completed. | Timestamp: [2025-04-06 19:35:30,136]
+INFO: Request finished in 3.350 seconds. Response sent to the client. | Timestamp: [2025-04-06 19:35:30,148]
+DEBUG: Receiving request... | Timestamp: [2025-04-06 19:36:16,437]
+INFO: Request validated successfully: image_url=https://t4.ftcdn.net/jpg/04/28/88/15/360_F_428881558_0wHybSwViGnVOTA40u0ALgXYjGNmTKAK.jpg, prompt=cat, tags=['string'], box=[0.0, 0.0, 1.0, 1.0], n=1 | Timestamp: [2025-04-06 19:36:16,437]
+DEBUG: Processing input data... | Timestamp: [2025-04-06 19:36:16,437]
+INFO: Wall image fetched successfully. | Timestamp: [2025-04-06 19:36:16,587]
+INFO: Defined box coordinates successfully. | Timestamp: [2025-04-06 19:36:16,587]
+INFO: Image generation parameters set: model=dall-e-3, prompt=The next provided prompt is a order written by a client who wants to paint art on their wall, only consider the art which must be painted and not the details about wall or anything else. very very important: Fill the entire artwork and do not create blank areas or borders around the art. Also use the following styles: string. The order text is: cat, size=1792x1024, quality=standard, n=1 | Timestamp: [2025-04-06 19:36:16,587]
+DEBUG: Segmenting the wall image... | Timestamp: [2025-04-06 19:36:16,588]
+INFO: Segmentation completed successfully. | Timestamp: [2025-04-06 19:36:18,278]
+INFO: Wall segmentation and art generation completed. | Timestamp: [2025-04-06 19:36:18,667]
+DEBUG: Placing generated art on the wall... | Timestamp: [2025-04-06 19:36:18,667]
+INFO: Cropped objects returned successfully. | Timestamp: [2025-04-06 19:36:18,741]
+INFO: Art placement on the wall completed. | Timestamp: [2025-04-06 19:36:18,741]
+INFO: Request finished in 2.338 seconds. Response sent to the client. | Timestamp: [2025-04-06 19:36:18,775]
+DEBUG: Receiving request... | Timestamp: [2025-04-06 19:37:16,810]
+INFO: Request validated successfully: image_url=https://img.freepik.com/premium-photo/brick-wall-with-red-blue-lights-background-floor-light_974206-12065.jpg, prompt=cat, tags=['string'], box=[0.0, 0.0, 1.0, 1.0], n=1 | Timestamp: [2025-04-06 19:37:16,810]
+DEBUG: Processing input data... | Timestamp: [2025-04-06 19:37:16,810]
+INFO: Wall image fetched successfully. | Timestamp: [2025-04-06 19:37:17,286]
+INFO: Defined box coordinates successfully. | Timestamp: [2025-04-06 19:37:17,286]
+INFO: Image generation parameters set: model=dall-e-3, prompt=The next provided prompt is a order written by a client who wants to paint art on their wall, only consider the art which must be painted and not the details about wall or anything else. very very important: Fill the entire artwork and do not create blank areas or borders around the art. Also use the following styles: string. The order text is: cat, size=1792x1024, quality=standard, n=1 | Timestamp: [2025-04-06 19:37:17,286]
+DEBUG: Segmenting the wall image... | Timestamp: [2025-04-06 19:37:17,286]
+INFO: Segmentation completed successfully. | Timestamp: [2025-04-06 19:37:18,827]
+INFO: Wall segmentation and art generation completed. | Timestamp: [2025-04-06 19:37:19,207]
+DEBUG: Placing generated art on the wall... | Timestamp: [2025-04-06 19:37:19,207]
+INFO: Cropped objects returned successfully. | Timestamp: [2025-04-06 19:37:19,248]
+INFO: Art placement on the wall completed. | Timestamp: [2025-04-06 19:37:19,248]
+INFO: Request finished in 2.460 seconds. Response sent to the client. | Timestamp: [2025-04-06 19:37:19,269]
+DEBUG: Receiving request... | Timestamp: [2025-04-06 19:38:07,970]
+INFO: Request validated successfully: image_url=https://img.freepik.com/premium-photo/brick-wall-with-red-blue-lights-background-floor-light_974206-12065.jpg, prompt=cat, tags=['string'], box=[0.0, 0.0, 1.0, 0.7], n=1 | Timestamp: [2025-04-06 19:38:07,970]
+DEBUG: Processing input data... | Timestamp: [2025-04-06 19:38:07,970]
+INFO: Wall image fetched successfully. | Timestamp: [2025-04-06 19:38:08,601]
+INFO: Defined box coordinates successfully. | Timestamp: [2025-04-06 19:38:08,601]
+INFO: Image generation parameters set: model=dall-e-3, prompt=The next provided prompt is a order written by a client who wants to paint art on their wall, only consider the art which must be painted and not the details about wall or anything else. very very important: Fill the entire artwork and do not create blank areas or borders around the art. Also use the following styles: string. The order text is: cat, size=1792x1024, quality=standard, n=1 | Timestamp: [2025-04-06 19:38:08,601]
+DEBUG: Segmenting the wall image... | Timestamp: [2025-04-06 19:38:08,601]
+INFO: Segmentation completed successfully. | Timestamp: [2025-04-06 19:38:10,090]
+INFO: Wall segmentation and art generation completed. | Timestamp: [2025-04-06 19:38:10,400]
+DEBUG: Placing generated art on the wall... | Timestamp: [2025-04-06 19:38:10,400]
+INFO: Cropped objects returned successfully. | Timestamp: [2025-04-06 19:38:10,460]
+INFO: Art placement on the wall completed. | Timestamp: [2025-04-06 19:38:10,460]
+INFO: Request finished in 2.511 seconds. Response sent to the client. | Timestamp: [2025-04-06 19:38:10,481]
+DEBUG: Receiving request... | Timestamp: [2025-04-06 19:38:24,091]
+INFO: Request validated successfully: image_url=https://img.freepik.com/premium-photo/brick-wall-with-red-blue-lights-background-floor-light_974206-12065.jpg, prompt=cat, tags=['string'], box=[0.0, 0.0, 1.0, 0.8], n=1 | Timestamp: [2025-04-06 19:38:24,091]
+DEBUG: Processing input data... | Timestamp: [2025-04-06 19:38:24,091]
+INFO: Wall image fetched successfully. | Timestamp: [2025-04-06 19:38:24,375]
+INFO: Defined box coordinates successfully. | Timestamp: [2025-04-06 19:38:24,375]
+INFO: Image generation parameters set: model=dall-e-3, prompt=The next provided prompt is a order written by a client who wants to paint art on their wall, only consider the art which must be painted and not the details about wall or anything else. very very important: Fill the entire artwork and do not create blank areas or borders around the art. Also use the following styles: string. The order text is: cat, size=1792x1024, quality=standard, n=1 | Timestamp: [2025-04-06 19:38:24,375]
+DEBUG: Segmenting the wall image... | Timestamp: [2025-04-06 19:38:24,375]
+INFO: Segmentation completed successfully. | Timestamp: [2025-04-06 19:38:26,036]
+INFO: Wall segmentation and art generation completed. | Timestamp: [2025-04-06 19:38:26,353]
+DEBUG: Placing generated art on the wall... | Timestamp: [2025-04-06 19:38:26,353]
+INFO: Cropped objects returned successfully. | Timestamp: [2025-04-06 19:38:26,388]
+INFO: Art placement on the wall completed. | Timestamp: [2025-04-06 19:38:26,388]
+INFO: Request finished in 2.317 seconds. Response sent to the client. | Timestamp: [2025-04-06 19:38:26,408]
+DEBUG: Receiving request... | Timestamp: [2025-04-06 19:38:29,449]
+INFO: Request validated successfully: image_url=https://img.freepik.com/premium-photo/brick-wall-with-red-blue-lights-background-floor-light_974206-12065.jpg, prompt=cat, tags=['string'], box=[0.0, 0.0, 1.0, 0.85], n=1 | Timestamp: [2025-04-06 19:38:29,449]
+DEBUG: Processing input data... | Timestamp: [2025-04-06 19:38:29,449]
+INFO: Wall image fetched successfully. | Timestamp: [2025-04-06 19:38:29,715]
+INFO: Defined box coordinates successfully. | Timestamp: [2025-04-06 19:38:29,715]
+INFO: Image generation parameters set: model=dall-e-3, prompt=The next provided prompt is a order written by a client who wants to paint art on their wall, only consider the art which must be painted and not the details about wall or anything else. very very important: Fill the entire artwork and do not create blank areas or borders around the art. Also use the following styles: string. The order text is: cat, size=1792x1024, quality=standard, n=1 | Timestamp: [2025-04-06 19:38:29,715]
+DEBUG: Segmenting the wall image... | Timestamp: [2025-04-06 19:38:29,715]
+INFO: Segmentation completed successfully. | Timestamp: [2025-04-06 19:38:31,218]
+INFO: Wall segmentation and art generation completed. | Timestamp: [2025-04-06 19:38:31,528]
+DEBUG: Placing generated art on the wall... | Timestamp: [2025-04-06 19:38:31,528]
+INFO: Cropped objects returned successfully. | Timestamp: [2025-04-06 19:38:31,566]
+INFO: Art placement on the wall completed. | Timestamp: [2025-04-06 19:38:31,566]
+INFO: Request finished in 2.139 seconds. Response sent to the client. | Timestamp: [2025-04-06 19:38:31,588]
+DEBUG: App is running on cpu... | Timestamp: [2025-04-11 03:18:17,875]
+INFO: START: MaskRCNN model loaded successfully. | Timestamp: [2025-04-11 03:18:20,387]
+DEBUG: Receiving request... | Timestamp: [2025-04-11 03:22:39,093]
+INFO: Request validated successfully: image_url=https://sika.scene7.com/is/image/sika/th-Loft%20wall-lanko:16-9?wid=1920&hei=1080&fit=crop%2C1, prompt=cat, tags=['string'], box=[0.1, 0.2, 0.8, 0.8], n=1 | Timestamp: [2025-04-11 03:22:39,093]
+DEBUG: Processing input data... | Timestamp: [2025-04-11 03:22:39,093]
+INFO: Wall image fetched successfully. | Timestamp: [2025-04-11 03:22:39,901]
+INFO: Defined box coordinates successfully. | Timestamp: [2025-04-11 03:22:39,901]
+INFO: Image generation parameters set: model=dall-e-3, prompt=The next provided prompt is an order written by a client who wants to paint art on their wall, only consider the art which must be painted and not the details about wall or anything else. very very important: Fill the entire artwork and do not create blank areas or borders around the art. Also use the following styles: string. The order text is: cat, size=1792x1024, quality=standard, n=1 | Timestamp: [2025-04-11 03:22:39,901]
+DEBUG: Segmenting the wall image... | Timestamp: [2025-04-11 03:22:39,901]
+INFO: Segmentation completed successfully. | Timestamp: [2025-04-11 03:22:43,673]
+INFO: Wall segmentation and art generation completed. | Timestamp: [2025-04-11 03:22:44,097]
+DEBUG: Placing generated art on the wall... | Timestamp: [2025-04-11 03:22:44,098]
+INFO: Cropped objects returned successfully. | Timestamp: [2025-04-11 03:22:44,283]
+INFO: Art placement on the wall completed. | Timestamp: [2025-04-11 03:22:44,284]
+INFO: Request finished in 5.441 seconds. Response sent to the client. | Timestamp: [2025-04-11 03:22:44,534]
+DEBUG: App is running on cpu... | Timestamp: [2025-04-11 03:24:13,529]
+INFO: START: MaskRCNN model loaded successfully. | Timestamp: [2025-04-11 03:24:14,057]
+DEBUG: Receiving request... | Timestamp: [2025-04-11 03:24:17,607]
+INFO: Request validated successfully: image_url=https://sika.scene7.com/is/image/sika/th-Loft%20wall-lanko:16-9?wid=1920&hei=1080&fit=crop%2C1, prompt=cat, tags=['string'], box=[0.1, 0.2, 0.8, 0.8], n=1 | Timestamp: [2025-04-11 03:24:17,607]
+DEBUG: Processing input data... | Timestamp: [2025-04-11 03:24:17,607]
+INFO: Wall image fetched successfully. | Timestamp: [2025-04-11 03:24:17,758]
+INFO: Defined box coordinates successfully. | Timestamp: [2025-04-11 03:24:17,758]
+INFO: Image generation parameters set: model=dall-e-3, prompt=The next provided prompt is an order written by a client who wants to paint art on their wall, only consider the art which must be painted and not the details about wall or anything else. very very important: Fill the entire artwork and do not create blank areas or borders around the art. Also use the following styles: string. The order text is: cat, size=1792x1024, quality=standard, n=1 | Timestamp: [2025-04-11 03:24:17,758]
+DEBUG: Segmenting the wall image... | Timestamp: [2025-04-11 03:24:17,758]
+INFO: Segmentation completed successfully. | Timestamp: [2025-04-11 03:24:19,781]
+INFO: Wall segmentation and art generation completed. | Timestamp: [2025-04-11 03:24:20,182]
+DEBUG: Placing generated art on the wall... | Timestamp: [2025-04-11 03:24:20,182]
+INFO: Cropped objects returned successfully. | Timestamp: [2025-04-11 03:24:20,372]
+INFO: Art placement on the wall completed. | Timestamp: [2025-04-11 03:24:20,372]
+INFO: Request finished in 3.030 seconds. Response sent to the client. | Timestamp: [2025-04-11 03:24:20,637]
+DEBUG: App is running on cpu... | Timestamp: [2025-04-11 03:28:06,747]
+INFO: START: MaskRCNN model loaded successfully. | Timestamp: [2025-04-11 03:28:07,272]
+DEBUG: Receiving request... | Timestamp: [2025-04-11 03:28:13,795]
+INFO: Request validated successfully: image_url=https://sika.scene7.com/is/image/sika/th-Loft%20wall-lanko:16-9?wid=1920&hei=1080&fit=crop%2C1, prompt=cat, tags=['string'], box=[0.1, 0.2, 0.8, 0.8], n=1 | Timestamp: [2025-04-11 03:28:13,795]
+DEBUG: Processing input data... | Timestamp: [2025-04-11 03:28:13,795]
+INFO: Wall image fetched successfully. | Timestamp: [2025-04-11 03:28:13,924]
+INFO: Defined box coordinates successfully. | Timestamp: [2025-04-11 03:28:13,924]
+INFO: Image generation parameters set: model=dall-e-3, prompt=The next provided prompt is an order written by a client who wants to paint art on their wall, only consider the art which must be painted and not the details about wall or anything else. very very important: Fill the entire artwork and do not create blank areas or borders around the art. Also use the following styles: string. The order text is: cat, size=1792x1024, quality=standard, n=1 | Timestamp: [2025-04-11 03:28:13,924]
+DEBUG: Segmenting the wall image... | Timestamp: [2025-04-11 03:28:13,924]
+INFO: Segmentation completed successfully. | Timestamp: [2025-04-11 03:28:15,969]
+INFO: Wall segmentation and art generation completed. | Timestamp: [2025-04-11 03:28:16,366]
+DEBUG: Placing generated art on the wall... | Timestamp: [2025-04-11 03:28:16,366]
+INFO: Cropped objects returned successfully. | Timestamp: [2025-04-11 03:28:16,556]
+INFO: Art placement on the wall completed. | Timestamp: [2025-04-11 03:28:16,556]
+INFO: Request finished in 3.021 seconds. Response sent to the client. | Timestamp: [2025-04-11 03:28:16,816]
+DEBUG: App is running on cpu... | Timestamp: [2025-04-11 03:29:14,062]
+INFO: START: MaskRCNN model loaded successfully. | Timestamp: [2025-04-11 03:29:14,598]
+DEBUG: App is running on cpu... | Timestamp: [2025-04-11 03:31:43,373]
+INFO: START: MaskRCNN model loaded successfully. | Timestamp: [2025-04-11 03:31:43,920]
+DEBUG: App is running on cpu... | Timestamp: [2025-04-11 03:32:05,615]
+INFO: START: MaskRCNN model loaded successfully. | Timestamp: [2025-04-11 03:32:06,151]
+DEBUG: App is running on cpu... | Timestamp: [2025-04-11 03:32:35,064]
+INFO: START: MaskRCNN model loaded successfully. | Timestamp: [2025-04-11 03:32:35,611]
+DEBUG: App is running on cpu... | Timestamp: [2025-04-11 03:32:45,258]
+INFO: START: MaskRCNN model loaded successfully. | Timestamp: [2025-04-11 03:32:45,790]
+DEBUG: App is running on cpu... | Timestamp: [2025-04-11 03:33:44,501]
+INFO: START: MaskRCNN model loaded successfully. | Timestamp: [2025-04-11 03:33:45,025]
+DEBUG: App is running on cpu... | Timestamp: [2025-04-11 03:34:22,714]
+INFO: START: MaskRCNN model loaded successfully. | Timestamp: [2025-04-11 03:34:23,243]
+DEBUG: App is running on cpu... | Timestamp: [2025-04-11 03:34:33,358]
+INFO: START: MaskRCNN model loaded successfully. | Timestamp: [2025-04-11 03:34:33,882]
+DEBUG: App is running on cpu... | Timestamp: [2025-04-11 03:35:50,789]
+INFO: START: MaskRCNN model loaded successfully. | Timestamp: [2025-04-11 03:35:51,332]
+DEBUG: Receiving request... | Timestamp: [2025-04-11 03:36:00,078]
+INFO: Request validated successfully: image_url=https://sika.scene7.com/is/image/sika/th-Loft%20wall-lanko:16-9?wid=1920&hei=1080&fit=crop%2C1, prompt=cat, tags=['string'], box=[0.1, 0.2, 0.8, 0.8], n=1 | Timestamp: [2025-04-11 03:36:00,079]
+DEBUG: Processing input data... | Timestamp: [2025-04-11 03:36:00,079]
+INFO: Wall image fetched successfully. | Timestamp: [2025-04-11 03:36:00,220]
+INFO: Defined box coordinates successfully. | Timestamp: [2025-04-11 03:36:00,220]
+INFO: Image generation parameters set: model=dall-e-3, prompt=The next provided prompt is an order written by a client who wants to paint art on their wall, only consider the art which must be painted and not the details about wall or anything else. very very important: Fill the entire artwork and do not create blank areas or borders around the art. Also use the following styles: string. The order text is: cat, size=1792x1024, quality=standard, n=1 | Timestamp: [2025-04-11 03:36:00,220]
+DEBUG: Segmenting the wall image... | Timestamp: [2025-04-11 03:36:00,221]
+INFO: Segmentation completed successfully. | Timestamp: [2025-04-11 03:36:02,228]
+INFO: Wall segmentation and art generation completed. | Timestamp: [2025-04-11 03:36:02,616]
+DEBUG: Placing generated art on the wall... | Timestamp: [2025-04-11 03:36:02,616]
+INFO: Cropped objects returned successfully. | Timestamp: [2025-04-11 03:36:02,805]
+INFO: Art placement on the wall completed. | Timestamp: [2025-04-11 03:36:02,805]
+INFO: Request finished in 2.995 seconds. Response sent to the client. | Timestamp: [2025-04-11 03:36:03,073]
+DEBUG: App is running on cpu... | Timestamp: [2025-04-11 03:37:03,698]
+INFO: START: MaskRCNN model loaded successfully. | Timestamp: [2025-04-11 03:37:04,268]
+DEBUG: Receiving request... | Timestamp: [2025-04-11 03:37:11,790]
+INFO: Request validated successfully: image_url=https://sika.scene7.com/is/image/sika/th-Loft%20wall-lanko:16-9?wid=1920&hei=1080&fit=crop%2C1, prompt=cat, tags=['string'], box=[0.1, 0.2, 0.8, 0.8], n=1 | Timestamp: [2025-04-11 03:37:11,790]
+DEBUG: Processing input data... | Timestamp: [2025-04-11 03:37:11,790]
+INFO: Wall image fetched successfully. | Timestamp: [2025-04-11 03:37:11,921]
+INFO: Defined box coordinates successfully. | Timestamp: [2025-04-11 03:37:11,921]
+INFO: Image generation parameters set: model=dall-e-3, prompt=The next provided prompt is an order written by a client who wants to paint art on their wall, only consider the art which must be painted and not the details about wall or anything else. very very important: Fill the entire artwork and do not create blank areas or borders around the art. Also use the following styles: string. The order text is: cat, size=1792x1024, quality=standard, n=1 | Timestamp: [2025-04-11 03:37:11,921]
+DEBUG: Segmenting the wall image... | Timestamp: [2025-04-11 03:37:11,921]
+INFO: Segmentation completed successfully. | Timestamp: [2025-04-11 03:37:13,952]
+INFO: Wall segmentation and art generation completed. | Timestamp: [2025-04-11 03:37:14,335]
+DEBUG: Placing generated art on the wall... | Timestamp: [2025-04-11 03:37:14,335]
+INFO: Cropped objects returned successfully. | Timestamp: [2025-04-11 03:37:14,556]
+INFO: Art placement on the wall completed. | Timestamp: [2025-04-11 03:37:14,556]
+INFO: Request finished in 3.046 seconds. Response sent to the client. | Timestamp: [2025-04-11 03:37:14,836]
+DEBUG: App is running on cpu... | Timestamp: [2025-04-11 03:38:06,844]
+INFO: START: MaskRCNN model loaded successfully. | Timestamp: [2025-04-11 03:38:07,386]
+DEBUG: App is running on cpu... | Timestamp: [2025-04-11 03:45:16,223]
+INFO: START: MaskRCNN model loaded successfully. | Timestamp: [2025-04-11 03:45:16,752]
+DEBUG: App is running on cpu... | Timestamp: [2025-04-11 03:45:34,709]
+INFO: START: MaskRCNN model loaded successfully. | Timestamp: [2025-04-11 03:45:35,237]
+DEBUG: App is running on cpu... | Timestamp: [2025-04-11 03:46:09,938]
+INFO: START: MaskRCNN model loaded successfully. | Timestamp: [2025-04-11 03:46:10,549]
+DEBUG: Receiving request... | Timestamp: [2025-04-11 03:46:10,588]
+INFO: Request validated successfully: image_url=https://sika.scene7.com/is/image/sika/th-Loft%20wall-lanko:16-9?wid=1920&hei=1080&fit=crop%2C1, prompt=cat, tags=['string'], box=[0.1, 0.2, 0.8, 0.8], n=1 | Timestamp: [2025-04-11 03:46:10,588]
+DEBUG: Processing input data... | Timestamp: [2025-04-11 03:46:10,588]
+INFO: Wall image fetched successfully. | Timestamp: [2025-04-11 03:46:10,737]
+INFO: Defined box coordinates successfully. | Timestamp: [2025-04-11 03:46:10,737]
+INFO: Image generation parameters set: model=dall-e-3, prompt=The next provided prompt is an order written by a client who wants to paint art on their wall, only consider the art which must be painted and not the details about wall or anything else. very very important: Fill the entire artwork and do not create blank areas or borders around the art. Also use the following styles: string. The order text is: cat, size=1792x1024, quality=standard, n=1 | Timestamp: [2025-04-11 03:46:10,737]
+DEBUG: Segmenting the wall image... | Timestamp: [2025-04-11 03:46:10,737]
+INFO: Segmentation completed successfully. | Timestamp: [2025-04-11 03:46:12,694]
+INFO: Wall segmentation and art generation completed. | Timestamp: [2025-04-11 03:46:13,079]
+DEBUG: Placing generated art on the wall... | Timestamp: [2025-04-11 03:46:13,079]
+INFO: Cropped objects returned successfully. | Timestamp: [2025-04-11 03:46:13,264]
+INFO: Art placement on the wall completed. | Timestamp: [2025-04-11 03:46:13,264]
+INFO: Request finished in 2.934 seconds. Response sent to the client. | Timestamp: [2025-04-11 03:46:13,522]
+ERROR: Internal server error:
+Traceback (most recent call last):
+  File "D:\AI\projects\ArtOa\ArtOa-AI\pipeline\app.py", line 178, in main
+    my_image = Image.open(BytesIO(images[0]))
+                          ^^^^^^^^^^^^^^^^^^
+TypeError: a bytes-like object is required, not 'str'
+ | Timestamp: [2025-04-11 03:46:13,523]
+DEBUG: App is running on cpu... | Timestamp: [2025-04-11 03:48:24,910]
+INFO: START: MaskRCNN model loaded successfully. | Timestamp: [2025-04-11 03:48:25,445]
+DEBUG: Receiving request... | Timestamp: [2025-04-11 03:48:31,322]
+INFO: Request validated successfully: image_url=https://sika.scene7.com/is/image/sika/th-Loft%20wall-lanko:16-9?wid=1920&hei=1080&fit=crop%2C1, prompt=cat, tags=['string'], box=[0.1, 0.2, 0.8, 0.8], n=1 | Timestamp: [2025-04-11 03:48:31,322]
+DEBUG: Processing input data... | Timestamp: [2025-04-11 03:48:31,323]
+INFO: Wall image fetched successfully. | Timestamp: [2025-04-11 03:48:31,436]
+INFO: Defined box coordinates successfully. | Timestamp: [2025-04-11 03:48:31,436]
+INFO: Image generation parameters set: model=dall-e-3, prompt=The next provided prompt is an order written by a client who wants to paint art on their wall, only consider the art which must be painted and not the details about wall or anything else. very very important: Fill the entire artwork and do not create blank areas or borders around the art. Also use the following styles: string. The order text is: cat, size=1792x1024, quality=standard, n=1 | Timestamp: [2025-04-11 03:48:31,436]
+DEBUG: Segmenting the wall image... | Timestamp: [2025-04-11 03:48:31,436]
+INFO: Segmentation completed successfully. | Timestamp: [2025-04-11 03:48:33,480]
+INFO: Wall segmentation and art generation completed. | Timestamp: [2025-04-11 03:48:33,829]
+DEBUG: Placing generated art on the wall... | Timestamp: [2025-04-11 03:48:33,829]
+INFO: Cropped objects returned successfully. | Timestamp: [2025-04-11 03:48:34,049]
+INFO: Art placement on the wall completed. | Timestamp: [2025-04-11 03:48:34,049]
+INFO: Request finished in 2.996 seconds. Response sent to the client. | Timestamp: [2025-04-11 03:48:34,318]
+DEBUG: App is running on cpu... | Timestamp: [2025-04-11 03:49:54,226]
+INFO: START: MaskRCNN model loaded successfully. | Timestamp: [2025-04-11 03:49:54,762]
+DEBUG: App is running on cpu... | Timestamp: [2025-04-11 03:50:03,173]
+INFO: START: MaskRCNN model loaded successfully. | Timestamp: [2025-04-11 03:50:03,730]
+DEBUG: Receiving request... | Timestamp: [2025-04-11 03:50:03,770]
+INFO: Request validated successfully: image_url=https://sika.scene7.com/is/image/sika/th-Loft%20wall-lanko:16-9?wid=1920&hei=1080&fit=crop%2C1, prompt=cat, tags=['string'], box=[0.1, 0.2, 0.8, 0.8], n=1 | Timestamp: [2025-04-11 03:50:03,770]
+DEBUG: Processing input data... | Timestamp: [2025-04-11 03:50:03,770]
+INFO: Wall image fetched successfully. | Timestamp: [2025-04-11 03:50:03,887]
+INFO: Defined box coordinates successfully. | Timestamp: [2025-04-11 03:50:03,887]
+INFO: Image generation parameters set: model=dall-e-3, prompt=The next provided prompt is an order written by a client who wants to paint art on their wall, only consider the art which must be painted and not the details about wall or anything else. very very important: Fill the entire artwork and do not create blank areas or borders around the art. Also use the following styles: string. The order text is: cat, size=1792x1024, quality=standard, n=1 | Timestamp: [2025-04-11 03:50:03,887]
+DEBUG: Segmenting the wall image... | Timestamp: [2025-04-11 03:50:03,887]
+INFO: Segmentation completed successfully. | Timestamp: [2025-04-11 03:50:05,871]
+INFO: Wall segmentation and art generation completed. | Timestamp: [2025-04-11 03:50:06,247]
+DEBUG: Placing generated art on the wall... | Timestamp: [2025-04-11 03:50:06,247]
+INFO: Cropped objects returned successfully. | Timestamp: [2025-04-11 03:50:06,445]
+INFO: Art placement on the wall completed. | Timestamp: [2025-04-11 03:50:06,445]
+INFO: Request finished in 2.932 seconds. Response sent to the client. | Timestamp: [2025-04-11 03:50:06,702]
+ERROR: Internal server error:
+Traceback (most recent call last):
+  File "D:\AI\projects\ArtOa\ArtOa-AI\pipeline\app.py", line 180, in main
+    return JSONResponse(content={"images": images})
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI\projects\ArtOa\ArtOa-AI\venv\Lib\site-packages\starlette\responses.py", line 181, in __init__
+    super().__init__(content, status_code, headers, media_type, background)
+  File "D:\AI\projects\ArtOa\ArtOa-AI\venv\Lib\site-packages\starlette\responses.py", line 44, in __init__
+    self.body = self.render(content)
+                ^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI\projects\ArtOa\ArtOa-AI\venv\Lib\site-packages\starlette\responses.py", line 184, in render
+    return json.dumps(
+           ^^^^^^^^^^^
+  File "C:\Users\alili\AppData\Local\Programs\Python\Python311\Lib\json\__init__.py", line 238, in dumps
+    **kw).encode(obj)
+          ^^^^^^^^^^^
+  File "C:\Users\alili\AppData\Local\Programs\Python\Python311\Lib\json\encoder.py", line 200, in encode
+    chunks = self.iterencode(o, _one_shot=True)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\alili\AppData\Local\Programs\Python\Python311\Lib\json\encoder.py", line 258, in iterencode
+    return _iterencode(o, 0)
+           ^^^^^^^^^^^^^^^^^
+  File "C:\Users\alili\AppData\Local\Programs\Python\Python311\Lib\json\encoder.py", line 180, in default
+    raise TypeError(f'Object of type {o.__class__.__name__} '
+TypeError: Object of type bytes is not JSON serializable
+ | Timestamp: [2025-04-11 03:50:07,041]
+DEBUG: App is running on cpu... | Timestamp: [2025-04-11 03:50:57,878]
+INFO: START: MaskRCNN model loaded successfully. | Timestamp: [2025-04-11 03:50:58,408]
+DEBUG: App is running on cpu... | Timestamp: [2025-04-11 03:51:21,468]
+INFO: START: MaskRCNN model loaded successfully. | Timestamp: [2025-04-11 03:51:21,995]
+DEBUG: App is running on cuda... | Timestamp: [2025-04-17 14:39:31,038]
+INFO: START: MaskRCNN model loaded successfully. | Timestamp: [2025-04-17 14:39:35,736]
+DEBUG: Receiving request... | Timestamp: [2025-04-17 14:44:02,701]
+ERROR: HTTP server error: 400: Invalid number of box coordinates in the request. | Timestamp: [2025-04-17 14:44:02,701]
+DEBUG: Receiving request... | Timestamp: [2025-04-17 14:44:13,457]
+INFO: Request validated successfully: image_url=https://www.stockvault.net/data/2024/01/22/303594/preview16.jpg, prompt=cat, tags=['classic'], box=[0.0, 0.35, 1.0, 0.8], n=1 | Timestamp: [2025-04-17 14:44:13,457]
+DEBUG: Processing input data... | Timestamp: [2025-04-17 14:44:13,458]
+INFO: Wall image fetched successfully. | Timestamp: [2025-04-17 14:44:13,762]
+INFO: Defined box coordinates successfully. | Timestamp: [2025-04-17 14:44:13,762]
+INFO: Image generation parameters set: model=dall-e-3, prompt=The next provided prompt is an order written by a client who wants to paint art on their wall, only consider the art which must be painted and not the details about wall or anything else. very very important: Fill the entire artwork and do not create blank areas or borders around the art. Also use the following styles: classic. The order text is: cat, size=1792x1024, quality=standard, n=1 | Timestamp: [2025-04-17 14:44:13,762]
+DEBUG: Segmenting the wall image... | Timestamp: [2025-04-17 14:44:13,762]
+INFO: Segmentation completed successfully. | Timestamp: [2025-04-17 14:44:21,709]
+DEBUG: Requesting OpenAI to generate art images... | Timestamp: [2025-04-17 14:44:21,709]
+ERROR: Internal server error:
+Traceback (most recent call last):
+  File "D:\AI\projects\ArtOa\ArtOa-AI\pipeline\app.py", line 122, in main
+    masks, generated_images = await asyncio.gather(
+                              ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI\projects\ArtOa\ArtOa-AI\pipeline\app.py", line 261, in generate_images
+    return await asyncio.gather(*tasks)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI\projects\ArtOa\ArtOa-AI\pipeline\utils.py", line 32, in generate_and_fetch
+    prompt, custom_image = await generator.generate_image_with_revised_prompt()
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI\projects\ArtOa\ArtOa-AI\pipeline\generation.py", line 44, in generate_image_with_revised_prompt
+    response = await self.client.images.generate(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI\projects\ArtOa\ArtOa-AI\venv\Lib\site-packages\openai\resources\images.py", line 521, in generate
+    return await self._post(
+           ^^^^^^^^^^^^^^^^^
+  File "D:\AI\projects\ArtOa\ArtOa-AI\venv\Lib\site-packages\openai\_base_client.py", line 1843, in post
+    return await self.request(cast_to, opts, stream=stream, stream_cls=stream_cls)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI\projects\ArtOa\ArtOa-AI\venv\Lib\site-packages\openai\_base_client.py", line 1537, in request
+    return await self._request(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI\projects\ArtOa\ArtOa-AI\venv\Lib\site-packages\openai\_base_client.py", line 1638, in _request
+    raise self._make_status_error_from_response(err.response) from None
+openai.BadRequestError: Error code: 400 - {'error': {'message': 'Error in request. Please check your input.', 'type': 'invalid_request_error', 'param': None, 'code': None}}
+ | Timestamp: [2025-04-17 14:44:23,630]
+DEBUG: App is running on cuda... | Timestamp: [2025-04-17 14:46:27,799]
+INFO: START: MaskRCNN model loaded successfully. | Timestamp: [2025-04-17 14:46:28,444]
+DEBUG: Receiving request... | Timestamp: [2025-04-17 14:46:31,380]
+INFO: Request validated successfully: image_url=https://www.stockvault.net/data/2024/01/22/303594/preview16.jpg, prompt=cat, tags=['classic'], box=[0.0, 0.35, 1.0, 0.8], n=1 | Timestamp: [2025-04-17 14:46:31,380]
+DEBUG: Processing input data... | Timestamp: [2025-04-17 14:46:31,380]
+INFO: Wall image fetched successfully. | Timestamp: [2025-04-17 14:46:31,538]
+INFO: Defined box coordinates successfully. | Timestamp: [2025-04-17 14:46:31,538]
+INFO: Image generation parameters set: model=dall-e-3, prompt=The next provided prompt is an order written by a client who wants to paint art on their wall, only consider the art which must be painted and not the details about wall or anything else. very very important: Fill the entire artwork and do not create blank areas or borders around the art. Also use the following styles: classic. The order text is: cat, size=1792x1024, quality=standard, n=1 | Timestamp: [2025-04-17 14:46:31,538]
+DEBUG: Segmenting the wall image... | Timestamp: [2025-04-17 14:46:31,538]
+INFO: Segmentation completed successfully. | Timestamp: [2025-04-17 14:46:32,406]
+DEBUG: Requesting OpenAI to generate art images... | Timestamp: [2025-04-17 14:46:32,406]
+ERROR: Internal server error:
+Traceback (most recent call last):
+  File "D:\AI\projects\ArtOa\ArtOa-AI\pipeline\app.py", line 122, in main
+    masks, generated_images = await asyncio.gather(
+                              ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI\projects\ArtOa\ArtOa-AI\pipeline\app.py", line 261, in generate_images
+    return await asyncio.gather(*tasks)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI\projects\ArtOa\ArtOa-AI\pipeline\utils.py", line 32, in generate_and_fetch
+    prompt, custom_image = await generator.generate_image_with_revised_prompt()
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI\projects\ArtOa\ArtOa-AI\pipeline\generation.py", line 44, in generate_image_with_revised_prompt
+    response = await self.client.images.generate(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI\projects\ArtOa\ArtOa-AI\venv\Lib\site-packages\openai\resources\images.py", line 521, in generate
+    return await self._post(
+           ^^^^^^^^^^^^^^^^^
+  File "D:\AI\projects\ArtOa\ArtOa-AI\venv\Lib\site-packages\openai\_base_client.py", line 1843, in post
+    return await self.request(cast_to, opts, stream=stream, stream_cls=stream_cls)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI\projects\ArtOa\ArtOa-AI\venv\Lib\site-packages\openai\_base_client.py", line 1537, in request
+    return await self._request(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI\projects\ArtOa\ArtOa-AI\venv\Lib\site-packages\openai\_base_client.py", line 1638, in _request
+    raise self._make_status_error_from_response(err.response) from None
+openai.BadRequestError: Error code: 400 - {'error': {'message': 'Error in request. Please check your input.', 'type': 'invalid_request_error', 'param': None, 'code': None}}
+ | Timestamp: [2025-04-17 14:46:33,508]
+DEBUG: App is running on cuda... | Timestamp: [2025-04-17 14:52:03,415]
+INFO: START: MaskRCNN model loaded successfully. | Timestamp: [2025-04-17 14:52:04,071]
+DEBUG: Receiving request... | Timestamp: [2025-04-17 14:52:10,002]
+INFO: Request validated successfully: image_url=https://www.stockvault.net/data/2024/01/22/303594/preview16.jpg, prompt=cat, tags=['classic'], box=[0.0, 0.35, 1.0, 0.8], n=1 | Timestamp: [2025-04-17 14:52:10,003]
+DEBUG: Processing input data... | Timestamp: [2025-04-17 14:52:10,003]
+INFO: Wall image fetched successfully. | Timestamp: [2025-04-17 14:52:10,169]
+INFO: Defined box coordinates successfully. | Timestamp: [2025-04-17 14:52:10,169]
+INFO: Image generation parameters set: model=dall-e-3, prompt=The next provided prompt is an order written by a client who wants to paint art on their wall, only consider the art which must be painted and not the details about wall or anything else. very very important: Fill the entire artwork and do not create blank areas or borders around the art. Also use the following styles: classic. The order text is: cat, size=1792x1024, quality=standard, n=1 | Timestamp: [2025-04-17 14:52:10,213]
+DEBUG: Segmenting the wall image... | Timestamp: [2025-04-17 14:52:10,213]
+INFO: Segmentation completed successfully. | Timestamp: [2025-04-17 14:52:11,077]
+DEBUG: Requesting OpenAI to generate art images... | Timestamp: [2025-04-17 14:52:11,077]
+ERROR: Internal server error:
+Traceback (most recent call last):
+  File "D:\AI\projects\ArtOa\ArtOa-AI\pipeline\app.py", line 122, in main
+    masks, generated_images = await asyncio.gather(
+                              ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI\projects\ArtOa\ArtOa-AI\pipeline\app.py", line 261, in generate_images
+    return await asyncio.gather(*tasks)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI\projects\ArtOa\ArtOa-AI\pipeline\utils.py", line 32, in generate_and_fetch
+    prompt, custom_image = await generator.generate_image_with_revised_prompt()
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI\projects\ArtOa\ArtOa-AI\pipeline\generation.py", line 44, in generate_image_with_revised_prompt
+    response = await self.client.images.generate(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI\projects\ArtOa\ArtOa-AI\venv\Lib\site-packages\openai\resources\images.py", line 521, in generate
+    return await self._post(
+           ^^^^^^^^^^^^^^^^^
+  File "D:\AI\projects\ArtOa\ArtOa-AI\venv\Lib\site-packages\openai\_base_client.py", line 1843, in post
+    return await self.request(cast_to, opts, stream=stream, stream_cls=stream_cls)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI\projects\ArtOa\ArtOa-AI\venv\Lib\site-packages\openai\_base_client.py", line 1537, in request
+    return await self._request(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI\projects\ArtOa\ArtOa-AI\venv\Lib\site-packages\openai\_base_client.py", line 1638, in _request
+    raise self._make_status_error_from_response(err.response) from None
+openai.BadRequestError: Error code: 400 - {'error': {'message': 'Error in request. Please check your input.', 'type': 'invalid_request_error', 'param': None, 'code': None}}
+ | Timestamp: [2025-04-17 14:52:12,126]
+DEBUG: Receiving request... | Timestamp: [2025-04-17 14:52:40,378]
+INFO: Request validated successfully: image_url=https://www.stockvault.net/data/2024/01/22/303594/preview16.jpg, prompt=cat, tags=['classic'], box=[0.0, 0.3, 1.0, 0.8], n=1 | Timestamp: [2025-04-17 14:52:40,378]
+DEBUG: Processing input data... | Timestamp: [2025-04-17 14:52:40,378]
+INFO: Wall image fetched successfully. | Timestamp: [2025-04-17 14:52:40,533]
+INFO: Defined box coordinates successfully. | Timestamp: [2025-04-17 14:52:40,533]
+INFO: Image generation parameters set: model=dall-e-3, prompt=The next provided prompt is an order written by a client who wants to paint art on their wall, only consider the art which must be painted and not the details about wall or anything else. very very important: Fill the entire artwork and do not create blank areas or borders around the art. Also use the following styles: classic. The order text is: cat, size=1792x1024, quality=standard, n=1 | Timestamp: [2025-04-17 14:52:40,543]
+DEBUG: Segmenting the wall image... | Timestamp: [2025-04-17 14:52:40,543]
+INFO: Segmentation completed successfully. | Timestamp: [2025-04-17 14:52:41,113]
+DEBUG: Requesting OpenAI to generate art images... | Timestamp: [2025-04-17 14:52:41,113]
+ERROR: Internal server error:
+Traceback (most recent call last):
+  File "D:\AI\projects\ArtOa\ArtOa-AI\pipeline\app.py", line 122, in main
+    masks, generated_images = await asyncio.gather(
+                              ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI\projects\ArtOa\ArtOa-AI\pipeline\app.py", line 261, in generate_images
+    return await asyncio.gather(*tasks)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI\projects\ArtOa\ArtOa-AI\pipeline\utils.py", line 32, in generate_and_fetch
+    prompt, custom_image = await generator.generate_image_with_revised_prompt()
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI\projects\ArtOa\ArtOa-AI\pipeline\generation.py", line 44, in generate_image_with_revised_prompt
+    response = await self.client.images.generate(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI\projects\ArtOa\ArtOa-AI\venv\Lib\site-packages\openai\resources\images.py", line 521, in generate
+    return await self._post(
+           ^^^^^^^^^^^^^^^^^
+  File "D:\AI\projects\ArtOa\ArtOa-AI\venv\Lib\site-packages\openai\_base_client.py", line 1843, in post
+    return await self.request(cast_to, opts, stream=stream, stream_cls=stream_cls)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI\projects\ArtOa\ArtOa-AI\venv\Lib\site-packages\openai\_base_client.py", line 1537, in request
+    return await self._request(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI\projects\ArtOa\ArtOa-AI\venv\Lib\site-packages\openai\_base_client.py", line 1638, in _request
+    raise self._make_status_error_from_response(err.response) from None
+openai.BadRequestError: Error code: 400 - {'error': {'message': 'Error in request. Please check your input.', 'type': 'invalid_request_error', 'param': None, 'code': None}}
+ | Timestamp: [2025-04-17 14:52:41,971]
+DEBUG: App is running on cuda... | Timestamp: [2025-04-17 14:59:11,137]
+INFO: START: MaskRCNN model loaded successfully. | Timestamp: [2025-04-17 14:59:11,804]
+DEBUG: App is running on cuda... | Timestamp: [2025-04-17 14:59:19,962]
+INFO: START: MaskRCNN model loaded successfully. | Timestamp: [2025-04-17 14:59:20,659]
+DEBUG: Receiving request... | Timestamp: [2025-04-17 14:59:20,667]
+INFO: Request validated successfully: image_url=https://www.stockvault.net/data/2024/01/22/303594/preview16.jpg, prompt=cat, tags=['classic'], box=[0.0, 0.3, 1.0, 0.8], n=1 | Timestamp: [2025-04-17 14:59:20,667]
+DEBUG: Processing input data... | Timestamp: [2025-04-17 14:59:20,667]
+INFO: Wall image fetched successfully. | Timestamp: [2025-04-17 14:59:20,833]
+INFO: Defined box coordinates successfully. | Timestamp: [2025-04-17 14:59:20,834]
+INFO: Image generation parameters set: model=dall-e-3, prompt=The next provided prompt is an order written by a client who wants to paint art on their wall, only consider the art which must be painted and not the details about wall or anything else. very very important: Fill the entire artwork and do not create blank areas or borders around the art. Also use the following styles: classic. The order text is: cat, size=1792x1024, quality=standard, n=1 | Timestamp: [2025-04-17 14:59:20,834]
+DEBUG: Segmenting the wall image... | Timestamp: [2025-04-17 14:59:20,834]
+INFO: Segmentation completed successfully. | Timestamp: [2025-04-17 14:59:21,691]
+DEBUG: Requesting OpenAI to generate art images... | Timestamp: [2025-04-17 14:59:21,691]
+ERROR: Internal server error:
+Traceback (most recent call last):
+  File "D:\AI\projects\ArtOa\ArtOa-AI\pipeline\app.py", line 119, in main
+    masks, generated_images = await asyncio.gather(
+                              ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI\projects\ArtOa\ArtOa-AI\pipeline\app.py", line 258, in generate_images
+    return await asyncio.gather(*tasks)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI\projects\ArtOa\ArtOa-AI\pipeline\utils.py", line 32, in generate_and_fetch
+    prompt, custom_image = await generator.generate_image_with_revised_prompt()
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI\projects\ArtOa\ArtOa-AI\pipeline\generation.py", line 54, in generate_image_with_revised_prompt
+    response = await client.images.generate(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI\projects\ArtOa\ArtOa-AI\venv\Lib\site-packages\openai\resources\images.py", line 521, in generate
+    return await self._post(
+           ^^^^^^^^^^^^^^^^^
+  File "D:\AI\projects\ArtOa\ArtOa-AI\venv\Lib\site-packages\openai\_base_client.py", line 1843, in post
+    return await self.request(cast_to, opts, stream=stream, stream_cls=stream_cls)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI\projects\ArtOa\ArtOa-AI\venv\Lib\site-packages\openai\_base_client.py", line 1537, in request
+    return await self._request(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI\projects\ArtOa\ArtOa-AI\venv\Lib\site-packages\openai\_base_client.py", line 1638, in _request
+    raise self._make_status_error_from_response(err.response) from None
+openai.BadRequestError: Error code: 400 - {'error': {'message': 'Error in request. Please check your input.', 'type': 'invalid_request_error', 'param': None, 'code': None}}
+ | Timestamp: [2025-04-17 14:59:22,121]
+DEBUG: App is running on cpu... | Timestamp: [2025-04-17 15:03:40,067]
+INFO: START: MaskRCNN model loaded successfully. | Timestamp: [2025-04-17 15:03:40,621]
+DEBUG: Receiving request... | Timestamp: [2025-04-17 15:03:45,503]
+INFO: Request validated successfully: image_url=https://www.stockvault.net/data/2024/01/22/303594/preview16.jpg, prompt=cat, tags=['classic'], box=[0.0, 0.3, 1.0, 0.8], n=1 | Timestamp: [2025-04-17 15:03:45,503]
+DEBUG: Processing input data... | Timestamp: [2025-04-17 15:03:45,504]
+INFO: Wall image fetched successfully. | Timestamp: [2025-04-17 15:03:45,660]
+INFO: Defined box coordinates successfully. | Timestamp: [2025-04-17 15:03:45,660]
+INFO: Image generation parameters set: model=dall-e-3, prompt=The next provided prompt is an order written by a client who wants to paint art on their wall, only consider the art which must be painted and not the details about wall or anything else. very very important: Fill the entire artwork and do not create blank areas or borders around the art. Also use the following styles: classic. The order text is: cat, size=1792x1024, quality=standard, n=1 | Timestamp: [2025-04-17 15:03:45,661]
+DEBUG: Segmenting the wall image... | Timestamp: [2025-04-17 15:03:45,661]
+INFO: Segmentation completed successfully. | Timestamp: [2025-04-17 15:03:48,684]
+DEBUG: Requesting OpenAI to generate art images... | Timestamp: [2025-04-17 15:03:48,684]
+ERROR: Internal server error:
+Traceback (most recent call last):
+  File "D:\AI\projects\ArtOa\ArtOa-AI\pipeline\app.py", line 119, in main
+    masks, generated_images = await asyncio.gather(
+                              ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI\projects\ArtOa\ArtOa-AI\pipeline\app.py", line 258, in generate_images
+    return await asyncio.gather(*tasks)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI\projects\ArtOa\ArtOa-AI\pipeline\utils.py", line 32, in generate_and_fetch
+    prompt, custom_image = await generator.generate_image_with_revised_prompt()
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI\projects\ArtOa\ArtOa-AI\pipeline\generation.py", line 54, in generate_image_with_revised_prompt
+    response = await client.images.generate(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI\projects\ArtOa\ArtOa-AI\venv\Lib\site-packages\openai\resources\images.py", line 521, in generate
+    return await self._post(
+           ^^^^^^^^^^^^^^^^^
+  File "D:\AI\projects\ArtOa\ArtOa-AI\venv\Lib\site-packages\openai\_base_client.py", line 1843, in post
+    return await self.request(cast_to, opts, stream=stream, stream_cls=stream_cls)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI\projects\ArtOa\ArtOa-AI\venv\Lib\site-packages\openai\_base_client.py", line 1537, in request
+    return await self._request(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI\projects\ArtOa\ArtOa-AI\venv\Lib\site-packages\openai\_base_client.py", line 1638, in _request
+    raise self._make_status_error_from_response(err.response) from None
+openai.BadRequestError: Error code: 400 - {'error': {'message': 'Error in request. Please check your input.', 'type': 'invalid_request_error', 'param': None, 'code': None}}
+ | Timestamp: [2025-04-17 15:03:49,758]
+DEBUG: App is running on cpu... | Timestamp: [2025-04-17 15:10:34,405]
+INFO: START: MaskRCNN model loaded successfully. | Timestamp: [2025-04-17 15:10:34,931]
+DEBUG: App is running on cpu... | Timestamp: [2025-04-17 15:10:52,345]
+INFO: START: MaskRCNN model loaded successfully. | Timestamp: [2025-04-17 15:10:52,877]
+DEBUG: App is running on cpu... | Timestamp: [2025-04-17 15:11:13,051]
+INFO: START: MaskRCNN model loaded successfully. | Timestamp: [2025-04-17 15:11:13,585]
+DEBUG: App is running on cpu... | Timestamp: [2025-04-17 15:11:40,733]
+INFO: START: MaskRCNN model loaded successfully. | Timestamp: [2025-04-17 15:11:41,265]
+DEBUG: App is running on cpu... | Timestamp: [2025-04-17 15:12:12,995]
+INFO: START: MaskRCNN model loaded successfully. | Timestamp: [2025-04-17 15:12:13,535]
+DEBUG: App is running on cpu... | Timestamp: [2025-04-17 15:12:27,330]
+INFO: START: MaskRCNN model loaded successfully. | Timestamp: [2025-04-17 15:12:27,854]
+DEBUG: App is running on cpu... | Timestamp: [2025-04-17 15:13:27,692]
+INFO: START: MaskRCNN model loaded successfully. | Timestamp: [2025-04-17 15:13:28,234]
+DEBUG: App is running on cpu... | Timestamp: [2025-04-17 15:13:44,997]
+INFO: START: MaskRCNN model loaded successfully. | Timestamp: [2025-04-17 15:13:45,543]
+DEBUG: App is running on cpu... | Timestamp: [2025-04-17 15:13:58,223]
+INFO: START: MaskRCNN model loaded successfully. | Timestamp: [2025-04-17 15:13:58,753]
+DEBUG: App is running on cpu... | Timestamp: [2025-04-17 15:15:17,850]
+INFO: START: MaskRCNN model loaded successfully. | Timestamp: [2025-04-17 15:15:18,395]
+DEBUG: App is running on cpu... | Timestamp: [2025-04-17 15:15:41,649]
+INFO: START: MaskRCNN model loaded successfully. | Timestamp: [2025-04-17 15:15:42,183]
+DEBUG: App is running on cpu... | Timestamp: [2025-04-17 15:18:12,455]
+INFO: START: MaskRCNN model loaded successfully. | Timestamp: [2025-04-17 15:18:12,979]
+DEBUG: App is running on cpu... | Timestamp: [2025-04-17 15:19:14,363]
+INFO: START: MaskRCNN model loaded successfully. | Timestamp: [2025-04-17 15:19:14,895]
+DEBUG: App is running on cpu... | Timestamp: [2025-04-17 15:20:10,381]
+INFO: START: MaskRCNN model loaded successfully. | Timestamp: [2025-04-17 15:20:10,907]
+DEBUG: App is running on cpu... | Timestamp: [2025-04-17 15:20:17,552]
+INFO: START: MaskRCNN model loaded successfully. | Timestamp: [2025-04-17 15:20:18,078]
+DEBUG: App is running on cpu... | Timestamp: [2025-04-17 15:22:37,345]
+INFO: START: MaskRCNN model loaded successfully. | Timestamp: [2025-04-17 15:22:37,878]
+DEBUG: App is running on cpu... | Timestamp: [2025-04-17 15:27:30,980]
+INFO: START: MaskRCNN model loaded successfully. | Timestamp: [2025-04-17 15:27:31,506]
+DEBUG: App is running on cpu... | Timestamp: [2025-04-17 15:36:23,847]
+INFO: START: MaskRCNN model loaded successfully. | Timestamp: [2025-04-17 15:36:24,385]
+DEBUG: App is running on cpu... | Timestamp: [2025-04-17 15:36:48,027]
+INFO: START: MaskRCNN model loaded successfully. | Timestamp: [2025-04-17 15:36:48,598]
+DEBUG: Receiving request... | Timestamp: [2025-04-17 15:36:52,069]
+INFO: Request validated successfully: image_url=https://www.stockvault.net/data/2024/01/22/303594/preview16.jpg, prompt=cat, tags=['classic'], box=[0.0, 0.3, 1.0, 0.8], n=1 | Timestamp: [2025-04-17 15:36:52,069]
+DEBUG: Processing input data... | Timestamp: [2025-04-17 15:36:52,069]
+INFO: Wall image fetched successfully. | Timestamp: [2025-04-17 15:36:52,283]
+INFO: Defined box coordinates successfully. | Timestamp: [2025-04-17 15:36:52,283]
+INFO: Image generation parameters set: model=dall-e-3, prompt=The next provided prompt is an order written by a client who wants to paint art on their wall, only consider the art which must be painted and not the details about wall or anything else. very very important: Fill the entire artwork and do not create blank areas or borders around the art. Also use the following styles: classic. The order text is: cat, size=1792x1024, quality=standard, n=1 | Timestamp: [2025-04-17 15:36:52,283]
+DEBUG: Segmenting the wall image... | Timestamp: [2025-04-17 15:36:52,283]
+INFO: Segmentation completed successfully. | Timestamp: [2025-04-17 15:36:54,024]
+INFO: Wall segmentation and art generation completed. | Timestamp: [2025-04-17 15:36:54,406]
+DEBUG: Placing generated art on the wall... | Timestamp: [2025-04-17 15:36:54,407]
+INFO: Cropped objects returned successfully. | Timestamp: [2025-04-17 15:36:54,461]
+INFO: Art placement on the wall completed. | Timestamp: [2025-04-17 15:36:54,462]
+INFO: Request finished in 2.438 seconds. Response sent to the client. | Timestamp: [2025-04-17 15:36:54,507]
+DEBUG: App is running on cpu... | Timestamp: [2025-04-17 15:40:01,678]
+INFO: START: MaskRCNN model loaded successfully. | Timestamp: [2025-04-17 15:40:02,249]
+DEBUG: Receiving request... | Timestamp: [2025-04-17 15:40:02,290]
+INFO: Request validated successfully: image_url=https://www.stockvault.net/data/2024/01/22/303594/preview16.jpg, prompt=cat, tags=['classic'], box=[0.0, 0.3, 1.0, 0.8], n=1 | Timestamp: [2025-04-17 15:40:02,290]
+DEBUG: Processing input data... | Timestamp: [2025-04-17 15:40:02,290]
+INFO: Wall image fetched successfully. | Timestamp: [2025-04-17 15:40:02,822]
+INFO: Defined box coordinates successfully. | Timestamp: [2025-04-17 15:40:02,822]
+INFO: Image generation parameters set: model=dall-e-3, prompt=The next provided prompt is an order written by a client who wants to paint art on their wall, only consider the art which must be painted and not the details about wall or anything else. very very important: Fill the entire artwork and do not create blank areas or borders around the art. Also use the following styles: classic. The order text is: cat, size=1792x1024, quality=standard, n=1 | Timestamp: [2025-04-17 15:40:02,822]
+DEBUG: Segmenting the wall image... | Timestamp: [2025-04-17 15:40:02,822]
+INFO: Segmentation completed successfully. | Timestamp: [2025-04-17 15:40:04,554]
+INFO: Wall segmentation and art generation completed. | Timestamp: [2025-04-17 15:40:04,914]
+DEBUG: Placing generated art on the wall... | Timestamp: [2025-04-17 15:40:04,914]
+INFO: Cropped objects returned successfully. | Timestamp: [2025-04-17 15:40:04,971]
+INFO: Art placement on the wall completed. | Timestamp: [2025-04-17 15:40:04,971]
+INFO: Request finished in 2.778 seconds. Response sent to the client. | Timestamp: [2025-04-17 15:40:05,068]
+DEBUG: Receiving request... | Timestamp: [2025-04-17 15:41:37,594]
+INFO: Request validated successfully: image_url=https://images.rawpixel.com/image_800/czNmcy1wcml2YXRlL3Jhd3BpeGVsX2ltYWdlcy93ZWJzaXRlX2NvbnRlbnQvbHIvdXB3azYxODUzODk5LXdpa2ltZWRpYS1pbWFnZS1rb3djc3dpei5qcGc.jpg, prompt=cat, tags=['classic'], box=[0.0, 0.3, 1.0, 0.8], n=1 | Timestamp: [2025-04-17 15:41:37,594]
+DEBUG: Processing input data... | Timestamp: [2025-04-17 15:41:37,594]
+INFO: Wall image fetched successfully. | Timestamp: [2025-04-17 15:41:38,842]
+INFO: Defined box coordinates successfully. | Timestamp: [2025-04-17 15:41:38,843]
+INFO: Image generation parameters set: model=dall-e-3, prompt=The next provided prompt is an order written by a client who wants to paint art on their wall, only consider the art which must be painted and not the details about wall or anything else. very very important: Fill the entire artwork and do not create blank areas or borders around the art. Also use the following styles: classic. The order text is: cat, size=1792x1024, quality=standard, n=1 | Timestamp: [2025-04-17 15:41:38,843]
+DEBUG: Segmenting the wall image... | Timestamp: [2025-04-17 15:41:38,843]
+INFO: Segmentation completed successfully. | Timestamp: [2025-04-17 15:41:40,695]
+INFO: Wall segmentation and art generation completed. | Timestamp: [2025-04-17 15:41:41,017]
+DEBUG: Placing generated art on the wall... | Timestamp: [2025-04-17 15:41:41,017]
+INFO: Cropped objects returned successfully. | Timestamp: [2025-04-17 15:41:41,076]
+INFO: Art placement on the wall completed. | Timestamp: [2025-04-17 15:41:41,076]
+INFO: Request finished in 3.592 seconds. Response sent to the client. | Timestamp: [2025-04-17 15:41:41,186]
+DEBUG: Receiving request... | Timestamp: [2025-04-17 15:43:50,071]
+INFO: Request validated successfully: image_url=https://media.discordapp.net/attachments/1310701532559184036/1350825719659233291/surface-texture-with-scratches_1136-222.jpg?ex=6801ad3c&is=68005bbc&hm=c3e3a3bbb6bd306b6b238209947b7ed240323d286ac8c5d9e5bbbeab91af819b&=&format=webp&width=1296&height=864, prompt=cat, tags=['classic'], box=[0.0, 0.3, 1.0, 0.8], n=1 | Timestamp: [2025-04-17 15:43:50,071]
+DEBUG: Processing input data... | Timestamp: [2025-04-17 15:43:50,071]
+INFO: Wall image fetched successfully. | Timestamp: [2025-04-17 15:43:50,298]
+INFO: Defined box coordinates successfully. | Timestamp: [2025-04-17 15:43:50,298]
+INFO: Image generation parameters set: model=dall-e-3, prompt=The next provided prompt is an order written by a client who wants to paint art on their wall, only consider the art which must be painted and not the details about wall or anything else. very very important: Fill the entire artwork and do not create blank areas or borders around the art. Also use the following styles: classic. The order text is: cat, size=1792x1024, quality=standard, n=1 | Timestamp: [2025-04-17 15:43:50,298]
+DEBUG: Segmenting the wall image... | Timestamp: [2025-04-17 15:43:50,298]
+INFO: Segmentation completed successfully. | Timestamp: [2025-04-17 15:43:52,090]
+INFO: Wall segmentation and art generation completed. | Timestamp: [2025-04-17 15:43:52,415]
+DEBUG: Placing generated art on the wall... | Timestamp: [2025-04-17 15:43:52,415]
+INFO: Cropped objects returned successfully. | Timestamp: [2025-04-17 15:43:52,533]
+INFO: Art placement on the wall completed. | Timestamp: [2025-04-17 15:43:52,533]
+INFO: Request finished in 2.739 seconds. Response sent to the client. | Timestamp: [2025-04-17 15:43:52,810]
+DEBUG: Receiving request... | Timestamp: [2025-04-17 15:44:43,063]
+INFO: Request validated successfully: image_url=https://media.discordapp.net/attachments/1310701532559184036/1350825719659233291/surface-texture-with-scratches_1136-222.jpg?ex=6801ad3c&is=68005bbc&hm=c3e3a3bbb6bd306b6b238209947b7ed240323d286ac8c5d9e5bbbeab91af819b&=&format=webp&width=1296&height=864, prompt=cat, tags=['classic'], box=[0.1, 0.1, 0.9, 0.9], n=1 | Timestamp: [2025-04-17 15:44:43,063]
+DEBUG: Processing input data... | Timestamp: [2025-04-17 15:44:43,063]
+INFO: Wall image fetched successfully. | Timestamp: [2025-04-17 15:44:43,419]
+INFO: Defined box coordinates successfully. | Timestamp: [2025-04-17 15:44:43,419]
+INFO: Image generation parameters set: model=dall-e-3, prompt=The next provided prompt is an order written by a client who wants to paint art on their wall, only consider the art which must be painted and not the details about wall or anything else. very very important: Fill the entire artwork and do not create blank areas or borders around the art. Also use the following styles: classic. The order text is: cat, size=1792x1024, quality=standard, n=1 | Timestamp: [2025-04-17 15:44:43,419]
+DEBUG: Segmenting the wall image... | Timestamp: [2025-04-17 15:44:43,419]
+INFO: Segmentation completed successfully. | Timestamp: [2025-04-17 15:44:45,274]
+INFO: Wall segmentation and art generation completed. | Timestamp: [2025-04-17 15:44:45,639]
+DEBUG: Placing generated art on the wall... | Timestamp: [2025-04-17 15:44:45,639]
+INFO: Cropped objects returned successfully. | Timestamp: [2025-04-17 15:44:45,783]
+INFO: Art placement on the wall completed. | Timestamp: [2025-04-17 15:44:45,783]
+INFO: Request finished in 2.972 seconds. Response sent to the client. | Timestamp: [2025-04-17 15:44:46,035]
+DEBUG: Receiving request... | Timestamp: [2025-04-17 15:45:33,373]
+INFO: Request validated successfully: image_url=https://media.discordapp.net/attachments/1310701532559184036/1350825718921035797/basketball-hitting-old-concrete-wall_23-2147888340.jpg?ex=6801ad3c&is=68005bbc&hm=ad8d5bc80944efb56e6cbbb04535d078dd90118ed451d810f22855d0efbbe5ff&=&format=webp&width=576&height=864, prompt=cat, tags=['classic'], box=[0.1, 0.1, 0.9, 0.9], n=1 | Timestamp: [2025-04-17 15:45:33,373]
+DEBUG: Processing input data... | Timestamp: [2025-04-17 15:45:33,373]
+INFO: Wall image fetched successfully. | Timestamp: [2025-04-17 15:45:33,425]
+INFO: Defined box coordinates successfully. | Timestamp: [2025-04-17 15:45:33,425]
+INFO: Image generation parameters set: model=dall-e-3, prompt=The next provided prompt is an order written by a client who wants to paint art on their wall, only consider the art which must be painted and not the details about wall or anything else. very very important: Fill the entire artwork and do not create blank areas or borders around the art. Also use the following styles: classic. The order text is: cat, size=1024x1792, quality=standard, n=1 | Timestamp: [2025-04-17 15:45:33,425]
+DEBUG: Segmenting the wall image... | Timestamp: [2025-04-17 15:45:33,425]
+INFO: Segmentation completed successfully. | Timestamp: [2025-04-17 15:45:35,231]
+INFO: Wall segmentation and art generation completed. | Timestamp: [2025-04-17 15:45:35,550]
+DEBUG: Placing generated art on the wall... | Timestamp: [2025-04-17 15:45:35,551]
+INFO: Cropped objects returned successfully. | Timestamp: [2025-04-17 15:45:35,624]
+INFO: Art placement on the wall completed. | Timestamp: [2025-04-17 15:45:35,624]
+INFO: Request finished in 2.365 seconds. Response sent to the client. | Timestamp: [2025-04-17 15:45:35,738]
+DEBUG: Receiving request... | Timestamp: [2025-04-17 15:46:49,157]
+INFO: Request validated successfully: image_url=https://media.discordapp.net/attachments/1310701532559184036/1350825718921035797/basketball-hitting-old-concrete-wall_23-2147888340.jpg?ex=6801ad3c&is=68005bbc&hm=ad8d5bc80944efb56e6cbbb04535d078dd90118ed451d810f22855d0efbbe5ff&=&format=webp&width=576&height=864, prompt=cat, tags=['classic'], box=[0.15, 0.15, 0.85, 0.7], n=1 | Timestamp: [2025-04-17 15:46:49,157]
+DEBUG: Processing input data... | Timestamp: [2025-04-17 15:46:49,157]
+INFO: Wall image fetched successfully. | Timestamp: [2025-04-17 15:46:49,233]
+INFO: Defined box coordinates successfully. | Timestamp: [2025-04-17 15:46:49,233]
+INFO: Image generation parameters set: model=dall-e-3, prompt=The next provided prompt is an order written by a client who wants to paint art on their wall, only consider the art which must be painted and not the details about wall or anything else. very very important: Fill the entire artwork and do not create blank areas or borders around the art. Also use the following styles: classic. The order text is: cat, size=1024x1024, quality=standard, n=1 | Timestamp: [2025-04-17 15:46:49,233]
+DEBUG: Segmenting the wall image... | Timestamp: [2025-04-17 15:46:49,233]
+INFO: Segmentation completed successfully. | Timestamp: [2025-04-17 15:46:51,035]
+INFO: Wall segmentation and art generation completed. | Timestamp: [2025-04-17 15:46:51,430]
+DEBUG: Placing generated art on the wall... | Timestamp: [2025-04-17 15:46:51,430]
+INFO: Cropped objects returned successfully. | Timestamp: [2025-04-17 15:46:51,481]
+INFO: Art placement on the wall completed. | Timestamp: [2025-04-17 15:46:51,481]
+INFO: Request finished in 2.443 seconds. Response sent to the client. | Timestamp: [2025-04-17 15:46:51,600]
+DEBUG: Receiving request... | Timestamp: [2025-04-17 15:48:10,656]
+INFO: Request validated successfully: image_url=https://media.discordapp.net/attachments/1310701532559184036/1350825718921035797/basketball-hitting-old-concrete-wall_23-2147888340.jpg?ex=6801ad3c&is=68005bbc&hm=ad8d5bc80944efb56e6cbbb04535d078dd90118ed451d810f22855d0efbbe5ff&=&format=webp&width=576&height=864, prompt=cat, tags=['classic'], box=[0.15, 0.1, 0.8, 0.65], n=1 | Timestamp: [2025-04-17 15:48:10,656]
+DEBUG: Processing input data... | Timestamp: [2025-04-17 15:48:10,656]
+INFO: Wall image fetched successfully. | Timestamp: [2025-04-17 15:48:10,721]
+INFO: Defined box coordinates successfully. | Timestamp: [2025-04-17 15:48:10,722]
+INFO: Image generation parameters set: model=dall-e-3, prompt=The next provided prompt is an order written by a client who wants to paint art on their wall, only consider the art which must be painted and not the details about wall or anything else. very very important: Fill the entire artwork and do not create blank areas or borders around the art. Also use the following styles: classic. The order text is: cat, size=1024x1024, quality=standard, n=1 | Timestamp: [2025-04-17 15:48:10,722]
+DEBUG: Segmenting the wall image... | Timestamp: [2025-04-17 15:48:10,722]
+INFO: Segmentation completed successfully. | Timestamp: [2025-04-17 15:48:12,509]
+INFO: Wall segmentation and art generation completed. | Timestamp: [2025-04-17 15:48:12,831]
+DEBUG: Placing generated art on the wall... | Timestamp: [2025-04-17 15:48:12,831]
+INFO: Cropped objects returned successfully. | Timestamp: [2025-04-17 15:48:12,885]
+INFO: Art placement on the wall completed. | Timestamp: [2025-04-17 15:48:12,885]
+INFO: Request finished in 2.358 seconds. Response sent to the client. | Timestamp: [2025-04-17 15:48:13,013]
+DEBUG: Receiving request... | Timestamp: [2025-04-17 15:48:52,540]
+INFO: Request validated successfully: image_url=https://media.discordapp.net/attachments/1310701532559184036/1350825718921035797/basketball-hitting-old-concrete-wall_23-2147888340.jpg?ex=6801ad3c&is=68005bbc&hm=ad8d5bc80944efb56e6cbbb04535d078dd90118ed451d810f22855d0efbbe5ff&=&format=webp&width=576&height=864, prompt=cat, tags=['classic'], box=[0.15, 0.13, 0.8, 0.67], n=1 | Timestamp: [2025-04-17 15:48:52,540]
+DEBUG: Processing input data... | Timestamp: [2025-04-17 15:48:52,540]
+INFO: Wall image fetched successfully. | Timestamp: [2025-04-17 15:48:52,664]
+INFO: Defined box coordinates successfully. | Timestamp: [2025-04-17 15:48:52,664]
+INFO: Image generation parameters set: model=dall-e-3, prompt=The next provided prompt is an order written by a client who wants to paint art on their wall, only consider the art which must be painted and not the details about wall or anything else. very very important: Fill the entire artwork and do not create blank areas or borders around the art. Also use the following styles: classic. The order text is: cat, size=1024x1024, quality=standard, n=1 | Timestamp: [2025-04-17 15:48:52,664]
+DEBUG: Segmenting the wall image... | Timestamp: [2025-04-17 15:48:52,664]
+INFO: Segmentation completed successfully. | Timestamp: [2025-04-17 15:48:54,469]
+INFO: Wall segmentation and art generation completed. | Timestamp: [2025-04-17 15:48:54,866]
+DEBUG: Placing generated art on the wall... | Timestamp: [2025-04-17 15:48:54,866]
+INFO: Cropped objects returned successfully. | Timestamp: [2025-04-17 15:48:54,919]
+INFO: Art placement on the wall completed. | Timestamp: [2025-04-17 15:48:54,919]
+INFO: Request finished in 2.500 seconds. Response sent to the client. | Timestamp: [2025-04-17 15:48:55,040]
+DEBUG: App is running on cpu... | Timestamp: [2025-04-17 16:01:23,300]
+INFO: START: MaskRCNN model loaded successfully. | Timestamp: [2025-04-17 16:01:23,839]
+DEBUG: App is running on cpu... | Timestamp: [2025-04-17 16:02:32,703]
+INFO: START: MaskRCNN model loaded successfully. | Timestamp: [2025-04-17 16:02:33,231]
+DEBUG: App is running on cpu... | Timestamp: [2025-04-17 16:02:51,105]
+INFO: START: MaskRCNN model loaded successfully. | Timestamp: [2025-04-17 16:02:51,676]
+DEBUG: App is running on cpu... | Timestamp: [2025-04-17 16:05:42,534]
+INFO: START: MaskRCNN model loaded successfully. | Timestamp: [2025-04-17 16:05:43,069]
+DEBUG: App is running on cpu... | Timestamp: [2025-04-17 16:09:06,105]
+INFO: START: MaskRCNN model loaded successfully. | Timestamp: [2025-04-17 16:09:06,632]
