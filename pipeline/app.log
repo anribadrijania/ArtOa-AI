@@ -3555,3 +3555,39 @@ DEBUG: App is running on cpu... | Timestamp: [2025-04-17 16:05:42,534]
 INFO: START: MaskRCNN model loaded successfully. | Timestamp: [2025-04-17 16:05:43,069]
 DEBUG: App is running on cpu... | Timestamp: [2025-04-17 16:09:06,105]
 INFO: START: MaskRCNN model loaded successfully. | Timestamp: [2025-04-17 16:09:06,632]
+DEBUG: App is running on cpu... | Timestamp: [2025-04-17 17:15:46,226]
+INFO: START: MaskRCNN model loaded successfully. | Timestamp: [2025-04-17 17:15:46,747]
+DEBUG: Receiving request... | Timestamp: [2025-04-17 17:15:57,480]
+INFO: Request validated successfully: image_url=https://media.discordapp.net/attachments/1310701532559184036/1350825718921035797/basketball-hitting-old-concrete-wall_23-2147888340.jpg?ex=6801ad3c&is=68005bbc&hm=ad8d5bc80944efb56e6cbbb04535d078dd90118ed451d810f22855d0efbbe5ff&=&format=webp&width=576&height=864, prompt=cat, tags=['classic'], box=[0.15, 0.13, 0.8, 0.67], n=1 | Timestamp: [2025-04-17 17:15:57,480]
+DEBUG: Processing input data... | Timestamp: [2025-04-17 17:15:57,480]
+INFO: Wall image fetched successfully. | Timestamp: [2025-04-17 17:15:57,601]
+INFO: Defined box coordinates successfully. | Timestamp: [2025-04-17 17:15:57,601]
+INFO: Image generation parameters set: model=dall-e-3, prompt=The next provided prompt is an order written by a client who wants to paint art on their wall, only consider the art which must be painted and not the details about wall or anything else. very very important: Fill the entire artwork and do not create blank areas or borders around the art. Also use the following styles: classic. The order text is: cat, size=1024x1024, quality=standard, n=1 | Timestamp: [2025-04-17 17:15:57,601]
+DEBUG: Segmenting the wall image... | Timestamp: [2025-04-17 17:15:57,601]
+INFO: Segmentation completed successfully. | Timestamp: [2025-04-17 17:15:59,467]
+INFO: Wall segmentation and art generation completed. | Timestamp: [2025-04-17 17:15:59,593]
+DEBUG: Placing generated art on the wall... | Timestamp: [2025-04-17 17:15:59,593]
+ERROR: Internal server error:
+Traceback (most recent call last):
+  File "D:\AI\projects\ArtOa\ArtOa-AI\pipeline\app.py", line 156, in main
+    wall_art = utils.apply_lighting_and_texture(background_np, art_np, box_percent)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI\projects\ArtOa\ArtOa-AI\pipeline\utils.py", line 254, in apply_lighting_and_texture
+    artwork_resized = cv2.resize(artwork, (box_width, box_height))
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cv2.error: OpenCV(4.10.0) :-1: error: (-5:Bad argument) in function 'resize'
+> Overload resolution failed:
+>  - src data type = object is not supported
+>  - Expected Ptr<cv::UMat> for argument 'src'
+
+ | Timestamp: [2025-04-17 17:15:59,611]
+DEBUG: App is running on cpu... | Timestamp: [2025-04-17 17:49:21,281]
+INFO: START: MaskRCNN model loaded successfully. | Timestamp: [2025-04-17 17:49:21,826]
+DEBUG: App is running on cpu... | Timestamp: [2025-04-17 17:49:41,883]
+INFO: START: MaskRCNN model loaded successfully. | Timestamp: [2025-04-17 17:49:42,415]
+DEBUG: App is running on cpu... | Timestamp: [2025-04-17 17:50:09,005]
+INFO: START: MaskRCNN model loaded successfully. | Timestamp: [2025-04-17 17:50:09,535]
+DEBUG: App is running on cpu... | Timestamp: [2025-04-17 17:51:26,103]
+INFO: START: MaskRCNN model loaded successfully. | Timestamp: [2025-04-17 17:51:26,676]
+DEBUG: App is running on cpu... | Timestamp: [2025-04-17 17:51:42,826]
+INFO: START: MaskRCNN model loaded successfully. | Timestamp: [2025-04-17 17:51:43,353]

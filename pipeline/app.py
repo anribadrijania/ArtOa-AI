@@ -117,7 +117,7 @@ async def main(image_url: str = "",
         rcnn_segmentor = segmentation.MaskRCNN(rcnn_model, device)
         generator = generation.Generate(client, gen_model, prompt, size, quality, 1)
 
-        url = "https://cdn.britannica.com/78/43678-050-F4DC8D93/Starry-Night-canvas-Vincent-van-Gogh-New-1889.jpg"
+        url = "https://chatgpt.com/c/6800fe32-2260-8007-89a3-446b20a99869"
         # Run segmentation and image generation asynchronously
         masks, generated_images = await asyncio.gather(
             segment_image(rcnn_segmentor, wall),
