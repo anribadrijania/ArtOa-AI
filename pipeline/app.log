@@ -3591,3 +3591,135 @@ DEBUG: App is running on cpu... | Timestamp: [2025-04-17 17:51:26,103]
 INFO: START: MaskRCNN model loaded successfully. | Timestamp: [2025-04-17 17:51:26,676]
 DEBUG: App is running on cpu... | Timestamp: [2025-04-17 17:51:42,826]
 INFO: START: MaskRCNN model loaded successfully. | Timestamp: [2025-04-17 17:51:43,353]
+DEBUG: App is running on cpu... | Timestamp: [2025-04-18 15:17:00,301]
+INFO: START: MaskRCNN model loaded successfully. | Timestamp: [2025-04-18 15:17:02,195]
+DEBUG: Receiving request... | Timestamp: [2025-04-18 15:23:27,288]
+INFO: Request validated successfully: image_url=https://cdn.pixabay.com/photo/2023/04/14/08/47/window-7924525_1280.jpg, prompt=car, tags=['string'], box=[0.1, 0.1, 0.9, 0.9], n=1 | Timestamp: [2025-04-18 15:23:27,288]
+DEBUG: Processing input data... | Timestamp: [2025-04-18 15:23:27,288]
+INFO: Wall image fetched successfully. | Timestamp: [2025-04-18 15:23:27,426]
+INFO: Defined box coordinates successfully. | Timestamp: [2025-04-18 15:23:27,426]
+INFO: Image generation parameters set: model=dall-e-3, prompt=The next provided prompt is an order written by a client who wants to paint art on their wall, only consider the art which must be painted and not the details about wall or anything else. very very important: Fill the entire artwork and do not create blank areas or borders around the art. Also use the following styles: string. The order text is: car, size=1792x1024, quality=standard, n=1 | Timestamp: [2025-04-18 15:23:27,427]
+DEBUG: Segmenting the wall image... | Timestamp: [2025-04-18 15:23:27,427]
+INFO: Segmentation completed successfully. | Timestamp: [2025-04-18 15:23:30,707]
+INFO: Wall segmentation and art generation completed. | Timestamp: [2025-04-18 15:23:30,819]
+DEBUG: Placing generated art on the wall... | Timestamp: [2025-04-18 15:23:30,819]
+ERROR: Internal server error:
+Traceback (most recent call last):
+  File "D:\AI\projects\ArtOa\ArtOa-AI\pipeline\app.py", line 152, in main
+    wall_art = utils.apply_lighting_and_texture(background_np, art_np, box_percent)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI\projects\ArtOa\ArtOa-AI\pipeline\utils.py", line 254, in apply_lighting_and_texture
+    artwork_resized = cv2.resize(artwork, (box_width, box_height))
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cv2.error: OpenCV(4.10.0) :-1: error: (-5:Bad argument) in function 'resize'
+> Overload resolution failed:
+>  - src data type = object is not supported
+>  - Expected Ptr<cv::UMat> for argument 'src'
+
+ | Timestamp: [2025-04-18 15:23:30,903]
+DEBUG: App is running on cpu... | Timestamp: [2025-04-18 15:30:30,294]
+INFO: START: MaskRCNN model loaded successfully. | Timestamp: [2025-04-18 15:30:30,907]
+DEBUG: App is running on cpu... | Timestamp: [2025-04-18 15:32:26,959]
+INFO: START: MaskRCNN model loaded successfully. | Timestamp: [2025-04-18 15:32:27,524]
+DEBUG: App is running on cpu... | Timestamp: [2025-04-18 15:33:09,990]
+INFO: START: MaskRCNN model loaded successfully. | Timestamp: [2025-04-18 15:33:10,515]
+DEBUG: Receiving request... | Timestamp: [2025-04-18 15:33:16,459]
+INFO: Request validated successfully: image_url=https://cdn.pixabay.com/photo/2023/04/14/08/47/window-7924525_1280.jpg, prompt=car, tags=['string'], box=[0.1, 0.1, 0.9, 0.9], n=1 | Timestamp: [2025-04-18 15:33:16,459]
+DEBUG: Processing input data... | Timestamp: [2025-04-18 15:33:16,459]
+INFO: Wall image fetched successfully. | Timestamp: [2025-04-18 15:33:16,600]
+INFO: Defined box coordinates successfully. | Timestamp: [2025-04-18 15:33:16,600]
+INFO: Image generation parameters set: model=dall-e-3, prompt=The next provided prompt is an order written by a client who wants to paint art on their wall, only consider the art which must be painted and not the details about wall or anything else. very very important: Fill the entire artwork and do not create blank areas or borders around the art. Also use the following styles: string. The order text is: car, size=1792x1024, quality=standard, n=1 | Timestamp: [2025-04-18 15:33:16,600]
+DEBUG: Segmenting the wall image... | Timestamp: [2025-04-18 15:33:16,601]
+INFO: Segmentation completed successfully. | Timestamp: [2025-04-18 15:33:18,939]
+INFO: Wall segmentation and art generation completed. | Timestamp: [2025-04-18 15:33:18,968]
+DEBUG: Placing generated art on the wall... | Timestamp: [2025-04-18 15:33:18,968]
+ERROR: Internal server error:
+Traceback (most recent call last):
+  File "D:\AI\projects\ArtOa\ArtOa-AI\pipeline\app.py", line 150, in main
+    wall_art = utils.apply_lighting_and_texture(background_np, art_np, box)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI\projects\ArtOa\ArtOa-AI\pipeline\utils.py", line 254, in apply_lighting_and_texture
+    artwork_resized = cv2.resize(artwork, (box_width, box_height))
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cv2.error: OpenCV(4.10.0) :-1: error: (-5:Bad argument) in function 'resize'
+> Overload resolution failed:
+>  - src data type = object is not supported
+>  - Expected Ptr<cv::UMat> for argument 'src'
+
+ | Timestamp: [2025-04-18 15:33:19,036]
+DEBUG: App is running on cpu... | Timestamp: [2025-04-18 15:40:30,759]
+INFO: START: MaskRCNN model loaded successfully. | Timestamp: [2025-04-18 15:40:31,331]
+DEBUG: App is running on cpu... | Timestamp: [2025-04-18 15:40:58,155]
+INFO: START: MaskRCNN model loaded successfully. | Timestamp: [2025-04-18 15:40:58,714]
+DEBUG: Receiving request... | Timestamp: [2025-04-18 15:41:07,992]
+INFO: Request validated successfully: image_url=https://cdn.pixabay.com/photo/2023/04/14/08/47/window-7924525_1280.jpg, prompt=car, tags=['string'], box=[0.1, 0.1, 0.9, 0.9], n=1 | Timestamp: [2025-04-18 15:41:07,992]
+DEBUG: Processing input data... | Timestamp: [2025-04-18 15:41:07,992]
+INFO: Wall image fetched successfully. | Timestamp: [2025-04-18 15:41:08,129]
+INFO: Defined box coordinates successfully. | Timestamp: [2025-04-18 15:41:08,129]
+INFO: Image generation parameters set: model=dall-e-3, prompt=The next provided prompt is an order written by a client who wants to paint art on their wall, only consider the art which must be painted and not the details about wall or anything else. very very important: Fill the entire artwork and do not create blank areas or borders around the art. Also use the following styles: string. The order text is: car, size=1792x1024, quality=standard, n=1 | Timestamp: [2025-04-18 15:41:08,129]
+DEBUG: Segmenting the wall image... | Timestamp: [2025-04-18 15:41:08,129]
+INFO: Segmentation completed successfully. | Timestamp: [2025-04-18 15:41:10,461]
+INFO: Wall segmentation and art generation completed. | Timestamp: [2025-04-18 15:41:10,492]
+DEBUG: Placing generated art on the wall... | Timestamp: [2025-04-18 15:41:10,493]
+ERROR: Internal server error:
+Traceback (most recent call last):
+  File "D:\AI\projects\ArtOa\ArtOa-AI\pipeline\app.py", line 155, in main
+    wall_art = utils.apply_lighting_and_texture(background_np, art_np, box_percent)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI\projects\ArtOa\ArtOa-AI\pipeline\utils.py", line 254, in apply_lighting_and_texture
+    artwork_resized = cv2.resize(artwork, (box_width, box_height))
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cv2.error: OpenCV(4.10.0) :-1: error: (-5:Bad argument) in function 'resize'
+> Overload resolution failed:
+>  - src data type = object is not supported
+>  - Expected Ptr<cv::UMat> for argument 'src'
+
+ | Timestamp: [2025-04-18 15:41:10,562]
+DEBUG: Receiving request... | Timestamp: [2025-04-18 15:41:27,361]
+INFO: Request validated successfully: image_url=https://media.istockphoto.com/id/2151107006/photo/a-living-room-with-a-gray-sofa-white-and-hardwood-paneled-wall-background-and-decoration.jpg?s=612x612&w=0&k=20&c=KZmj6f_P9WS74aGn2l13gsSpwkjitV2fwOaRqSWcer4=, prompt=car, tags=['string'], box=[0.1, 0.1, 0.9, 0.9], n=1 | Timestamp: [2025-04-18 15:41:27,361]
+DEBUG: Processing input data... | Timestamp: [2025-04-18 15:41:27,361]
+INFO: Wall image fetched successfully. | Timestamp: [2025-04-18 15:41:27,496]
+INFO: Defined box coordinates successfully. | Timestamp: [2025-04-18 15:41:27,496]
+INFO: Image generation parameters set: model=dall-e-3, prompt=The next provided prompt is an order written by a client who wants to paint art on their wall, only consider the art which must be painted and not the details about wall or anything else. very very important: Fill the entire artwork and do not create blank areas or borders around the art. Also use the following styles: string. The order text is: car, size=1792x1024, quality=standard, n=1 | Timestamp: [2025-04-18 15:41:27,496]
+DEBUG: Segmenting the wall image... | Timestamp: [2025-04-18 15:41:27,496]
+INFO: Segmentation completed successfully. | Timestamp: [2025-04-18 15:41:30,298]
+INFO: Wall segmentation and art generation completed. | Timestamp: [2025-04-18 15:41:30,326]
+DEBUG: Placing generated art on the wall... | Timestamp: [2025-04-18 15:41:30,326]
+ERROR: Internal server error:
+Traceback (most recent call last):
+  File "D:\AI\projects\ArtOa\ArtOa-AI\pipeline\app.py", line 155, in main
+    wall_art = utils.apply_lighting_and_texture(background_np, art_np, box_percent)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI\projects\ArtOa\ArtOa-AI\pipeline\utils.py", line 254, in apply_lighting_and_texture
+    artwork_resized = cv2.resize(artwork, (box_width, box_height))
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cv2.error: OpenCV(4.10.0) :-1: error: (-5:Bad argument) in function 'resize'
+> Overload resolution failed:
+>  - src data type = object is not supported
+>  - Expected Ptr<cv::UMat> for argument 'src'
+
+ | Timestamp: [2025-04-18 15:41:30,342]
+DEBUG: Receiving request... | Timestamp: [2025-04-18 15:42:03,437]
+INFO: Request validated successfully: image_url=https://media.istockphoto.com/id/2151107006/photo/a-living-room-with-a-gray-sofa-white-and-hardwood-paneled-wall-background-and-decoration.jpg?s=612x612&w=0&k=20&c=KZmj6f_P9WS74aGn2l13gsSpwkjitV2fwOaRqSWcer4=, prompt=car, tags=['string'], box=[0.2, 0.1, 0.8, 0.9], n=1 | Timestamp: [2025-04-18 15:42:03,437]
+DEBUG: Processing input data... | Timestamp: [2025-04-18 15:42:03,437]
+INFO: Wall image fetched successfully. | Timestamp: [2025-04-18 15:42:03,564]
+INFO: Defined box coordinates successfully. | Timestamp: [2025-04-18 15:42:03,564]
+INFO: Image generation parameters set: model=dall-e-3, prompt=The next provided prompt is an order written by a client who wants to paint art on their wall, only consider the art which must be painted and not the details about wall or anything else. very very important: Fill the entire artwork and do not create blank areas or borders around the art. Also use the following styles: string. The order text is: car, size=1024x1024, quality=standard, n=1 | Timestamp: [2025-04-18 15:42:03,564]
+DEBUG: Segmenting the wall image... | Timestamp: [2025-04-18 15:42:03,565]
+INFO: Segmentation completed successfully. | Timestamp: [2025-04-18 15:42:05,892]
+INFO: Wall segmentation and art generation completed. | Timestamp: [2025-04-18 15:42:05,918]
+DEBUG: Placing generated art on the wall... | Timestamp: [2025-04-18 15:42:05,918]
+ERROR: Internal server error:
+Traceback (most recent call last):
+  File "D:\AI\projects\ArtOa\ArtOa-AI\pipeline\app.py", line 155, in main
+    wall_art = utils.apply_lighting_and_texture(background_np, art_np, box_percent)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI\projects\ArtOa\ArtOa-AI\pipeline\utils.py", line 254, in apply_lighting_and_texture
+    artwork_resized = cv2.resize(artwork, (box_width, box_height))
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cv2.error: OpenCV(4.10.0) :-1: error: (-5:Bad argument) in function 'resize'
+> Overload resolution failed:
+>  - src data type = object is not supported
+>  - Expected Ptr<cv::UMat> for argument 'src'
+
+ | Timestamp: [2025-04-18 15:42:05,929]
