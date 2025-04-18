@@ -3723,3 +3723,18 @@ cv2.error: OpenCV(4.10.0) :-1: error: (-5:Bad argument) in function 'resize'
 >  - Expected Ptr<cv::UMat> for argument 'src'
 
  | Timestamp: [2025-04-18 15:42:05,929]
+DEBUG: App is running on cpu... | Timestamp: [2025-04-18 16:07:49,371]
+INFO: START: MaskRCNN model loaded successfully. | Timestamp: [2025-04-18 16:07:49,949]
+DEBUG: Receiving request... | Timestamp: [2025-04-18 16:07:55,554]
+INFO: Request validated successfully: image_url=https://media.istockphoto.com/id/2151107006/photo/a-living-room-with-a-gray-sofa-white-and-hardwood-paneled-wall-background-and-decoration.jpg?s=612x612&w=0&k=20&c=KZmj6f_P9WS74aGn2l13gsSpwkjitV2fwOaRqSWcer4=, prompt=car, tags=['string'], box=[0.2, 0.1, 0.8, 0.9], n=1 | Timestamp: [2025-04-18 16:07:55,554]
+DEBUG: Processing input data... | Timestamp: [2025-04-18 16:07:55,554]
+INFO: Wall image fetched successfully. | Timestamp: [2025-04-18 16:07:55,716]
+INFO: Defined box coordinates successfully. | Timestamp: [2025-04-18 16:07:55,716]
+INFO: Image generation parameters set: model=dall-e-3, prompt=The next provided prompt is an order written by a client who wants to paint art on their wall, only consider the art which must be painted and not the details about wall or anything else. very very important: Fill the entire artwork and do not create blank areas or borders around the art. Also use the following styles: string. The order text is: car, size=1024x1024, quality=standard, n=1 | Timestamp: [2025-04-18 16:07:55,716]
+DEBUG: Segmenting the wall image... | Timestamp: [2025-04-18 16:07:55,716]
+INFO: Segmentation completed successfully. | Timestamp: [2025-04-18 16:07:58,058]
+INFO: Wall segmentation and art generation completed. | Timestamp: [2025-04-18 16:07:58,423]
+DEBUG: Placing generated art on the wall... | Timestamp: [2025-04-18 16:07:58,424]
+INFO: Cropped objects returned successfully. | Timestamp: [2025-04-18 16:07:58,467]
+INFO: Art placement on the wall completed. | Timestamp: [2025-04-18 16:07:58,467]
+INFO: Request finished in 2.972 seconds. Response sent to the client. | Timestamp: [2025-04-18 16:07:58,526]
