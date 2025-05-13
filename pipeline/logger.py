@@ -1,7 +1,6 @@
 import logging
 import os
 from datetime import datetime
-from fastapi import HTTPException
 import pytz
 
 # Retrieve logging mode and timezone from environment variables

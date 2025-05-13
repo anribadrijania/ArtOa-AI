@@ -13,4 +13,9 @@ aiohttp~=3.11.11
 uvicorn~=0.34.0
 pytz~=2025.1
 transformers~=4.49.0
+pytest~=8.3.5
 torchvision~=0.21.0
+timm
+einops
+kornia
+python-multipart

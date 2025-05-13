@@ -1,283 +1,205 @@
 """
 Description: This file contains the FastAPI application that serves as the main entry point for the pipeline.
-The pipeline is responsible for generating art images and placing them on a wall image asynchronously.
+It includes endpoints to generate AI art or upload custom art and place it on a wall image.
 The pipeline uses the YOLO model for segmentation and the OpenAI DALL-E model for image generation.
-The API key for the OpenAI API is loaded from the environment variables.
 """
-import base64
 
 # Import required libraries
-from fastapi import FastAPI, HTTPException
-from fastapi.staticfiles import StaticFiles
-from fastapi.responses import JSONResponse
-from pathlib import Path
+from fastapi import FastAPI, HTTPException, UploadFile, Request, Form, File
+from fastapi.responses import Response
+from fastapi.middleware.cors import CORSMiddleware
+from logger import log_debug, log_info, log_warning, log_error
 from transformers import AutoModelForImageSegmentation
-from typing import List
-from logger import log_debug, log_error, log_info, log_warning
 from torchvision.models.detection import maskrcnn_resnet50_fpn_v2
-from PIL import Image
 from openai import AsyncOpenAI
 from dotenv import load_dotenv
-import os
+from PIL import Image
+from typing import List, Optional
+from pydantic import BaseModel
 import numpy as np
+import os
 import torch
-import generation
-import segmentation
-import utils
-import asyncio
-import uuid
 import time
+import utils
+import segmentation
+import generation
+import asyncio
 import traceback
+import io
+
+# Load environment variables
+load_dotenv()
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+APP_API_KEY = os.getenv("APP_API_KEY")
+if not OPENAI_API_KEY:
+    raise ValueError("OPENAI_API_KEY is not set!")
+if not APP_API_KEY:
+    raise ValueError("APP_API_KEY is not set!")
 
 # Create FastAPI app instance
 app = FastAPI()
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
-
+# Define device
 device = "cpu"
 log_debug(f"App is running on {device}...")
 
+# Load segmentation models
+remover_model = AutoModelForImageSegmentation.from_pretrained("./pretrained", trust_remote_code=True)
+remover_model.load_state_dict(torch.load("remover_v1.pth"))
+remover_model.to(device).eval().half()
+log_info("Remover model loaded.")
+
 rcnn_model = maskrcnn_resnet50_fpn_v2()
 rcnn_model.load_state_dict(torch.load("./maskrcnn_v2.pth", map_location=device))
-rcnn_model.to(device)
-rcnn_model.eval()
-log_info(f"START: MaskRCNN model loaded successfully.")
+rcnn_model.to(device).eval()
+log_info("MaskRCNN model loaded.")
 
-# Loading the environment variables
-load_dotenv()
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
-HASHED_API_KEY = os.getenv("HASHED_API_KEY")
-
-# Ensuring the API keys is set
-if not OPENAI_API_KEY:
-    raise ValueError("OPENAI_API_KEY is not set!")
-if not HASHED_API_KEY:
-    raise ValueError("API_KEY is not set!")
-
-# Initialization of OpenAI client for asynchronous image generation
+# OpenAI client
 client = AsyncOpenAI(api_key=OPENAI_API_KEY)
 
-# Define the static directory to store images
-STATIC_DIR = Path("static")
-STATIC_DIR.mkdir(parents=True, exist_ok=True)  # Create directory if it doesn't exist
+# Request schema
+class GenerateRequest(BaseModel):
+    api_key: str
+    image_url: str
+    prompt: str
+    box: List[float]
+    tags: List[str] = [""]
+    n: int = 4
 
-# Mount static files directory for serving generated images
-app.mount("/static", StaticFiles(directory="static"), name="static")
-
-
-# temporary api_key for testing: acbcfa7707aa61454cd86de0aa023bcef8f4c99e7a0daf234070b68ecc7c5aba
-@app.post("/generate-on-wall/")
-async def main(image_url: str = "",
-               prompt: str = "",
-               tags: List[str] = None,
-               box: List[float] = None,
-               api_key: str = "",
-               n: int = 4):
-    """
-    API endpoint to generate and place AI-generated art on a wall image.
-
-    :param image_url: URL of the input wall image.
-    :param prompt: Text prompt for art generation.
-    :param tags: Additional tags to refine image generation.
-    :param box: Coordinates defining the area where art should be placed.
-    :param api_key: API key for authentication.
-    :param n: Number of image variations to generate.
-    :return: List of processed images with art placed on the wall.
-    """
-    start = time.time()
-
-    try:
-        # Validate input parameters and log request details
-        request_logger(api_key, image_url, prompt, tags, box, n)
-
-        log_debug("Processing input data...")
-
-        # Fetch the input wall image
-        wall = await utils.fetch_image(image_url)
-        if wall is None:
-            log_error("Invalid image URL or image could not be fetched.")
-            raise HTTPException(status_code=400, detail="Invalid image URL or image could not be fetched.")
-
-        log_info("Wall image fetched successfully.")
-
-        # Extract box dimensions for placing the generated art
-        box_width, box_height, x_min, y_min = utils.get_box_coordinates(wall, box)
-        log_info("Defined box coordinates successfully.")
-
-        # Determine the best image size for generation
-        size = utils.get_best_size(box_width, box_height)
-
-        # Define generation model and parameters
-        gen_model, quality = "dall-e-3", "standard"
-        prompt = prompt_engineering(prompt, tags)
-
-        log_info(f"Image generation parameters set: model={gen_model}, prompt={prompt}, size={size}, quality={quality}, n={n}")
-
-        # Initialize segmentation and image generation classes
-        rcnn_segmentor = segmentation.MaskRCNN(rcnn_model, device)
-        generator = generation.Generate(client, gen_model, prompt, size, quality, 1)
-
-        url = "https://cdn.britannica.com/78/43678-050-F4DC8D93/Starry-Night-canvas-Vincent-van-Gogh-New-1889.jpg"
-        # Run segmentation and image generation asynchronously
-        masks, generated_images = await asyncio.gather(
-            segment_image(rcnn_segmentor, wall),
-            # generate_images(generator, n)
-            utils.fetch_image(url)
-        )
-        generated_images = [generated_images]
-
-        log_info("Wall segmentation and art generation completed.")
-
-        log_debug("Placing generated art on the wall...")
-        final_images = []
-
-        if masks is None:
-            # If no segmentation masks are found, place art directly onto the wall
-            for art in generated_images:
-                # Apply lighting and texture blending
-                wall_art_np = utils.apply_lighting_and_texture(wall, art, box)  # box is already in percentage
-                wall_art_pil = Image.fromarray(wall_art_np)
-                final_images.append(wall_art_pil)
-
-            log_info("Art placed directly on the wall.")
-            return final_images
-
-        # If segmentation is successful, overlay generated art while preserving detected objects
-        for art in generated_images:
-            # Convert wall and art (PIL) to np arrays
-            background_np = np.array(wall)
-            art_np = np.array(art)
-
-            # Compute box_percent from (x_min, y_min, x_max, y_max)
-            h, w_img = background_np.shape[:2]
-            box_percent = [x_min / w_img, y_min / h, (x_min + box_width) / w_img, (y_min + box_height) / h]
-
-            # Apply lighting and texture blending
-            wall_art = utils.apply_lighting_and_texture(background_np, art_np, box_percent)
-            final_image = utils.return_cropped_objects(wall_art, masks)
-            log_info("Cropped objects returned successfully.")
-            final_images.append(final_image)
-
-        log_info("Art placement on the wall completed.")
-
-        image_urls = []
-        # Save final images to the static directory with unique filenames
-        for i, img in enumerate(final_images):
-            filename = f"{STATIC_DIR}/output_{uuid.uuid4().hex[:8]}.png"
-            img.save(filename)
-            print(f"Saved: {filename}")
-            image_urls.append(f"http://localhost:8000/{filename}")
-
-        images = []
-        # ready images to be returned
-        for i, img in enumerate(final_images):
-            images.append(utils.pil_to_binary(img))
-
-        from io import BytesIO
-        end = time.time()
-        log_info(f"Request finished in {end - start:.3f} seconds. Response sent to the client.")
-        # my_image = Image.open(BytesIO(base64.b64decode(images[0])))
-        # my_image.show()
-        # return JSONResponse(content={"images": images})
-        return {"images": image_urls}
-
-    except HTTPException as e:
-        log_error(f"HTTP server error: {str(e)}")
-        raise e  # Rethrow HTTP exception
-
-    except Exception as e:
-        tb = traceback.format_exc()
-        log_error(f"Internal server error:\n{tb}")
-        raise HTTPException(status_code=500, detail=f"Internal server error: {str(e)}")
-
-
-def request_logger(api_key, image_url, prompt, tags, box, n):
-    """
-    Validate and log incoming requests.
-
-    :raises HTTPException: If input validation fails.
-    """
-    log_debug("Receiving request...")
-
+# Validate requests
+def validate_request(api_key, box):
     if not api_key:
         raise HTTPException(status_code=401, detail="API key is required.")
-    hashed_key = utils.hash_api_key(api_key)
-    if hashed_key != HASHED_API_KEY:
+    if api_key != APP_API_KEY:
         raise HTTPException(status_code=401, detail="Invalid API key.")
-    if not image_url:
-        raise HTTPException(status_code=400, detail="Empty image URL in the request.")
-    if not prompt:
-        raise HTTPException(status_code=400, detail="Empty prompt in the request.")
-    if not box:
-        raise HTTPException(status_code=400, detail="Empty box coordinates in the request.")
-    if len(box) != 4:
-        raise HTTPException(status_code=400, detail="Invalid number of box coordinates in the request.")
-
-    # Validate box coordinates
-    for coord in box:
-        if not isinstance(coord, float):
-            raise HTTPException(status_code=400, detail="Box coordinates must be float.")
-        if coord < 0 or coord > 1:
-            raise HTTPException(status_code=400, detail="Invalid coordinates. Values must be between 0 and 1.")
-
+    if not box or len(box) != 4:
+        raise HTTPException(status_code=400, detail="Box must be 4 float values between 0 and 1.")
+    for val in box:
+        if not isinstance(val, float) or val < 0 or val > 1:
+            raise HTTPException(status_code=400, detail="Invalid box coordinates.")
     if box[0] > box[2] or box[1] > box[3]:
-        raise HTTPException(status_code=400, detail="Invalid box coordinates. Check order of values.")
+        raise HTTPException(status_code=400, detail="Invalid box order.")
 
-    log_info(f"Request validated successfully: image_url={image_url}, prompt={prompt}, tags={tags}, box={box}, n={n}")
+# Error handling middleware
+@app.middleware("http")
+async def add_logging_and_error_handling(request: Request, call_next):
+    try:
+        log_info(f"{request.method} {request.url}")
+        response = await call_next(request)
+        return response
+    except HTTPException as e:
+        log_error(f"HTTPException: {e.detail}")
+        raise
+    except Exception as e:
+        tb = traceback.format_exc()
+        log_error(f"Unhandled Exception: {tb}")
+        raise HTTPException(status_code=500, detail="Internal server error")
 
-
-async def segment_image(segmentor, wall):
-    """
-    Perform image segmentation on the given wall image.
-
-    :param segmentor: An instance of the Segment class.
-    :param wall: The input wall image.
-    :return: Tuple (masks, combined_masks, cropped_objects), or (None, None, None) if no objects are detected.
-    """
-    log_debug("Segmenting the wall image...")
-    masks = segmentor.predict_masks(wall)  # Perform segmentation
-
-    if masks is None or len(masks) == 0:
-        log_warning("No objects found during segmentation!")
+# Helper: segmentation
+async def segment_image(rcnn_segmentor, remover_segmentor, wall):
+    remover_mask = await remover_segmentor.predict_masks(wall)
+    final_masks = await rcnn_segmentor.predict_masks(wall, remover_mask)
+    if not final_masks:
+        log_warning("No objects found during segmentation.")
         return None
+    return final_masks
 
-    log_info("Segmentation completed successfully.")
-    return masks
-
-
+# Helper: generation
 async def generate_images(generator, n):
-    """
-    Generate multiple images asynchronously.
-
-    :param generator: An instance of the Generate class.
-    :param n: Number of images to generate.
-    :return: A list of generated images.
-    """
-    log_debug("Requesting OpenAI to generate art images...")
-
-    # Use asyncio.gather to run multiple generation requests in parallel
     tasks = [utils.generate_and_fetch(generator) for _ in range(n)]
-
     return await asyncio.gather(*tasks)
 
+# Helper: process art on wall
+async def process_wall_and_arts(wall, arts, box, segmentors):
+    box_width, box_height, x_min, y_min = utils.get_box_coordinates(wall, box)
+    masks = await segment_image(*segmentors, wall)
+    final_images = []
+    for art in arts:
+        background_np = np.array(wall)
+        art_np = np.array(art)
+        h, w_img = background_np.shape[:2]
+        box_percent = [x_min / w_img, y_min / h, (x_min + box_width) / w_img, (y_min + box_height) / h]
+        wall_art = utils.apply_lighting_and_texture(background_np, art_np, box_percent)
+        final = utils.return_cropped_objects(wall_art, masks) if masks else Image.fromarray(wall_art)
+        final_images.append(final)
+    return final_images
 
-def prompt_engineering(prompt, tags):
-    """
-    Generates an engineered prompt for a wall art request.
+# Multipart response
 
-    Parameters:
-    prompt (str): The original order text from the client.
-    tags (list): A list of artistic styles to be included.
+import urllib.parse
 
-    Returns:
-    str: The formatted prompt incorporating the client's request and styles.
-    """
-    role = "The next provided prompt is an order written by a client who wants to paint art on their wall, " \
-           "only consider the art which must be painted and not the details about wall or anything else. " \
-           "very very important: Fill the entire artwork and do not create blank areas or borders around the art. "
-    if tags:
-        styles = "Also use the following styles: " + ", ".join(tags)
-    else:
-        styles = ""
+def create_multipart_response(images: List[Image.Image], image_format="PNG", content_type="image/png", filenames: Optional[List[str]] = None, boundary="BOUNDARY") -> Response:
+    multipart_body = b""
+    for i, img in enumerate(images):
+        filename = filenames[i] if filenames and i < len(filenames) else f"image_{i}.{image_format.lower()}"
+        safe_filename = urllib.parse.quote(filename)  # RFC 5987 encoding
 
-    engineered_prompt = role + styles + ". The order text is: " + prompt
-    return engineered_prompt
+        img_bytes = io.BytesIO()
+        img.save(img_bytes, format=image_format)
+        img_bytes.seek(0)
+        image_data = img_bytes.read()
+
+        part = (
+            f"--{boundary}\r\n"
+            f"Content-Type: {content_type}\r\n"
+            f"Content-Disposition: inline; filename*=utf-8''{safe_filename}\r\n\r\n"
+        ).encode("utf-8") + image_data + b"\r\n"
+
+        multipart_body += part
+
+    multipart_body += f"--{boundary}--\r\n".encode("utf-8")
+
+    return Response(content=multipart_body, media_type=f"multipart/mixed; boundary={boundary}")
+
+
+@app.post("/generate-on-wall/")
+async def generate_on_wall(req: GenerateRequest):
+    start = time.time()
+    validate_request(req.api_key, req.box)
+    wall = await utils.fetch_image(req.image_url)
+    if wall is None:
+        raise HTTPException(status_code=400, detail="Invalid image URL")
+
+    box_width, box_height, *_ = utils.get_box_coordinates(wall, req.box)
+    size = utils.get_best_size(box_width, box_height)
+    prompt = utils.prompt_engineering(req.prompt, req.tags)
+
+    generator = generation.Generate(client, "dall-e-3", prompt, size, "standard", "vivid", 1)
+    segmentors = (
+        segmentation.MaskRCNN(rcnn_model, device),
+        segmentation.BgRemover(remover_model, device)
+    )
+    arts = await generate_images(generator, req.n)
+    final_images = await process_wall_and_arts(wall, arts, req.box, segmentors)
+
+    return create_multipart_response(final_images, filenames=[f"generated_{i}.png" for i in range(len(final_images))])
+
+@app.post("/custom-on-wall/")
+async def custom_on_wall(
+    api_key: str = Form(...),
+    box: List[float] = Form(...),
+    wall_image: UploadFile = File(...),
+    art_images: List[UploadFile] = File(...)
+):
+    print("1")
+    validate_request(api_key, box)
+    print("12")
+    wall = Image.open(wall_image.file).convert("RGB")
+    print("123")
+    arts = [Image.open(file.file).convert("RGB") for file in art_images]
+    print("1234")
+    segmentors = (
+        segmentation.MaskRCNN(rcnn_model, device),
+        segmentation.BgRemover(remover_model, device)
+    )
+    print("12345")
+    final_images = await process_wall_and_arts(wall, arts, box, segmentors)
+    print("123456")
+    return create_multipart_response(final_images, filenames=[f"custom_{i}.png" for i in range(len(final_images))])

@@ -2,7 +2,7 @@ class Generate:
     """
     A class to handle image generation using OpenAI's API.
     """
-    def __init__(self, client, model, prompt, size, quality, n):
+    def __init__(self, client, model, prompt, size, quality, style, n):
         """
         Initializing the Generate class with required parameters.
 
@@ -17,6 +17,7 @@ class Generate:
         self.prompt = prompt
         self.size = size
         self.quality = quality
+        self.style = style
         self.n = n
 
     async def generate_image(self):
@@ -30,6 +31,7 @@ class Generate:
             prompt=self.prompt,
             size=self.size,
             quality=self.quality,
+            style=self.style,
             n=self.n
         )
         print(response.data[0].url)
@@ -46,6 +48,7 @@ class Generate:
             prompt=self.prompt,
             size=self.size,
             quality=self.quality,
+            style=self.style,
             n=self.n
         )
         return response.data[0].revised_prompt, response.data[0].url

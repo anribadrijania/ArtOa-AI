@@ -3738,3 +3738,242 @@ DEBUG: Placing generated art on the wall... | Timestamp: [2025-04-18 16:07:58,42
 INFO: Cropped objects returned successfully. | Timestamp: [2025-04-18 16:07:58,467]
 INFO: Art placement on the wall completed. | Timestamp: [2025-04-18 16:07:58,467]
 INFO: Request finished in 2.972 seconds. Response sent to the client. | Timestamp: [2025-04-18 16:07:58,526]
+DEBUG: App is running on cpu... | Timestamp: [2025-05-13 15:08:17,100]
+DEBUG: App is running on cpu... | Timestamp: [2025-05-13 15:09:37,121]
+INFO: Remover model loaded. | Timestamp: [2025-05-13 15:10:15,096]
+INFO: MaskRCNN model loaded. | Timestamp: [2025-05-13 15:10:16,587]
+DEBUG: App is running on cpu... | Timestamp: [2025-05-13 15:12:10,029]
+INFO: Remover model loaded. | Timestamp: [2025-05-13 15:12:11,614]
+INFO: MaskRCNN model loaded. | Timestamp: [2025-05-13 15:12:12,110]
+INFO: GET http://127.0.0.1:8000/ | Timestamp: [2025-05-13 15:18:21,615]
+INFO: GET http://127.0.0.1:8000/favicon.ico | Timestamp: [2025-05-13 15:18:21,719]
+INFO: GET http://127.0.0.1:8000/docs | Timestamp: [2025-05-13 15:18:28,325]
+INFO: GET http://127.0.0.1:8000/openapi.json | Timestamp: [2025-05-13 15:18:28,681]
+DEBUG: App is running on cpu... | Timestamp: [2025-05-13 15:22:10,709]
+INFO: Remover model loaded. | Timestamp: [2025-05-13 15:22:12,316]
+INFO: MaskRCNN model loaded. | Timestamp: [2025-05-13 15:22:12,812]
+DEBUG: App is running on cpu... | Timestamp: [2025-05-13 15:25:18,420]
+INFO: Remover model loaded. | Timestamp: [2025-05-13 15:25:20,065]
+INFO: MaskRCNN model loaded. | Timestamp: [2025-05-13 15:25:20,555]
+INFO: POST http://127.0.0.1:8000/custom-on-wall/ | Timestamp: [2025-05-13 15:25:20,790]
+ERROR: Unhandled Exception: Traceback (most recent call last):
+  File "D:\AI\projects\ArtOa\ArtOa-AI\.venv\Lib\site-packages\starlette\middleware\base.py", line 148, in call_next
+    message = await recv_stream.receive()
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI\projects\ArtOa\ArtOa-AI\.venv\Lib\site-packages\anyio\streams\memory.py", line 126, in receive
+    raise EndOfStream from None
+anyio.EndOfStream
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\AI\projects\ArtOa\ArtOa-AI\pipeline\app.py", line 101, in add_logging_and_error_handling
+    response = await call_next(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI\projects\ArtOa\ArtOa-AI\.venv\Lib\site-packages\starlette\middleware\base.py", line 154, in call_next
+    raise app_exc
+  File "D:\AI\projects\ArtOa\ArtOa-AI\.venv\Lib\site-packages\starlette\middleware\base.py", line 141, in coro
+    await self.app(scope, receive_or_disconnect, send_no_error)
+  File "D:\AI\projects\ArtOa\ArtOa-AI\.venv\Lib\site-packages\starlette\middleware\cors.py", line 85, in __call__
+    await self.app(scope, receive, send)
+  File "D:\AI\projects\ArtOa\ArtOa-AI\.venv\Lib\site-packages\starlette\middleware\exceptions.py", line 62, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "D:\AI\projects\ArtOa\ArtOa-AI\.venv\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "D:\AI\projects\ArtOa\ArtOa-AI\.venv\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "D:\AI\projects\ArtOa\ArtOa-AI\.venv\Lib\site-packages\starlette\routing.py", line 715, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "D:\AI\projects\ArtOa\ArtOa-AI\.venv\Lib\site-packages\starlette\routing.py", line 735, in app
+    await route.handle(scope, receive, send)
+  File "D:\AI\projects\ArtOa\ArtOa-AI\.venv\Lib\site-packages\starlette\routing.py", line 288, in handle
+    await self.app(scope, receive, send)
+  File "D:\AI\projects\ArtOa\ArtOa-AI\.venv\Lib\site-packages\starlette\routing.py", line 76, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "D:\AI\projects\ArtOa\ArtOa-AI\.venv\Lib\site-packages\starlette\_exception_handler.py", line 59, in wrapped_app
+    response = await handler(conn, exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI\projects\ArtOa\ArtOa-AI\.venv\Lib\site-packages\fastapi\exception_handlers.py", line 25, in request_validation_exception_handler
+    content={"detail": jsonable_encoder(exc.errors())},
+                       ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "D:\AI\projects\ArtOa\ArtOa-AI\.venv\Lib\site-packages\fastapi\encoders.py", line 303, in jsonable_encoder
+    jsonable_encoder(
+    ~~~~~~~~~~~~~~~~^
+        item,
+        ^^^^^
+    ...<7 lines>...
+        sqlalchemy_safe=sqlalchemy_safe,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\AI\projects\ArtOa\ArtOa-AI\.venv\Lib\site-packages\fastapi\encoders.py", line 289, in jsonable_encoder
+    encoded_value = jsonable_encoder(
+        value,
+    ...<4 lines>...
+        sqlalchemy_safe=sqlalchemy_safe,
+    )
+  File "D:\AI\projects\ArtOa\ArtOa-AI\.venv\Lib\site-packages\fastapi\encoders.py", line 318, in jsonable_encoder
+    return ENCODERS_BY_TYPE[type(obj)](obj)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "D:\AI\projects\ArtOa\ArtOa-AI\.venv\Lib\site-packages\fastapi\encoders.py", line 59, in <lambda>
+    bytes: lambda o: o.decode(),
+                     ~~~~~~~~^^
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xff in position 366: invalid start byte
+ | Timestamp: [2025-05-13 15:25:20,797]
+DEBUG: App is running on cpu... | Timestamp: [2025-05-13 15:32:02,358]
+INFO: Remover model loaded. | Timestamp: [2025-05-13 15:32:03,946]
+INFO: MaskRCNN model loaded. | Timestamp: [2025-05-13 15:32:04,437]
+INFO: POST http://127.0.0.1:8000/custom-on-wall/ | Timestamp: [2025-05-13 15:32:09,521]
+ERROR: Unhandled Exception: Traceback (most recent call last):
+  File "D:\AI\projects\ArtOa\ArtOa-AI\.venv\Lib\site-packages\starlette\middleware\base.py", line 148, in call_next
+    message = await recv_stream.receive()
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI\projects\ArtOa\ArtOa-AI\.venv\Lib\site-packages\anyio\streams\memory.py", line 126, in receive
+    raise EndOfStream from None
+anyio.EndOfStream
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\AI\projects\ArtOa\ArtOa-AI\pipeline\app.py", line 101, in add_logging_and_error_handling
+    response = await call_next(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI\projects\ArtOa\ArtOa-AI\.venv\Lib\site-packages\starlette\middleware\base.py", line 154, in call_next
+    raise app_exc
+  File "D:\AI\projects\ArtOa\ArtOa-AI\.venv\Lib\site-packages\starlette\middleware\base.py", line 141, in coro
+    await self.app(scope, receive_or_disconnect, send_no_error)
+  File "D:\AI\projects\ArtOa\ArtOa-AI\.venv\Lib\site-packages\starlette\middleware\cors.py", line 85, in __call__
+    await self.app(scope, receive, send)
+  File "D:\AI\projects\ArtOa\ArtOa-AI\.venv\Lib\site-packages\starlette\middleware\exceptions.py", line 62, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "D:\AI\projects\ArtOa\ArtOa-AI\.venv\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "D:\AI\projects\ArtOa\ArtOa-AI\.venv\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "D:\AI\projects\ArtOa\ArtOa-AI\.venv\Lib\site-packages\starlette\routing.py", line 715, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "D:\AI\projects\ArtOa\ArtOa-AI\.venv\Lib\site-packages\starlette\routing.py", line 735, in app
+    await route.handle(scope, receive, send)
+  File "D:\AI\projects\ArtOa\ArtOa-AI\.venv\Lib\site-packages\starlette\routing.py", line 288, in handle
+    await self.app(scope, receive, send)
+  File "D:\AI\projects\ArtOa\ArtOa-AI\.venv\Lib\site-packages\starlette\routing.py", line 76, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "D:\AI\projects\ArtOa\ArtOa-AI\.venv\Lib\site-packages\starlette\_exception_handler.py", line 59, in wrapped_app
+    response = await handler(conn, exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI\projects\ArtOa\ArtOa-AI\.venv\Lib\site-packages\fastapi\exception_handlers.py", line 25, in request_validation_exception_handler
+    content={"detail": jsonable_encoder(exc.errors())},
+                       ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "D:\AI\projects\ArtOa\ArtOa-AI\.venv\Lib\site-packages\fastapi\encoders.py", line 303, in jsonable_encoder
+    jsonable_encoder(
+    ~~~~~~~~~~~~~~~~^
+        item,
+        ^^^^^
+    ...<7 lines>...
+        sqlalchemy_safe=sqlalchemy_safe,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\AI\projects\ArtOa\ArtOa-AI\.venv\Lib\site-packages\fastapi\encoders.py", line 289, in jsonable_encoder
+    encoded_value = jsonable_encoder(
+        value,
+    ...<4 lines>...
+        sqlalchemy_safe=sqlalchemy_safe,
+    )
+  File "D:\AI\projects\ArtOa\ArtOa-AI\.venv\Lib\site-packages\fastapi\encoders.py", line 318, in jsonable_encoder
+    return ENCODERS_BY_TYPE[type(obj)](obj)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "D:\AI\projects\ArtOa\ArtOa-AI\.venv\Lib\site-packages\fastapi\encoders.py", line 59, in <lambda>
+    bytes: lambda o: o.decode(),
+                     ~~~~~~~~^^
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xff in position 366: invalid start byte
+ | Timestamp: [2025-05-13 15:32:09,528]
+DEBUG: App is running on cpu... | Timestamp: [2025-05-13 15:39:25,017]
+INFO: Remover model loaded. | Timestamp: [2025-05-13 15:39:26,660]
+INFO: MaskRCNN model loaded. | Timestamp: [2025-05-13 15:39:27,167]
+DEBUG: App is running on cpu... | Timestamp: [2025-05-13 15:39:57,166]
+INFO: Remover model loaded. | Timestamp: [2025-05-13 15:39:58,861]
+INFO: MaskRCNN model loaded. | Timestamp: [2025-05-13 15:39:59,359]
+DEBUG: App is running on cpu... | Timestamp: [2025-05-13 15:41:20,795]
+INFO: Remover model loaded. | Timestamp: [2025-05-13 15:41:22,429]
+INFO: MaskRCNN model loaded. | Timestamp: [2025-05-13 15:41:22,915]
+DEBUG: App is running on cpu... | Timestamp: [2025-05-13 15:42:36,438]
+INFO: Remover model loaded. | Timestamp: [2025-05-13 15:42:38,044]
+INFO: MaskRCNN model loaded. | Timestamp: [2025-05-13 15:42:38,528]
+INFO: POST http://127.0.0.1:8000/custom-on-wall/ | Timestamp: [2025-05-13 15:42:45,175]
+DEBUG: App is running on cpu... | Timestamp: [2025-05-13 15:51:27,172]
+INFO: Remover model loaded. | Timestamp: [2025-05-13 15:51:28,807]
+INFO: MaskRCNN model loaded. | Timestamp: [2025-05-13 15:51:29,303]
+DEBUG: App is running on cpu... | Timestamp: [2025-05-13 15:55:14,402]
+INFO: Remover model loaded. | Timestamp: [2025-05-13 15:55:16,214]
+INFO: MaskRCNN model loaded. | Timestamp: [2025-05-13 15:55:16,715]
+DEBUG: App is running on cpu... | Timestamp: [2025-05-13 16:01:53,392]
+INFO: Remover model loaded. | Timestamp: [2025-05-13 16:02:03,488]
+INFO: MaskRCNN model loaded. | Timestamp: [2025-05-13 16:02:04,035]
+DEBUG: App is running on cpu... | Timestamp: [2025-05-13 16:04:30,119]
+INFO: Remover model loaded. | Timestamp: [2025-05-13 16:04:31,816]
+INFO: MaskRCNN model loaded. | Timestamp: [2025-05-13 16:04:32,325]
+ERROR: Unhandled Exception: Traceback (most recent call last):
+  File "D:\AI\projects\ArtOa\ArtOa-AI\.venv\Lib\site-packages\starlette\middleware\base.py", line 148, in call_next
+    message = await recv_stream.receive()
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI\projects\ArtOa\ArtOa-AI\.venv\Lib\site-packages\anyio\streams\memory.py", line 126, in receive
+    raise EndOfStream from None
+anyio.EndOfStream
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\AI\projects\ArtOa\ArtOa-AI\pipeline\app.py", line 95, in add_logging_and_error_handling
+    response = await call_next(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI\projects\ArtOa\ArtOa-AI\.venv\Lib\site-packages\starlette\middleware\base.py", line 154, in call_next
+    raise app_exc
+  File "D:\AI\projects\ArtOa\ArtOa-AI\.venv\Lib\site-packages\starlette\middleware\base.py", line 141, in coro
+    await self.app(scope, receive_or_disconnect, send_no_error)
+  File "D:\AI\projects\ArtOa\ArtOa-AI\.venv\Lib\site-packages\starlette\middleware\cors.py", line 85, in __call__
+    await self.app(scope, receive, send)
+  File "D:\AI\projects\ArtOa\ArtOa-AI\.venv\Lib\site-packages\starlette\middleware\exceptions.py", line 62, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "D:\AI\projects\ArtOa\ArtOa-AI\.venv\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "D:\AI\projects\ArtOa\ArtOa-AI\.venv\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "D:\AI\projects\ArtOa\ArtOa-AI\.venv\Lib\site-packages\starlette\routing.py", line 715, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "D:\AI\projects\ArtOa\ArtOa-AI\.venv\Lib\site-packages\starlette\routing.py", line 735, in app
+    await route.handle(scope, receive, send)
+  File "D:\AI\projects\ArtOa\ArtOa-AI\.venv\Lib\site-packages\starlette\routing.py", line 288, in handle
+    await self.app(scope, receive, send)
+  File "D:\AI\projects\ArtOa\ArtOa-AI\.venv\Lib\site-packages\starlette\routing.py", line 76, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "D:\AI\projects\ArtOa\ArtOa-AI\.venv\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "D:\AI\projects\ArtOa\ArtOa-AI\.venv\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "D:\AI\projects\ArtOa\ArtOa-AI\.venv\Lib\site-packages\starlette\routing.py", line 73, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "D:\AI\projects\ArtOa\ArtOa-AI\.venv\Lib\site-packages\fastapi\routing.py", line 301, in app
+    raw_response = await run_endpoint_function(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+    )
+    ^
+  File "D:\AI\projects\ArtOa\ArtOa-AI\.venv\Lib\site-packages\fastapi\routing.py", line 212, in run_endpoint_function
+    return await dependant.call(**values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI\projects\ArtOa\ArtOa-AI\pipeline\app.py", line 198, in custom_on_wall
+    segmentors = (
+    
+  File "D:\AI\projects\ArtOa\ArtOa-AI\pipeline\app.py", line 122, in process_wall_and_arts
+    masks = await segment_image(*segmentors, wall)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI\projects\ArtOa\ArtOa-AI\pipeline\app.py", line 109, in segment_image
+    if not final_masks:
+           ^^^^^^^^^^^
+ValueError: The truth value of an array with more than one element is ambiguous. Use a.any() or a.all()
+ | Timestamp: [2025-05-13 16:12:36,379]
+INFO: GET http://127.0.0.1:8000/docs | Timestamp: [2025-05-13 16:12:36,457]
+INFO: GET http://127.0.0.1:8000/ | Timestamp: [2025-05-13 16:12:36,457]
+INFO: GET http://127.0.0.1:8000/custom-on-wall/ | Timestamp: [2025-05-13 16:12:36,457]
