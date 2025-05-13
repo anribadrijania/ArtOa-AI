@@ -52,13 +52,13 @@ log_debug(f"App is running on {device}...")
 
 # Load segmentation models
 remover_model = AutoModelForImageSegmentation.from_pretrained("./pretrained", trust_remote_code=True)
-remover_model.load_state_dict(torch.load("remover_v1.pth"))
-remover_model.to(device).eval().half()
+remover_model.load_state_dict(torch.load("remover_v2.pth", map_location=torch.device('cpu')))
+remover_model.eval()
 log_info("Remover model loaded.")
 
 rcnn_model = maskrcnn_resnet50_fpn_v2()
-rcnn_model.load_state_dict(torch.load("./maskrcnn_v2.pth", map_location=device))
-rcnn_model.to(device).eval()
+rcnn_model.load_state_dict(torch.load("./maskrcnn_v2.pth", map_location=torch.device('cpu')))
+rcnn_model.eval()
 log_info("MaskRCNN model loaded.")
 
 # OpenAI client
@@ -106,7 +106,7 @@ async def add_logging_and_error_handling(request: Request, call_next):
 async def segment_image(rcnn_segmentor, remover_segmentor, wall):
     remover_mask = await remover_segmentor.predict_masks(wall)
     final_masks = await rcnn_segmentor.predict_masks(wall, remover_mask)
-    if not final_masks:
+    if final_masks is None or final_masks.size == 0:
         log_warning("No objects found during segmentation.")
         return None
     return final_masks
@@ -119,15 +119,17 @@ async def generate_images(generator, n):
 # Helper: process art on wall
 async def process_wall_and_arts(wall, arts, box, segmentors):
     box_width, box_height, x_min, y_min = utils.get_box_coordinates(wall, box)
+    print(2)
     masks = await segment_image(*segmentors, wall)
     final_images = []
+    print(3)
     for art in arts:
         background_np = np.array(wall)
         art_np = np.array(art)
         h, w_img = background_np.shape[:2]
         box_percent = [x_min / w_img, y_min / h, (x_min + box_width) / w_img, (y_min + box_height) / h]
         wall_art = utils.apply_lighting_and_texture(background_np, art_np, box_percent)
-        final = utils.return_cropped_objects(wall_art, masks) if masks else Image.fromarray(wall_art)
+        final = utils.return_cropped_objects(wall_art, masks) if masks.size is not 0 else Image.fromarray(wall_art)
         final_images.append(final)
     return final_images
 
@@ -184,14 +186,16 @@ async def generate_on_wall(req: GenerateRequest):
 @app.post("/custom-on-wall/")
 async def custom_on_wall(
     api_key: str = Form(...),
+    wall_image: str = Form(...),
     box: List[float] = Form(...),
-    wall_image: UploadFile = File(...),
     art_images: List[UploadFile] = File(...)
 ):
     print("1")
     validate_request(api_key, box)
     print("12")
-    wall = Image.open(wall_image.file).convert("RGB")
+    wall = await utils.fetch_image(wall_image)
+    if wall is None:
+        raise HTTPException(status_code=400, detail="Invalid image URL")
     print("123")
     arts = [Image.open(file.file).convert("RGB") for file in art_images]
     print("1234")
