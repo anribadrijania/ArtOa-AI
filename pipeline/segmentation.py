@@ -23,7 +23,7 @@ def preprocess_image(image, device):
         transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
     ])
 
-    input_tensor = transform(image).unsqueeze(0).to(device).half()
+    input_tensor = transform(image).unsqueeze(0)
     return input_tensor, original_size  # Return both image and original size
 
 
