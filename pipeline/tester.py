@@ -3,8 +3,8 @@ import requests
 url = "http://127.0.0.1:8000/custom-on-wall/"
 
 files = [
-    ("art_images", open("C:/Users/ali/Downloads/art1.jpg", "rb")),
-    ("art_images", open("C:/Users/ali/Downloads/art2.jpg", "rb")),
+    ("art_images", open("C:/Users/alili/Downloads/art1.jpg", "rb")),
+    ("art_images", open("C:/Users/alili/Downloads/art2.jpg", "rb")),
 ]
 
 # Send `box` as multiple values

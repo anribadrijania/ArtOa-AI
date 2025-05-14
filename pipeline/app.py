@@ -119,10 +119,8 @@ async def generate_images(generator, n):
 # Helper: process art on wall
 async def process_wall_and_arts(wall, arts, box, segmentors):
     box_width, box_height, x_min, y_min = utils.get_box_coordinates(wall, box)
-    print(2)
     masks = await segment_image(*segmentors, wall)
     final_images = []
-    print(3)
     for art in arts:
         background_np = np.array(wall)
         art_np = np.array(art)
@@ -190,20 +188,14 @@ async def custom_on_wall(
     box: List[float] = Form(...),
     art_images: List[UploadFile] = File(...)
 ):
-    print("1")
     validate_request(api_key, box)
-    print("12")
     wall = await utils.fetch_image(wall_image)
     if wall is None:
         raise HTTPException(status_code=400, detail="Invalid image URL")
-    print("123")
     arts = [Image.open(file.file).convert("RGB") for file in art_images]
-    print("1234")
     segmentors = (
         segmentation.MaskRCNN(rcnn_model, device),
         segmentation.BgRemover(remover_model, device)
     )
-    print("12345")
     final_images = await process_wall_and_arts(wall, arts, box, segmentors)
-    print("123456")
     return create_multipart_response(final_images, filenames=[f"custom_{i}.png" for i in range(len(final_images))])
