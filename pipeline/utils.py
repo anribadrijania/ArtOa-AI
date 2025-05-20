@@ -97,7 +97,7 @@ def apply_lighting_and_texture(background: np.ndarray, artwork: np.ndarray, box_
     illum_blend = illum_gray * (1 - blend_factor) + illum_color * blend_factor
 
     # Optional: clamp to avoid extreme lighting
-    illum_blend = np.clip(illum_blend, 0.05, 1.6)
+    illum_blend = np.clip(illum_blend, 0.01, 1.9)
 
     box_height = y_max_px - y_min_px
     box_width = x_max_px - x_min_px
@@ -115,11 +115,11 @@ def apply_lighting_and_texture(background: np.ndarray, artwork: np.ndarray, box_
     avg_brightness = np.mean(luminance)
 
     # Define target brightness (0 = dark, 1 = bright), adjust as needed
-    target_brightness = 0.7
+    target_brightness = 1
 
     # Compute brightness factor (clamped for safety)
     brightness_factor = target_brightness / max(avg_brightness, 1e-4)
-    brightness_factor = np.clip(brightness_factor, 0.0, 2.0)  # Prevent over/underexposure
+    brightness_factor = np.clip(brightness_factor, 0.0, 3.0)  # Prevent over/underexposure
     print(brightness_factor)
     # Apply adaptive brightness to the full image
     artwork_lit *= brightness_factor
@@ -145,7 +145,7 @@ def apply_lighting_and_texture(background: np.ndarray, artwork: np.ndarray, box_
     return Image.fromarray(result_image_uint8)
 
 
-def create_rounded_fade_mask(width, height, fade_ratio=0.08, corner_radius_ratio=0.12):
+def create_rounded_fade_mask(width, height, fade_ratio=0.02, corner_radius_ratio=0.08):
     fade_width_x = int(width * fade_ratio)  # Fade width for the horizontal dimension
     fade_width_y = int(height * fade_ratio)  # Fade width for the vertical dimension
     radius = int(min(width, height) * corner_radius_ratio)

@@ -26,6 +26,7 @@ import generation
 import asyncio
 import traceback
 import io
+import urllib.parse
 
 # Load environment variables
 load_dotenv()
@@ -104,8 +105,8 @@ async def add_logging_and_error_handling(request: Request, call_next):
 
 # Helper: segmentation
 async def segment_image(rcnn_segmentor, remover_segmentor, wall):
-    remover_mask = await remover_segmentor.predict_masks(wall)
-    final_masks = await rcnn_segmentor.predict_masks(wall, remover_mask)
+    remover_mask = await remover_segmentor.predict_masks(wall, 0.9)
+    final_masks = await rcnn_segmentor.predict_masks(wall, remover_mask, 0.5)
     if final_masks is None or final_masks.size == 0:
         log_warning("No objects found during segmentation.")
         return None
@@ -132,9 +133,6 @@ async def process_wall_and_arts(wall, arts, box, segmentors):
     return final_images
 
 # Multipart response
-
-import urllib.parse
-
 def create_multipart_response(images: List[Image.Image], image_format="PNG", content_type="image/png", filenames: Optional[List[str]] = None, boundary="BOUNDARY") -> Response:
     multipart_body = b""
     for i, img in enumerate(images):

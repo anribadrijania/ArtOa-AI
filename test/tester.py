@@ -10,11 +10,11 @@ files = [
 # Send `box` as multiple values
 data = [
     ("api_key", "samplekey"),
-    ("wall_image", "https://media.istockphoto.com/id/1933752815/photo/modern-interior-of-living-room-with-leather-armchair-on-wood-flooring-and-dark-blue-wall.jpg?s=612x612&w=0&k=20&c=KqVE2Sh7Mjx_EBQC3bN1X3YPyCtcMCttKKB0aKnFN3E="),
-    ("box", "0.2"),
-    ("box", "0.3"),
-    ("box", "0.6"),
-    ("box", "0.7")
+    ("wall_image", "https://thumbs.dreamstime.com/b/pink-wall-sunlight-shadows-bright-interior-space-modern-design-minimalistic-aesthetic-ai-generated-356586077.jpg"),
+    ("box", "0.0"),
+    ("box", "0.0"),
+    ("box", "1.0"),
+    ("box", "0.75")
 ]
 
 response = requests.post(url, data=data, files=files)

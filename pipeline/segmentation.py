@@ -32,13 +32,14 @@ class MaskRCNN:
         self.model = model
         self.device = device
 
-    async def predict_masks(self, image, bg_mask, threshold=0.01, overlap_thresh=0.5, containment_thresh=0.8):
+    async def predict_masks(self, image, bg_mask, threshold=0.5, overlap_thresh=0.5, containment_thresh=0.8):
         image_np, input_tensors = transformer_for_rcnn(image, self.device)
         with torch.no_grad():
             outputs = self.model(input_tensors)
 
         scores = outputs[0]['scores'].cpu().numpy()
         masks = outputs[0]['masks'].squeeze().cpu().numpy()
+        print(scores < threshold)
 
         for i in range(len(scores)):
             if scores[i] < threshold:
@@ -75,7 +76,7 @@ class BgRemover:
         self.model = model
         self.device = device
 
-    async def predict_masks(self, image, threshold=0.5):
+    async def predict_masks(self, image, threshold=0.9):
         input_tensor, original_size = preprocess_image(image, self.device)
         with torch.no_grad():
             preds = self.model(input_tensor)[-1].sigmoid().cpu()
