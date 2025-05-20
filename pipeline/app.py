@@ -5,28 +5,28 @@ The pipeline uses the YOLO model for segmentation and the OpenAI DALL-E model fo
 """
 
 # Import required libraries
-from fastapi import FastAPI, HTTPException, UploadFile, Request, Form, File
-from fastapi.responses import Response
+from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
-from logger import log_debug, log_info, log_warning, log_error
+# from logger import log_debug, log_info, log_warning, log_error
 from transformers import AutoModelForImageSegmentation
 from torchvision.models.detection import maskrcnn_resnet50_fpn_v2
+from fastapi.responses import StreamingResponse
 from openai import AsyncOpenAI
 from dotenv import load_dotenv
 from PIL import Image
-from typing import List, Optional
+from typing import List
 from pydantic import BaseModel
 import numpy as np
 import os
 import torch
-import time
 import utils
 import segmentation
 import generation
 import asyncio
 import traceback
 import io
-import urllib.parse
+import zipfile
+
 
 # Load environment variables
 load_dotenv()
@@ -49,21 +49,22 @@ app.add_middleware(
 
 # Define device
 device = "cpu"
-log_debug(f"App is running on {device}...")
+# log_debug(f"App is running on {device}...")
 
 # Load segmentation models
 remover_model = AutoModelForImageSegmentation.from_pretrained("./pretrained", trust_remote_code=True)
 remover_model.load_state_dict(torch.load("remover_v2.pth", map_location=torch.device('cpu')))
 remover_model.eval()
-log_info("Remover model loaded.")
+# log_info("Remover model loaded.")
 
 rcnn_model = maskrcnn_resnet50_fpn_v2()
 rcnn_model.load_state_dict(torch.load("./maskrcnn_v2.pth", map_location=torch.device('cpu')))
 rcnn_model.eval()
-log_info("MaskRCNN model loaded.")
+# log_info("MaskRCNN model loaded.")
 
 # OpenAI client
 client = AsyncOpenAI(api_key=OPENAI_API_KEY)
+
 
 # Request schema
 class GenerateRequest(BaseModel):
@@ -74,8 +75,21 @@ class GenerateRequest(BaseModel):
     tags: List[str] = [""]
     n: int = 4
 
+
+class CustomRequest(BaseModel):
+    api_key: str
+    wall_image: str
+    box: List[float]
+    image_urls: List[str]
+
+
 # Validate requests
 def validate_request(api_key, box):
+    """
+    Validates the API key and the bounding box format.
+    Ensures that the API key matches the expected one and that the box is a list of 4 float values between 0 and 1.
+    Raises HTTP exceptions for invalid input.
+    """
     if not api_key:
         raise HTTPException(status_code=401, detail="API key is required.")
     if api_key != APP_API_KEY:
@@ -88,37 +102,56 @@ def validate_request(api_key, box):
     if box[0] > box[2] or box[1] > box[3]:
         raise HTTPException(status_code=400, detail="Invalid box order.")
 
-# Error handling middleware
+
 @app.middleware("http")
 async def add_logging_and_error_handling(request: Request, call_next):
+    """
+    Middleware for logging all incoming requests and catching unhandled exceptions.
+    Logs HTTP method and URL, and gracefully handles errors by returning appropriate HTTP status codes.
+    """
     try:
-        log_info(f"{request.method} {request.url}")
         response = await call_next(request)
         return response
     except HTTPException as e:
-        log_error(f"HTTPException: {e.detail}")
-        raise
+        tb = traceback.format_exc()
+        raise HTTPException(status_code=400, detail=e)
     except Exception as e:
         tb = traceback.format_exc()
-        log_error(f"Unhandled Exception: {tb}")
-        raise HTTPException(status_code=500, detail="Internal server error")
+        raise HTTPException(status_code=500, detail=e)
+
 
 # Helper: segmentation
 async def segment_image(rcnn_segmentor, remover_segmentor, wall):
+    """
+    Performs object segmentation on the input wall image.
+    Combines the background remover and Mask R-CNN predictions to get final object masks.
+    Returns None if no objects are found.
+    """
     remover_mask = await remover_segmentor.predict_masks(wall, 0.9)
     final_masks = await rcnn_segmentor.predict_masks(wall, remover_mask, 0.5)
     if final_masks is None or final_masks.size == 0:
-        log_warning("No objects found during segmentation.")
-        return None
+        # log_warning("No objects found during segmentation.")
+        return np.zeros_like(wall)
     return final_masks
+
 
 # Helper: generation
 async def generate_images(generator, n):
+    """
+    Generates `n` AI art images asynchronously using the provided generator instance.
+    Returns a list of generated PIL Image objects.
+    """
     tasks = [utils.generate_and_fetch(generator) for _ in range(n)]
     return await asyncio.gather(*tasks)
 
+
 # Helper: process art on wall
 async def process_wall_and_arts(wall, arts, box, segmentors):
+    """
+    Processes the wall image by placing each art image in the specified box region.
+    Applies lighting and texture blending, then composites with segmented objects.
+    Returns a list of final processed images.
+    """
     box_width, box_height, x_min, y_min = utils.get_box_coordinates(wall, box)
     masks = await segment_image(*segmentors, wall)
     final_images = []
@@ -128,38 +161,34 @@ async def process_wall_and_arts(wall, arts, box, segmentors):
         h, w_img = background_np.shape[:2]
         box_percent = [x_min / w_img, y_min / h, (x_min + box_width) / w_img, (y_min + box_height) / h]
         wall_art = utils.apply_lighting_and_texture(background_np, art_np, box_percent)
-        final = utils.return_cropped_objects(wall_art, masks) if masks.size is not 0 else Image.fromarray(wall_art)
+        final = utils.return_cropped_objects(wall_art, masks) if masks is not None else Image.fromarray(wall_art)
         final_images.append(final)
     return final_images
 
-# Multipart response
-def create_multipart_response(images: List[Image.Image], image_format="PNG", content_type="image/png", filenames: Optional[List[str]] = None, boundary="BOUNDARY") -> Response:
-    multipart_body = b""
-    for i, img in enumerate(images):
-        filename = filenames[i] if filenames and i < len(filenames) else f"image_{i}.{image_format.lower()}"
-        safe_filename = urllib.parse.quote(filename)  # RFC 5987 encoding
 
-        img_bytes = io.BytesIO()
-        img.save(img_bytes, format=image_format)
-        img_bytes.seek(0)
-        image_data = img_bytes.read()
-
-        part = (
-            f"--{boundary}\r\n"
-            f"Content-Type: {content_type}\r\n"
-            f"Content-Disposition: inline; filename*=utf-8''{safe_filename}\r\n\r\n"
-        ).encode("utf-8") + image_data + b"\r\n"
-
-        multipart_body += part
-
-    multipart_body += f"--{boundary}--\r\n".encode("utf-8")
-
-    return Response(content=multipart_body, media_type=f"multipart/mixed; boundary={boundary}")
+# Helper: image response
+def create_zip_from_images(images: List[Image.Image]) -> io.BytesIO:
+    zip_buffer = io.BytesIO()
+    with zipfile.ZipFile(zip_buffer, "w") as zip_file:
+        for i, img in enumerate(images):
+            img_bytes = io.BytesIO()
+            img.save(img_bytes, format="PNG")
+            img_bytes.seek(0)
+            zip_file.writestr(f"image_{i}.png", img_bytes.read())
+    zip_buffer.seek(0)
+    return zip_buffer
 
 
 @app.post("/generate-on-wall/")
 async def generate_on_wall(req: GenerateRequest):
-    start = time.time()
+    """
+    Endpoint to generate AI art and place it on a user-provided wall image.
+    - Validates request.
+    - Downloads and processes wall image.
+    - Uses DALL-E to generate art.
+    - Places each generated art on the wall with visual enhancements.
+    Returns a list of image byte arrays.
+    """
     validate_request(req.api_key, req.box)
     wall = await utils.fetch_image(req.image_url)
     if wall is None:
@@ -177,23 +206,40 @@ async def generate_on_wall(req: GenerateRequest):
     arts = await generate_images(generator, req.n)
     final_images = await process_wall_and_arts(wall, arts, req.box, segmentors)
 
-    return create_multipart_response(final_images, filenames=[f"generated_{i}.png" for i in range(len(final_images))])
+    zip_buffer = create_zip_from_images(final_images)
+    return StreamingResponse(zip_buffer, media_type="application/zip", headers={
+        "Content-Disposition": "attachment; filename=images.zip"
+    })
+
 
 @app.post("/custom-on-wall/")
-async def custom_on_wall(
-    api_key: str = Form(...),
-    wall_image: str = Form(...),
-    box: List[float] = Form(...),
-    art_images: List[UploadFile] = File(...)
-):
-    validate_request(api_key, box)
-    wall = await utils.fetch_image(wall_image)
+async def custom_on_wall(req: CustomRequest):
+    validate_request(req.api_key, req.box)
+
+    # Fetch wall image
+    wall = await utils.fetch_image(req.wall_image)
     if wall is None:
-        raise HTTPException(status_code=400, detail="Invalid image URL")
-    arts = [Image.open(file.file).convert("RGB") for file in art_images]
+        raise HTTPException(status_code=400, detail="Invalid wall image URL")
+
+    # Fetch all art images from URLs
+    arts = []
+    for url in req.image_urls:
+        art = await utils.fetch_image(url)
+        if art is None:
+            raise HTTPException(status_code=400, detail=f"Invalid art image URL: {url}")
+        arts.append(art.convert("RGB"))
+
+    # Initialize segmentors
     segmentors = (
         segmentation.MaskRCNN(rcnn_model, device),
         segmentation.BgRemover(remover_model, device)
     )
-    final_images = await process_wall_and_arts(wall, arts, box, segmentors)
-    return create_multipart_response(final_images, filenames=[f"custom_{i}.png" for i in range(len(final_images))])
+
+    # Process images and return result
+    final_images = await process_wall_and_arts(wall, arts, req.box, segmentors)
+
+    zip_buffer = create_zip_from_images(final_images)
+    return StreamingResponse(zip_buffer, media_type="application/zip", headers={
+        "Content-Disposition": "attachment; filename=images.zip"
+    })
+
