@@ -2,3 +2,4 @@ remover_v2.pth
 maskrcnn_v2.pth
 pretrained
 .env
+__pycache__

@@ -7,6 +7,7 @@ from io import BytesIO
 
 transport = ASGITransport(app=app)
 
+
 # Mock function to simulate OpenAI image generation response
 def mock_generate_and_fetch(*args, **kwargs):
     # Simulating a generated image (dummy 100x100 blue image)
@@ -16,6 +17,7 @@ def mock_generate_and_fetch(*args, **kwargs):
     img_bytes.seek(0)
     return img_bytes.getvalue()  # Return raw image data
 
+
 # Mock function to simulate the hashing of the API key
 def mock_hash_api_key(api_key: str):
     # Mocked behavior: simulate that the provided API key is valid
@@ -23,6 +25,7 @@ def mock_hash_api_key(api_key: str):
         return "valid_key"  # Return the expected valid hashed key
     else:
         return "invalid_key"  # Simulate an invalid hashed key
+
 
 @pytest.mark.asyncio
 async def test_missing_api_key():
@@ -40,6 +43,7 @@ async def test_missing_api_key():
 
     assert response.status_code == 401
     assert response.json()["detail"] == "API key is required."
+
 
 @pytest.mark.asyncio
 @patch("app.utils.hash_api_key", side_effect=mock_hash_api_key)
@@ -60,6 +64,7 @@ async def test_invalid_api_key(mock_hash):
     assert response.status_code == 401
     assert response.json()["detail"] == "Invalid API key."
 
+
 @pytest.mark.asyncio
 @patch("utils.fetch_image", return_value=None)  # Simulate fetch_image failure
 async def test_invalid_image_url(mock_fetch):
@@ -77,6 +82,7 @@ async def test_invalid_image_url(mock_fetch):
 
     assert response.status_code == 400
     assert response.json()["detail"] == "Invalid image URL or image could not be fetched."
+
 
 @pytest.mark.asyncio
 @patch("utils.generate_and_fetch", return_value=Image.new("RGB", (256, 256), "blue"))
@@ -118,6 +124,7 @@ async def test_segmentation_masks(mock_generate, mock_remover, mock_rcnn):
     assert len(response.files) == 1  # One image returned
     mock_rcnn.assert_called_once()  # Ensure the segmentation model was called
     mock_remover.assert_called_once()  # Ensure background remover was called
+
 
 @pytest.mark.asyncio
 @patch("generation.Generate.generate", side_effect=Exception("Internal error"))

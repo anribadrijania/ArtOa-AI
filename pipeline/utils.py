@@ -6,7 +6,6 @@ import cv2
 import base64
 
 
-
 async def fetch_image(url):
     """
     Fetch an image from a given URL asynchronously.
@@ -120,7 +119,6 @@ def apply_lighting_and_texture(background: np.ndarray, artwork: np.ndarray, box_
     # Compute brightness factor (clamped for safety)
     brightness_factor = target_brightness / max(avg_brightness, 1e-4)
     brightness_factor = np.clip(brightness_factor, 0.0, 3.0)  # Prevent over/underexposure
-    print(brightness_factor)
     # Apply adaptive brightness to the full image
     artwork_lit *= brightness_factor
 

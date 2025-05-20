@@ -39,7 +39,6 @@ class MaskRCNN:
 
         scores = outputs[0]['scores'].cpu().numpy()
         masks = outputs[0]['masks'].squeeze().cpu().numpy()
-        print(scores < threshold)
 
         for i in range(len(scores)):
             if scores[i] < threshold:
