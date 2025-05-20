@@ -83,6 +83,13 @@ class CustomRequest(BaseModel):
     image_urls: List[str]
 
 
+class GenerateArtRequest(BaseModel):
+    api_key: str
+    prompt: str
+    tags: List[str] = [""]
+    n: int = 4
+
+
 # Validate requests
 def validate_request(api_key, box):
     """
@@ -214,6 +221,14 @@ async def generate_on_wall(req: GenerateRequest):
 
 @app.post("/custom-on-wall/")
 async def custom_on_wall(req: CustomRequest):
+    """
+    Endpoint to place user-provided art images onto a wall image.
+    - Validates request.
+    - Downloads and processes wall image.
+    - Downloads all provided art images.
+    - Uses segmentation to enhance placement (e.g., background removal, occlusion handling).
+    Returns a ZIP file containing the final composited images.
+    """
     validate_request(req.api_key, req.box)
 
     # Fetch wall image
@@ -243,3 +258,33 @@ async def custom_on_wall(req: CustomRequest):
         "Content-Disposition": "attachment; filename=images.zip"
     })
 
+
+@app.post("/generate-art/")
+async def generate_art(req: GenerateArtRequest):
+    """
+    Endpoint to generate AI art only (no wall placement).
+    - Validates API key and box format.
+    - Builds the prompt from user input.
+    - Generates n art images using DALL-E.
+    - Returns them in a ZIP file.
+    """
+    # Validate API key only (box is not needed but used in schema)
+    if not req.api_key:
+        raise HTTPException(status_code=401, detail="API key is required.")
+    if req.api_key != APP_API_KEY:
+        raise HTTPException(status_code=401, detail="Invalid API key.")
+
+    # Prepare prompt and generation settings
+    prompt = utils.prompt_engineering(req.prompt, req.tags)
+    size = "1024x1024"  # Default size, or dynamically calculated if you prefer
+
+    # Initialize generator and generate images
+    generator = generation.Generate(client, "dall-e-3", prompt, size, "standard", "vivid", 1)
+    arts = await generate_images(generator, req.n)
+    arts = list(arts)
+
+    # Return images in ZIP file
+    zip_buffer = create_zip_from_images(arts)
+    return StreamingResponse(zip_buffer, media_type="application/zip", headers={
+        "Content-Disposition": "attachment; filename=generated_art.zip"
+    })
