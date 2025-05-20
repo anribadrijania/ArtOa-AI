@@ -11,9 +11,9 @@ files = [
 data = [
     ("api_key", "samplekey"),
     ("wall_image", "https://thumbs.dreamstime.com/b/pink-wall-sunlight-shadows-bright-interior-space-modern-design-minimalistic-aesthetic-ai-generated-356586077.jpg"),
-    ("box", "0.0"),
-    ("box", "0.0"),
-    ("box", "1.0"),
+    ("box", "0.2"),
+    ("box", "0.1"),
+    ("box", "0.9"),
     ("box", "0.75")
 ]
 

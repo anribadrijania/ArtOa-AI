@@ -20,4 +20,4 @@ for part in decoder.parts:
     if content_type.startswith("image/"):
         image = Image.open(io.BytesIO(part.content))
         images.append(image)
-        image.show()  # Optional
+
