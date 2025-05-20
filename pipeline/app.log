@@ -4499,3 +4499,4 @@ INFO: POST http://127.0.0.1:8000/custom-on-wall/ | Timestamp: [2025-05-20 10:58:
 DEBUG: App is running on cpu... | Timestamp: [2025-05-20 10:59:08,493]
 INFO: Remover model loaded. | Timestamp: [2025-05-20 10:59:10,006]
 INFO: MaskRCNN model loaded. | Timestamp: [2025-05-20 10:59:10,477]
+INFO: POST http://127.0.0.1:8000/custom-on-wall/ | Timestamp: [2025-05-20 11:00:00,103]
