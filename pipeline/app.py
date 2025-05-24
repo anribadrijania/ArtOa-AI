@@ -128,14 +128,14 @@ async def add_logging_and_error_handling(request: Request, call_next):
 
 
 # Helper: segmentation
-async def segment_image(rcnn_segmentor, remover_segmentor, wall):
+async def segment_image(rcnn_segmentor, remover_segmentor, wall, box):
     """
     Performs object segmentation on the input wall image.
     Combines the background remover and Mask R-CNN predictions to get final object masks.
     Returns None if no objects are found.
     """
     remover_mask = await remover_segmentor.predict_masks(wall, 0.9)
-    final_masks = await rcnn_segmentor.predict_masks(wall, remover_mask, 0.5)
+    final_masks = await rcnn_segmentor.predict_masks(wall, remover_mask, 0.01, box=box)
     if final_masks is None or final_masks.size == 0:
         # log_warning("No objects found during segmentation.")
         return np.zeros_like(wall)
@@ -160,7 +160,7 @@ async def process_wall_and_arts(wall, arts, box, segmentors):
     Returns a list of final processed images.
     """
     box_width, box_height, x_min, y_min = utils.get_box_coordinates(wall, box)
-    masks = await segment_image(*segmentors, wall)
+    masks = await segment_image(*segmentors, wall, box)
     final_images = []
     for art in arts:
         background_np = np.array(wall)

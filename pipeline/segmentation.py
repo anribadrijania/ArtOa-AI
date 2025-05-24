@@ -32,37 +32,76 @@ class MaskRCNN:
         self.model = model
         self.device = device
 
-    async def predict_masks(self, image, bg_mask, threshold=0.5, overlap_thresh=0.5, containment_thresh=0.8):
+    async def predict_masks(self, image, bg_mask, threshold=0.5, overlap_thresh=0.5,
+                            containment_thresh=0.8, box=None, fill_thresh=0.5):
         image_np, input_tensors = transformer_for_rcnn(image, self.device)
+        height, width = image_np.shape[:2]
+
+        # Convert relative box to absolute coords
+        if box:
+            x_min, y_min, x_max, y_max = box
+            x_min = int(x_min * width)
+            y_min = int(y_min * height)
+            x_max = int(x_max * width)
+            y_max = int(y_max * height)
+            box_area = (x_max - x_min) * (y_max - y_min)
+
         with torch.no_grad():
             outputs = self.model(input_tensors)
 
         scores = outputs[0]['scores'].cpu().numpy()
         masks = outputs[0]['masks'].squeeze().cpu().numpy()
 
+        passed_masks = []
+
         for i in range(len(scores)):
             if scores[i] < threshold:
                 continue
-            rcnn_mask = (masks[i] > 0.5).astype(np.uint8)
 
-            # Check IoU overlap with BiRefNet
-            intersection = np.logical_and(bg_mask, rcnn_mask).sum()
-            union = np.logical_or(bg_mask, rcnn_mask).sum()
+            mask = (masks[i] > 0.5).astype(np.uint8)
+
+            # Step 1: Per-mask area check inside the box
+            if box:
+                mask_in_box = mask[y_min:y_max, x_min:x_max]
+                fill_ratio = mask_in_box.sum() / box_area
+                if fill_ratio >= fill_thresh:
+                    continue  # Skip this mask
+
+            # Step 2: Overlap and containment checks
+            intersection = np.logical_and(bg_mask, mask).sum()
+            union = np.logical_or(bg_mask, mask).sum()
             iou = intersection / union if union != 0 else 0
 
-            # Check containment: is most of rcnn_mask inside bg_mask?
-            rcnn_area = rcnn_mask.sum()
+            rcnn_area = mask.sum()
             if rcnn_area == 0:
                 continue
             contained_ratio = intersection / rcnn_area
 
-            # Only add object if it’s not overlapping too much and not already covered
             if iou < overlap_thresh or contained_ratio < containment_thresh:
-                bg_mask = cv2.bitwise_or(bg_mask, rcnn_mask * 255)
-            else:
-                continue
+                passed_masks.append(mask)
 
-        # Ensure RGB base image (strip alpha if needed)
+        # Step 3: Combined mask check inside the box
+        if box and passed_masks:
+            combined_mask = np.zeros_like(passed_masks[0])
+            for mask in passed_masks:
+                # Only combine those that touch the box area
+                if np.any(mask[y_min:y_max, x_min:x_max]):
+                    combined_mask = np.logical_or(combined_mask, mask)
+
+            combined_fill_ratio = combined_mask[y_min:y_max, x_min:x_max].sum() / box_area
+            if combined_fill_ratio >= fill_thresh:
+                print(f"Skipping combined box masks due to {combined_fill_ratio:.2f} fill ratio.")
+                # Filter out all passed masks that intersect with box
+                final_masks = [m for m in passed_masks if not np.any(m[y_min:y_max, x_min:x_max])]
+            else:
+                final_masks = passed_masks
+        else:
+            final_masks = passed_masks
+
+        # Combine final masks with bg_mask
+        for mask in final_masks:
+            bg_mask = cv2.bitwise_or(bg_mask, mask * 255)
+
         if image_np.shape[2] == 4:
             image_np = image_np[:, :, :3]
 

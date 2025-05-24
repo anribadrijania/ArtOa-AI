@@ -10,11 +10,11 @@ url = "http://localhost:8000/custom-on-wall/"
 api_key = "samplekey"
 
 # Sample inputs
-wall_image_url = "https://images.photowall.com/interiors/60421/landscape/wallpaper/room88.jpg?w=2000&q=80"
+wall_image_url = "https://images.stockcake.com/public/0/2/9/02989daf-35f3-43d6-8a13-7ba5e6a95859_large/shadows-meet-light-stockcake.jpg"
 art_image_urls = [
     "https://d3njjcbhbojbot.cloudfront.net/api/utilities/v1/imageproxy/https://coursera-course-photos.s3.amazonaws.com/65/78ce0081ad11e681d7bb31b0a632ef/starry-night.jpg"
 ]
-box = [0.2, 0.3, 0.7, 0.8]  # [x_min, y_min, x_max, y_max]
+box = [0.0, 0.0, 1.0, .9]  # [x_min, y_min, x_max, y_max]
 
 # Form data
 data = {
