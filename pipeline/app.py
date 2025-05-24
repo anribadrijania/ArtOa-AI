@@ -205,7 +205,7 @@ async def generate_on_wall(req: GenerateRequest):
     size = utils.get_best_size(box_width, box_height)
     prompt = utils.prompt_engineering(req.prompt, req.tags)
 
-    generator = generation.Generate(client, "dall-e-3", prompt, size, "standard", "vivid", 1)
+    generator = generation.Generate(client, "dall-e-3", prompt, size, "standard", "natural", 1)
     segmentors = (
         segmentation.MaskRCNN(rcnn_model, device),
         segmentation.BgRemover(remover_model, device)
