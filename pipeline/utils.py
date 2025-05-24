@@ -17,7 +17,10 @@ async def fetch_image(url):
         async with session.get(url) as response:
             if response.status == 200:
                 data = await response.read()
-                return Image.open(BytesIO(data))
+                image = Image.open(BytesIO(data))
+                if image.mode != 'RGB':
+                    image = image.convert('RGB')
+                return image
             return None
 
 
