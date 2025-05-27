@@ -11,7 +11,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from transformers import AutoModelForImageSegmentation
 from torchvision.models.detection import maskrcnn_resnet50_fpn_v2
 from fastapi.responses import StreamingResponse
-from openai import AsyncOpenAI
+from openai import AsyncAzureOpenAI
 from dotenv import load_dotenv
 from PIL import Image
 from typing import List
@@ -30,22 +30,21 @@ import zipfile
 
 # Load environment variables
 load_dotenv()
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+AZURE_ENDPOINT = os.getenv("AZURE_ENDPOINT")
+AZURE_OPENAI_API_KEY = os.getenv("AZURE_OPENAI_API_KEY")
 APP_API_KEY = os.getenv("APP_API_KEY")
-if not OPENAI_API_KEY:
-    raise ValueError("OPENAI_API_KEY is not set!")
+if not AZURE_ENDPOINT:
+    raise ValueError("AZURE_ENDPOINT is not set!")
+if not AZURE_OPENAI_API_KEY:
+    raise ValueError("AZURE_OPENAI_API_KEY is not set!")
 if not APP_API_KEY:
     raise ValueError("APP_API_KEY is not set!")
 
-# Create FastAPI app instance
-app = FastAPI()
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+# OpenAI client
+client = AsyncAzureOpenAI(
+    azure_endpoint=AZURE_ENDPOINT,
+    api_key=AZURE_OPENAI_API_KEY,
+    api_version="2024-02-01",)
 
 # Define device
 device = "cpu"
@@ -61,9 +60,6 @@ rcnn_model = maskrcnn_resnet50_fpn_v2()
 rcnn_model.load_state_dict(torch.load("./maskrcnn_v2.pth", map_location=torch.device('cpu')))
 rcnn_model.eval()
 # log_info("MaskRCNN model loaded.")
-
-# OpenAI client
-client = AsyncOpenAI(api_key=OPENAI_API_KEY)
 
 
 # Request schema
@@ -89,6 +85,15 @@ class GenerateArtRequest(BaseModel):
     tags: List[str] = [""]
     n: int = 4
 
+# Create FastAPI app instance
+app = FastAPI()
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # Validate requests
 def validate_request(api_key, box):
