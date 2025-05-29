@@ -1,4 +1,4 @@
-class Generate:
+class GenerateImage:
     """
     A class to handle image generation using OpenAI's API.
     """
@@ -51,5 +51,43 @@ class Generate:
             style=self.style,
             n=self.n
         )
+        print(response.data[0].revised_prompt)
         return response.data[0].revised_prompt, response.data[0].url
 
+class GeneratePrompt:
+    def __init__(self, client):
+        self.client = client
+    async def generate_prompt(self, prompt):
+        response = await self.client.chat.completions.create(
+            model="gpt-4.1-nano",
+            messages=[
+                {"role": "system", "content": """
+                    [Concise instruction describing the task - this should be the first line in the prompt, no section header]
+
+                    Role: You are tasked with creating a prompt for the Dall.E 3 model based on customer input regarding desired wall art. 
+                    Your prompt must exclusively describe the art style without including any other specifics such as wall features or costs.
+                    
+                    [Additional details as needed.]
+                    
+                    Translate all input into English, regardless of the original language, ensuring that each word is accurately conveyed.
+                    
+                    # Guidelines
+                    
+                    - **Focus Only on Art**: Exclude information unrelated to the art itself (e.g., wall conditions, prices, etc.). That means everything in generated image should be in the art and the generated image itself should be entirely art.
+                    - **Incorporate Provided Styles**: Enhance the prompt by integrating the art styles mentioned in the input.
+                    - **Edge-to-Edge Artwork**: Ensure the art description implies a mural that fills the entire space without borders, frames, margins, or visible wall features.
+                    - **Details**: If the given prompt is very short or small and there is no instruction about it there try to add details by yourself if you think it is necessary.
+                    
+                    # Output Constraints
+                    
+                    - **Language**: The final output must be in the English language.
+                    - **Output Exclusivity**: Only provide the final engineered prompt. Do not include any other text or communication.
+                    
+                    # Output Format
+                    
+                    The output should be a single, well-crafted sentence or paragraph that captures only the art description and style, ensuring clarity and completeness in English.
+                    """},
+                {"role": "user", "content": "Create a 16:9 widescreen landscape image of " + prompt}
+            ]
+        )
+        return response.choices[0].message.content

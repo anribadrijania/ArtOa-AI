@@ -40,11 +40,17 @@ if not AZURE_OPENAI_API_KEY:
 if not APP_API_KEY:
     raise ValueError("APP_API_KEY is not set!")
 
-# OpenAI client
-client = AsyncAzureOpenAI(
+# OpenAI image client
+image_client = AsyncAzureOpenAI(
     azure_endpoint=AZURE_ENDPOINT,
     api_key=AZURE_OPENAI_API_KEY,
-    api_version="2024-02-01",)
+    api_version="2024-02-01")
+
+# OpenAI image client
+text_client = AsyncAzureOpenAI(
+    azure_endpoint=AZURE_ENDPOINT,
+    api_key=AZURE_OPENAI_API_KEY,
+    api_version="2025-01-01-preview")
 
 # Define device
 device = "cpu"
@@ -208,9 +214,14 @@ async def generate_on_wall(req: GenerateRequest):
 
     box_width, box_height, *_ = utils.get_box_coordinates(wall, req.box)
     size = utils.get_best_size(box_width, box_height)
-    prompt = utils.prompt_engineering(req.prompt, req.tags)
 
-    generator = generation.Generate(client, "dall-e-3", prompt, size, "standard", "natural", 1)
+    # prompt engineering
+    prompt = utils.prompt_engineering(req.prompt, req.tags)
+    text_generator = generation.GeneratePrompt(text_client)
+    final_prompt = await text_generator.generate_prompt(prompt)
+
+
+    generator = generation.GenerateImage(image_client, "dall-e-3", final_prompt, size, "standard", "natural", 1)
     segmentors = (
         segmentation.MaskRCNN(rcnn_model, device),
         segmentation.BgRemover(remover_model, device)
@@ -279,12 +290,15 @@ async def generate_art(req: GenerateArtRequest):
     if req.api_key != APP_API_KEY:
         raise HTTPException(status_code=401, detail="Invalid API key.")
 
-    # Prepare prompt and generation settings
+    # prompt engineering
     prompt = utils.prompt_engineering(req.prompt, req.tags)
-    size = "1024x1024"  # Default size, or dynamically calculated if you prefer
+    text_generator = generation.GeneratePrompt(text_client)
+    final_prompt = await text_generator.generate_prompt(prompt)
+    print(final_prompt)
+    size = "1792x1024"  # Default size, or dynamically calculated if you prefer
 
     # Initialize generator and generate images
-    generator = generation.Generate(client, "dall-e-3", prompt, size, "standard", "vivid", 1)
+    generator = generation.GenerateImage(image_client, "dall-e-3", final_prompt, size, "standard", "natural", 1)
     arts = await generate_images(generator, req.n)
     arts = list(arts)
 

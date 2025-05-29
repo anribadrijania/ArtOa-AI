@@ -214,15 +214,9 @@ def prompt_engineering(prompt, tags):
     Returns:
     str: The formatted prompt incorporating the client's request and styles.
     """
-    role = (
-        "The next provided prompt is an order by a client who wants to paint art on their wall. "
-        "Focus only on the art content, ignore wall dimensions or placement. "
-        "Important: The artwork must completely fill the space—no empty areas, no borders, no frames, no margins. "
-        "Think of it as a mural painted edge-to-edge with no gaps."
-    )
 
-    tags = tags + ['edge-to-edge painting', 'full-frame', 'mural-style']
+    tags = tags + ['edge-to-edge painting', 'full-frame', 'first angle perspective', 'only-art', 'standing on a plain background']
     styles = " Use the following artistic styles: " + ", ".join(tags) + "."
 
-    engineered_prompt = f"{role} The order text is: {prompt}.{styles}"
+    engineered_prompt = f"The order text is: {prompt}.{styles}"
     return engineered_prompt
