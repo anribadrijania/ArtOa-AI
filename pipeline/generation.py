@@ -75,6 +75,7 @@ class GeneratePrompt:
                     
                     - **Focus Only on Art**: Exclude information unrelated to the art itself (e.g., wall conditions, prices, etc.). That means everything in generated image should be in the art and the generated image itself should be entirely art.
                     - **Incorporate Provided Styles**: Enhance the prompt by integrating the art styles mentioned in the input.
+                    - **safety check**: Ensure the prompt is safe for the model to use and remove inappropriate words or phrases.
                     - **Edge-to-Edge Artwork**: Ensure the art description implies a mural that fills the entire space without borders, frames, margins, or visible wall features.
                     - **Details**: If the given prompt is very short or small and there is no instruction about it there try to add details by yourself if you think it is necessary.
                     

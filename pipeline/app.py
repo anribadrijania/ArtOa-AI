@@ -284,6 +284,11 @@ async def generate_art(req: GenerateArtRequest):
     - Generates n art images using DALL-E.
     - Returns them in a ZIP file.
     """
+    from datetime import datetime
+    now = datetime.now()
+
+    # Print the time in HH:MM:SS format
+    print("Current Time:", now.strftime("%H:%M:%S"))
     # Validate API key only (box is not needed but used in schema)
     if not req.api_key:
         raise HTTPException(status_code=401, detail="API key is required.")
@@ -295,7 +300,7 @@ async def generate_art(req: GenerateArtRequest):
     text_generator = generation.GeneratePrompt(text_client)
     final_prompt = await text_generator.generate_prompt(prompt)
     print(final_prompt)
-    size = "1792x1024"  # Default size, or dynamically calculated if you prefer
+    size = "1024x1024"  # Default size, or dynamically calculated if you prefer
 
     # Initialize generator and generate images
     generator = generation.GenerateImage(image_client, "dall-e-3", final_prompt, size, "standard", "natural", 1)
@@ -304,6 +309,10 @@ async def generate_art(req: GenerateArtRequest):
 
     # Return images in ZIP file
     zip_buffer = create_zip_from_images(arts)
+    now = datetime.now()
+
+    # Print the time in HH:MM:SS format
+    print("Current Time:", now.strftime("%H:%M:%S"))
     return StreamingResponse(zip_buffer, media_type="application/zip", headers={
         "Content-Disposition": "attachment; filename=generated_art.zip"
     })
