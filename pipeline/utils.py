@@ -117,11 +117,11 @@ def apply_lighting_and_texture(background: np.ndarray, artwork: np.ndarray, box_
     avg_brightness = np.mean(luminance)
 
     # Define target brightness (0 = dark, 1 = bright), adjust as needed
-    target_brightness = 1
+    target_brightness = 0.8
 
     # Compute brightness factor (clamped for safety)
     brightness_factor = target_brightness / max(avg_brightness, 1e-4)
-    brightness_factor = np.clip(brightness_factor, 0.0, 3.0)  # Prevent over/underexposure
+    brightness_factor = np.clip(brightness_factor, 0.0, 2.0)  # Prevent over/underexposure
     # Apply adaptive brightness to the full image
     artwork_lit *= brightness_factor
 
@@ -215,8 +215,7 @@ def prompt_engineering(prompt, tags):
     str: The formatted prompt incorporating the client's request and styles.
     """
 
-    tags = tags + ['edge-to-edge painting', 'full-frame', 'first angle perspective', 'only-art', 'standing on a plain background']
     styles = " Use the following artistic styles: " + ", ".join(tags) + "."
 
-    engineered_prompt = f"The order text is: {prompt}.{styles}"
+    engineered_prompt = f"{prompt}. {styles}"
     return engineered_prompt
