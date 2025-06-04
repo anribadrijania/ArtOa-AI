@@ -59,7 +59,7 @@ class GeneratePrompt:
         self.client = client
     async def generate_prompt(self, prompt):
         response = await self.client.chat.completions.create(
-            model="gpt-4.1-nano",
+            model="gpt-4.1",
             messages=[
                 {"role": "system", "content": """
                     [Concise instruction describing the task - this should be the first line in the prompt, no section header]

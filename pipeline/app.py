@@ -16,6 +16,7 @@ from dotenv import load_dotenv
 from PIL import Image
 from typing import List
 from pydantic import BaseModel
+from datetime import datetime
 import numpy as np
 import os
 import torch
@@ -50,7 +51,7 @@ image_client = AsyncAzureOpenAI(
 text_client = AsyncAzureOpenAI(
     azure_endpoint=AZURE_ENDPOINT,
     api_key=AZURE_OPENAI_API_KEY,
-    api_version="2025-01-01-preview")
+    api_version="2024-12-01-preview")
 
 # Define device
 device = "cpu"
@@ -146,7 +147,7 @@ async def segment_image(rcnn_segmentor, remover_segmentor, wall, box):
     Returns None if no objects are found.
     """
     remover_mask = await remover_segmentor.predict_masks(wall, 0.9)
-    final_masks = await rcnn_segmentor.predict_masks(wall, remover_mask, 0.01, box=box)
+    final_masks = await rcnn_segmentor.predict_masks(wall, remover_mask, 0.5, box=box)
     if final_masks is None or final_masks.size == 0:
         # log_warning("No objects found during segmentation.")
         return np.zeros_like(wall)
@@ -164,14 +165,13 @@ async def generate_images(generator, n):
 
 
 # Helper: process art on wall
-async def process_wall_and_arts(wall, arts, box, segmentors):
+def process_wall_and_arts(wall, arts, box, masks):
     """
     Processes the wall image by placing each art image in the specified box region.
     Applies lighting and texture blending, then composites with segmented objects.
     Returns a list of final processed images.
     """
     box_width, box_height, x_min, y_min = utils.get_box_coordinates(wall, box)
-    masks = await segment_image(*segmentors, wall, box)
     final_images = []
     for art in arts:
         background_np = np.array(wall)
@@ -207,6 +207,8 @@ async def generate_on_wall(req: GenerateRequest):
     - Places each generated art on the wall with visual enhancements.
     Returns a list of image byte arrays.
     """
+    now = datetime.now()
+    print("Current Time:", now.strftime("%H:%M:%S"))
     validate_request(req.api_key, req.box)
     wall = await utils.fetch_image(req.image_url)
     if wall is None:
@@ -220,16 +222,29 @@ async def generate_on_wall(req: GenerateRequest):
     text_generator = generation.GeneratePrompt(text_client)
     final_prompt = await text_generator.generate_prompt(prompt)
 
+    now = datetime.now()
+    print("Current Time:", now.strftime("%H:%M:%S"))
+
 
     generator = generation.GenerateImage(image_client, "dall-e-3", final_prompt, size, "standard", "natural", 1)
     segmentors = (
         segmentation.MaskRCNN(rcnn_model, device),
         segmentation.BgRemover(remover_model, device)
     )
-    arts = await generate_images(generator, req.n)
-    final_images = await process_wall_and_arts(wall, arts, req.box, segmentors)
+
+    arts_task = asyncio.create_task(generate_images(generator, req.n))
+    segment_wall_task = asyncio.create_task(
+        segment_image(*segmentors, wall, req.box)
+    )
+
+    arts, masks = await asyncio.gather(arts_task, segment_wall_task)
+    final_images = process_wall_and_arts(wall, arts, req.box, masks)
 
     zip_buffer = create_zip_from_images(final_images)
+    now = datetime.now()
+
+    # Print the time in HH:MM:SS format
+    print("Current Time:", now.strftime("%H:%M:%S"))
     return StreamingResponse(zip_buffer, media_type="application/zip", headers={
         "Content-Disposition": "attachment; filename=images.zip"
     })
