@@ -207,8 +207,6 @@ async def generate_on_wall(req: GenerateRequest):
     - Places each generated art on the wall with visual enhancements.
     Returns a list of image byte arrays.
     """
-    now = datetime.now()
-    print("Current Time:", now.strftime("%H:%M:%S"))
     validate_request(req.api_key, req.box)
     wall = await utils.fetch_image(req.image_url)
     if wall is None:
@@ -221,10 +219,6 @@ async def generate_on_wall(req: GenerateRequest):
     prompt = utils.prompt_engineering(req.prompt, req.tags)
     text_generator = generation.GeneratePrompt(text_client)
     final_prompt = await text_generator.generate_prompt(prompt)
-
-    now = datetime.now()
-    print("Current Time:", now.strftime("%H:%M:%S"))
-
 
     generator = generation.GenerateImage(image_client, "dall-e-3", final_prompt, size, "standard", "natural", 1)
     segmentors = (
@@ -241,10 +235,7 @@ async def generate_on_wall(req: GenerateRequest):
     final_images = process_wall_and_arts(wall, arts, req.box, masks)
 
     zip_buffer = create_zip_from_images(final_images)
-    now = datetime.now()
 
-    # Print the time in HH:MM:SS format
-    print("Current Time:", now.strftime("%H:%M:%S"))
     return StreamingResponse(zip_buffer, media_type="application/zip", headers={
         "Content-Disposition": "attachment; filename=images.zip"
     })
